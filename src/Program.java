@@ -3,7 +3,11 @@ public class Program {
         System.out.println("Hello");
 
         Converter converter = new Converter();
+
         var res1 = converter.HexToBytes("74657374");
         System.out.println(res1);
+
+        var res2 = converter.BytesToHex("test");
+        System.out.println(res2);
     }
 }

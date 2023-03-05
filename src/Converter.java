@@ -12,4 +12,15 @@ public class Converter {
         return builder.toString();
     }
 
+    public String BytesToHex(String bytesStr) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < bytesStr.length(); i++) {
+            var asciiVal = (int) bytesStr.charAt(i);
+            var hexAscii = Integer.toHexString(asciiVal);
+            builder.append(hexAscii);
+        }
+
+        return builder.toString();
+    }
 }
