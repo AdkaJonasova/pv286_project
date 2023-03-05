@@ -1,6 +1,6 @@
 # pv286_project
 - Michal Badin
-- Dominik Dubovský
+- Dominik Dubovský 
 - Andrea Jonásová
 
 
