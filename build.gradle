@@ -1,20 +1,32 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
-group 'org.pv286.project'
-version '1.0-SNAPSHOT'
+group 'pv286.panbyte'
+version '1.0'
+
+jar {
+    archiveFileName = 'panbyte.jar'
+    destinationDirectory = file('appBuilds')
+    manifest {
+        attributes "Main-Class": "Program"
+    }
+}
 
 repositories {
     mavenCentral()
 }
+
 sourceSets {
     main {
         java {
-            srcDirs = ['src']
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
         }
     }
 }
-//dependencies {
-//    compile 'junit:junit:4.12'
-//}
