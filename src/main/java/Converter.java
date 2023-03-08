@@ -1,26 +1,49 @@
 public class Converter {
 
-    public String HexToBytes(String hexStr) {
+    // To bits
+    public String hexToBits(String hexStr) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < hexStr.length(); i++) {
+            String binaryString = String.format("%4s", Integer.toBinaryString(Character.digit(hexStr.charAt(i), 16)))
+                    .replace(' ', '0');
+            builder.append(binaryString);
+        }
+        return builder.toString();
+    }
+
+    public String intToBits(String intStr){
+        int value = Integer.parseInt(intStr);
+        return Integer.toBinaryString(value);
+    }
+
+    // To concrete type
+    public String bitsToHex(String bitStr) {
         StringBuilder builder = new StringBuilder();
 
-        for (int i = 0; i < hexStr.length() - 1; i+=2) {
-            var hexPart = hexStr.substring(i, i + 2);
-            var intFromHex = Integer.parseInt(hexPart, 16);
-            builder.append((char) intFromHex);
+        StringBuilder bitStrBuilder = new StringBuilder(bitStr);
+        while (bitStrBuilder.length() % 4 != 0) {
+            bitStrBuilder.insert(0, "0");
+        }
+        bitStr = bitStrBuilder.toString();
+
+        for (int i = 0; i < bitStr.length(); i += 4) {
+            String nibble = bitStr.substring(i, i + 4);
+            int value = Integer.parseInt(nibble, 2);
+            builder.append(Integer.toHexString(value));
         }
 
         return builder.toString();
     }
 
-    public String BytesToHex(String bytesStr) {
+    public String bitsToByte(String bitStr){
         StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < bitStr.length(); i += 8) {
+            String byteString = bitStr.substring(i, Math.min(i + 8, bitStr.length()));
+            int byteValue = Integer.parseInt(byteString, 2);
 
-        for (int i = 0; i < bytesStr.length(); i++) {
-            var asciiVal = (int) bytesStr.charAt(i);
-            var hexAscii = Integer.toHexString(asciiVal);
-            builder.append(hexAscii);
+            builder.append((char) byteValue);
         }
-
         return builder.toString();
     }
+
 }
