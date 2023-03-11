@@ -12,6 +12,7 @@ class PanbyteTest {
 		String expectedResult = "test";
 
 		assertEquals(expectedResult, actualResult);
+		assertTrue(false);
 	}
 
 
