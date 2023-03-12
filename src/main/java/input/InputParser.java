@@ -26,6 +26,8 @@ public class InputParser {
             inputFileFlag = true;
         } else if (argument.equals("-o")) {
             outputFileFlag = true;
+        } else if (argument.equals("-d")) {
+            delimiterFlag = true;
         } else if (argument.equals("-h")) {
             helpFlag = true;
         } else if (argument.startsWith("--from-options")) {
