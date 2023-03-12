@@ -54,9 +54,7 @@ public class IntConverter implements IConverter {
 		if (bitStr.length() % 8 != 0){
 			int padding = 8 - (bitStr.length() % 8);
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < padding; i++) {
-				sb.append("0");
-			}
+			sb.append("0".repeat(padding));
 			sb.append(bitStr);
 			bitStr = sb.toString();
 		}

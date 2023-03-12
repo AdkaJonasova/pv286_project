@@ -2,7 +2,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import converters.BytesConverter;
 import converters.HexConverter;
-import converters.IConverter;
 import converters.IntConverter;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +50,7 @@ class PanbyteTest {
 
 	@Test
 	void testIntToHex() {
-		String bits = intConverter.convertFrom("1234567890", true);
+		String bits = intConverter.convertFrom("1234567890");
 		String actualResult = hexConverter.convertTo(bits);
 		String expectedResult = "499602d2";
 
@@ -79,7 +78,7 @@ class PanbyteTest {
 	@Test
 	void testHexToInt() {
 		String bits = hexConverter.convertFrom("499602d2");
-		String actualResult = intConverter.convertTo(bits, true);
+		String actualResult = intConverter.convertTo(bits);
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
