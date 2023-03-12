@@ -19,6 +19,17 @@ public class InputParser {
     private String toOptions = "";
     private String delimiter = "";
 
+    public void parse(String[] input) {
+        for (var argument : input) {
+            if (argument.startsWith("-")) {
+                parseFlag(argument);
+            } else {
+                parseValue(argument);
+                resetFlags();
+            }
+        }
+    }
+
     private void parseFlag(String argument) {
         if (argument.equals("-f")) {
             fromFlag = true;
