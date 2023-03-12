@@ -36,4 +36,15 @@ public class InputParser {
             // chyba
         }
     }
+
+    private void resetFlags() {
+        fromFlag = false;
+        toFlag = false;
+        fromOptionsFlag = false;
+        toOptionsFlag = false;
+        inputFileFlag = false;
+        outputFileFlag = false;
+        delimiterFlag = false;
+        helpFlag = false;
+    }
 }
