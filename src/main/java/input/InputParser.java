@@ -41,6 +41,22 @@ public class InputParser {
         }
     }
 
+    private void parseValue(String argument) {
+        if (fromFlag && checkFormat(argument)) {
+            fromRepresentation = argument;
+        } else if (toFlag && checkFormat(argument)) {
+            toRepresentation = argument;
+        } else if (fromOptionsFlag && checkOption(argument)) {
+            fromOptions = argument;
+        } else if (toOptionsFlag && checkOption(argument)) {
+            toOptions = argument;
+        } else if (delimiterFlag) {
+            delimiter = argument;
+        } else {
+            // chyba
+        }
+    }
+
     private void resetFlags() {
         fromFlag = false;
         toFlag = false;
