@@ -41,7 +41,7 @@ class PanbyteTest {
 
 	@Test
 	void testHexWithSpacesToBytes(){
-		String bits = hexConverter.convertFrom("74 65 73 7", false);
+		String bits = hexConverter.convertFrom("74 65 73 74", false);
 		String actualResult = byteConverter.convertTo(bits, false);
 		String expectedResult = "test";
 
