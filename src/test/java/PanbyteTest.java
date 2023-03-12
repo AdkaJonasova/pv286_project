@@ -61,7 +61,7 @@ class PanbyteTest {
 	}
 
 	@Test
-	void testIntWithLitteEndianToHex() {
+	void testIntWithLittleEndianToHex() {
 		String bits = converter.intToBits("1234567890", false);
 		String actualResult = converter.bitsToHex(bits);
 		String expectedResult = "d2029649";
@@ -71,12 +71,29 @@ class PanbyteTest {
 
 	@Test
 	void testHexToInt() {
-		String bits = converter.hexToBits(" 499602d2");
-		String actualResult = converter.bitsToInt(bits);
+		String bits = converter.hexToBits("499602d2");
+		String actualResult = converter.bitsToInt(bits, true);
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
 	}
 
+	@Test
+	void testHexToIntToBigEndian() {
+		String bits = converter.hexToBits("499602d2");
+		String actualResult = converter.bitsToInt(bits, true);
+		String expectedResult = "1234567890";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToIntToLittleEndian() {
+		String bits = converter.hexToBits("d2029649");
+		String actualResult = converter.bitsToInt(bits, false);
+		String expectedResult = "1234567890";
+
+		assertEquals(expectedResult, actualResult);
+	}
 
 }

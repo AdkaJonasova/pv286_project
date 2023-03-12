@@ -2,7 +2,7 @@ import org.junit.platform.commons.util.StringUtils;
 
 public class Converter {
 
-    // To bits
+    // TO BITS
 
     public String bytesToBits(String bytesStr){
         StringBuilder result = new StringBuilder();
@@ -34,31 +34,24 @@ public class Converter {
 
     public String intToBits(String intStr, boolean isBigEndian){
         long unsignedInt = Long.parseUnsignedLong(intStr);
-        String bitsStr = Long.toBinaryString(unsignedInt);
+        String bitStr = Long.toBinaryString(unsignedInt);
         StringBuilder result = new StringBuilder();
 
-        if (bitsStr.length() % 8 != 0){
-            int padding = 8 - (bitsStr.length() % 8);
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < padding; i++) {
-                sb.append("0");
-            }
-            sb.append(bitsStr);
-            bitsStr = sb.toString();
-        }
+        bitStr = addMissingZerosToBitString(bitStr);
 
         if (!isBigEndian){
-            for (int i = bitsStr.length() - 1; i >= 0; i -= 8) {
+            for (int i = bitStr.length() - 1; i >= 0; i -= 8) {
                 int startIndex = Math.max(i - 7, 0);
-                String chunk = bitsStr.substring(startIndex, i + 1);
+                String chunk = bitStr.substring(startIndex, i + 1);
                 result.append(chunk);
             }
             return result.toString();
         }
-        return bitsStr;
+        return bitStr;
     }
 
-    // To concrete type
+    // TO CONCRETE TYPE
+
     public String bitsToBytes(String bitStr){
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < bitStr.length(); i += 8) {
@@ -88,10 +81,35 @@ public class Converter {
         return builder.toString();
     }
 
-    public String bitsToInt(String bitStr){
-        long unsignedInt = Long.parseUnsignedLong(bitStr, 2);
+    public String bitsToInt(String bitsStr, boolean isBigEndian){
+        if (!isBigEndian){
+            StringBuilder builder = new StringBuilder();
+            bitsStr = addMissingZerosToBitString(bitsStr);
+
+            for (int i = bitsStr.length() - 1; i >= 0; i -= 8) {
+                int startIndex = Math.max(i - 7, 0);
+                String chunk = bitsStr.substring(startIndex, i + 1);
+                builder.append(chunk);
+            }
+            bitsStr = builder.toString();
+        }
+
+        long unsignedInt = Long.parseUnsignedLong(bitsStr, 2);
         String intstr = Long.toUnsignedString(unsignedInt);
         return intstr;
+    }
+
+    private String addMissingZerosToBitString(String bitStr) {
+        if (bitStr.length() % 8 != 0){
+            int padding = 8 - (bitStr.length() % 8);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < padding; i++) {
+                sb.append("0");
+            }
+            sb.append(bitStr);
+            bitStr = sb.toString();
+        }
+        return bitStr;
     }
 
 }
