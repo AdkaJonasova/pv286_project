@@ -5,6 +5,10 @@ package converters;
  */
 public class IntConverter implements IConverter {
 	@Override
+	public String convertTo(String bitStr) {
+		return this.convertTo(bitStr, true);
+	}
+
 	public String convertTo(String bitStr, boolean isBigEndian) {
 		if (!isBigEndian){
 			StringBuilder builder = new StringBuilder();
@@ -24,6 +28,10 @@ public class IntConverter implements IConverter {
 	}
 
 	@Override
+	public String convertFrom(String str){
+		return this.convertFrom(str, true);
+	}
+
 	public String convertFrom(String str, boolean isBigEndian) {
 		long unsignedInt = Long.parseUnsignedLong(str);
 		String bitStr = Long.toBinaryString(unsignedInt);

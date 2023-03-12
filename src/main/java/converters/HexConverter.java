@@ -5,7 +5,7 @@ package converters;
  */
 public class HexConverter implements IConverter {
 	@Override
-	public String convertTo(String bitStr, boolean isBigEndian) {
+	public String convertTo(String bitStr) {
 		StringBuilder builder = new StringBuilder();
 
 		StringBuilder bitStrBuilder = new StringBuilder(bitStr);
@@ -24,7 +24,7 @@ public class HexConverter implements IConverter {
 	}
 
 	@Override
-	public String convertFrom(String str, boolean isBigEndian) {
+	public String convertFrom(String str) {
 		str = str.replace(Separator.SPACE, Separator.EMPTY);
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < str.length(); i++) {

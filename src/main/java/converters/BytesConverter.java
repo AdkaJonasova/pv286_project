@@ -5,7 +5,7 @@ package converters;
  */
 public class BytesConverter implements IConverter {
 	@Override
-	public String convertTo(String bitStr, boolean isBigEndian) {
+	public String convertTo(String bitStr) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < bitStr.length(); i += 8) {
 			String byteString = bitStr.substring(i, Math.min(i + 8, bitStr.length()));
@@ -17,7 +17,7 @@ public class BytesConverter implements IConverter {
 	}
 
 	@Override
-	public String convertFrom(String str, boolean isBigEndian) {
+	public String convertFrom(String str) {
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < str.length(); i++) {
 			StringBuilder binaryBuilder = new StringBuilder();
