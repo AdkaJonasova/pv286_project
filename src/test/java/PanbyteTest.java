@@ -25,7 +25,7 @@ class PanbyteTest {
 
 
 	@Test
-	void intToHex() {
+	void testIntToHex() {
 		String bits = converter.intToBits("1234567890");
 		String actualResult = converter.bitsToHex(bits);
 		String expectedResult = "499602d2";
@@ -34,7 +34,7 @@ class PanbyteTest {
 	}
 
 	@Test
-	void bytesToHex() {
+	void testBytesToHex() {
 
 	}
 }
