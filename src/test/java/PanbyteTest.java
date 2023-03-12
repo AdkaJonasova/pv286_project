@@ -6,9 +6,18 @@ class PanbyteTest {
 	Converter converter = new Converter();
 
 	@Test
-	void hexToBytes(){
+	void testBytestoBytes(){
+		String bits = converter.bytesToBits("test");
+		String actualResult = converter.bitsToBytes(bits);
+		String expectedResult = "test";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToBytes(){
 		String bits = converter.hexToBits("74657374");
-		String actualResult = converter.bitsToByte(bits);
+		String actualResult = converter.bitsToBytes(bits);
 		String expectedResult = "test";
 
 		assertEquals(expectedResult, actualResult);
