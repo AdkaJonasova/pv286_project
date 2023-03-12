@@ -33,7 +33,7 @@ class PanbyteTest {
 	}
 
 	@Test
-	void testHexToBytesWithSpaces(){
+	void testHexWithSpacesToBytes(){
 		String bits = converter.hexToBits("74 65 73 74");
 		String actualResult = converter.bitsToBytes(bits);
 		String expectedResult = "test";
@@ -44,9 +44,36 @@ class PanbyteTest {
 
 	@Test
 	void testIntToHex() {
-		String bits = converter.intToBits("1234567890");
+		String bits = converter.intToBits("1234567890", true);
 		String actualResult = converter.bitsToHex(bits);
 		String expectedResult = "499602d2";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testIntWithBigEndianToHex() {
+		String bits = converter.intToBits("1234567890", true);
+		String actualResult = converter.bitsToHex(bits);
+		String expectedResult = "499602d2";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testIntWithLitteEndianToHex() {
+		String bits = converter.intToBits("1234567890", false);
+		String actualResult = converter.bitsToHex(bits);
+		String expectedResult = "d2029649";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToInt() {
+		String bits = converter.hexToBits(" 499602d2");
+		String actualResult = converter.bitsToInt(bits);
+		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
 	}

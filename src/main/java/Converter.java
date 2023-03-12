@@ -32,12 +32,44 @@ public class Converter {
         return builder.toString();
     }
 
-    public String intToBits(String intStr){
-        int value = Integer.parseInt(intStr);
-        return Integer.toBinaryString(value);
+    public String intToBits(String intStr, boolean isBigEndian){
+        long unsignedInt = Long.parseUnsignedLong(intStr);
+        String bitsStr = Long.toBinaryString(unsignedInt);
+        StringBuilder result = new StringBuilder();
+
+        if (bitsStr.length() % 8 != 0){
+            int padding = 8 - (bitsStr.length() % 8);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < padding; i++) {
+                sb.append("0");
+            }
+            sb.append(bitsStr);
+            bitsStr = sb.toString();
+        }
+
+        if (!isBigEndian){
+            for (int i = bitsStr.length() - 1; i >= 0; i -= 8) {
+                int startIndex = Math.max(i - 7, 0);
+                String chunk = bitsStr.substring(startIndex, i + 1);
+                result.append(chunk);
+            }
+            return result.toString();
+        }
+        return bitsStr;
     }
 
     // To concrete type
+    public String bitsToBytes(String bitStr){
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < bitStr.length(); i += 8) {
+            String byteString = bitStr.substring(i, Math.min(i + 8, bitStr.length()));
+            int byteValue = Integer.parseInt(byteString, 2);
+
+            builder.append((char) byteValue);
+        }
+        return builder.toString();
+    }
+
     public String bitsToHex(String bitStr) {
         StringBuilder builder = new StringBuilder();
 
@@ -56,15 +88,10 @@ public class Converter {
         return builder.toString();
     }
 
-    public String bitsToBytes(String bitStr){
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < bitStr.length(); i += 8) {
-            String byteString = bitStr.substring(i, Math.min(i + 8, bitStr.length()));
-            int byteValue = Integer.parseInt(byteString, 2);
-
-            builder.append((char) byteValue);
-        }
-        return builder.toString();
+    public String bitsToInt(String bitStr){
+        long unsignedInt = Long.parseUnsignedLong(bitStr, 2);
+        String intstr = Long.toUnsignedString(unsignedInt);
+        return intstr;
     }
 
 }
