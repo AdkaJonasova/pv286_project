@@ -1,14 +1,21 @@
 import static org.junit.jupiter.api.Assertions.*;
+
+import converters.BytesConverter;
+import converters.HexConverter;
+import converters.IConverter;
+import converters.IntConverter;
 import org.junit.jupiter.api.Test;
 
 class PanbyteTest {
 
-	Converter converter = new Converter();
+	IConverter byteConverter = new BytesConverter();
+	IConverter hexConverter = new HexConverter();
+	IConverter intConverter = new IntConverter();
 
 	@Test
 	void testBytesToBytes(){
-		String bits = converter.bytesToBits("test");
-		String actualResult = converter.bitsToBytes(bits);
+		String bits = byteConverter.convertFrom("test", false);
+		String actualResult = byteConverter.convertTo(bits, false);
 		String expectedResult = "test";
 
 		assertEquals(expectedResult, actualResult);
@@ -16,8 +23,8 @@ class PanbyteTest {
 
 	@Test
 	void testHexToBytes(){
-		String bits = converter.hexToBits("74657374");
-		String actualResult = converter.bitsToBytes(bits);
+		String bits = hexConverter.convertFrom("74657374", false);
+		String actualResult = byteConverter.convertTo(bits, false);
 		String expectedResult = "test";
 
 		assertEquals(expectedResult, actualResult);
@@ -25,8 +32,8 @@ class PanbyteTest {
 
 	@Test
 	void testBytesToHex() {
-		String bits = converter.bytesToBits("test");
-		String actualResult = converter.bitsToHex(bits);
+		String bits = byteConverter.convertFrom("test", false);
+		String actualResult = hexConverter.convertTo(bits, false);
 		String expectedResult = "74657374";
 
 		assertEquals(expectedResult, actualResult);
@@ -34,8 +41,8 @@ class PanbyteTest {
 
 	@Test
 	void testHexWithSpacesToBytes(){
-		String bits = converter.hexToBits("74 65 73 74");
-		String actualResult = converter.bitsToBytes(bits);
+		String bits = hexConverter.convertFrom("74 65 73 7", false);
+		String actualResult = byteConverter.convertTo(bits, false);
 		String expectedResult = "test";
 
 		assertEquals(expectedResult, actualResult);
@@ -44,8 +51,8 @@ class PanbyteTest {
 
 	@Test
 	void testIntToHex() {
-		String bits = converter.intToBits("1234567890", true);
-		String actualResult = converter.bitsToHex(bits);
+		String bits = intConverter.convertFrom("1234567890", true);
+		String actualResult = hexConverter.convertTo(bits, false);
 		String expectedResult = "499602d2";
 
 		assertEquals(expectedResult, actualResult);
@@ -53,8 +60,8 @@ class PanbyteTest {
 
 	@Test
 	void testIntWithBigEndianToHex() {
-		String bits = converter.intToBits("1234567890", true);
-		String actualResult = converter.bitsToHex(bits);
+		String bits = intConverter.convertFrom("1234567890", true);
+		String actualResult = hexConverter.convertTo(bits, false);
 		String expectedResult = "499602d2";
 
 		assertEquals(expectedResult, actualResult);
@@ -62,8 +69,8 @@ class PanbyteTest {
 
 	@Test
 	void testIntWithLittleEndianToHex() {
-		String bits = converter.intToBits("1234567890", false);
-		String actualResult = converter.bitsToHex(bits);
+		String bits = intConverter.convertFrom("1234567890", false);
+		String actualResult = hexConverter.convertTo(bits, false);
 		String expectedResult = "d2029649";
 
 		assertEquals(expectedResult, actualResult);
@@ -71,8 +78,8 @@ class PanbyteTest {
 
 	@Test
 	void testHexToInt() {
-		String bits = converter.hexToBits("499602d2");
-		String actualResult = converter.bitsToInt(bits, true);
+		String bits = hexConverter.convertFrom("499602d2", false);
+		String actualResult = intConverter.convertTo(bits, true);
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
@@ -80,8 +87,8 @@ class PanbyteTest {
 
 	@Test
 	void testHexToIntToBigEndian() {
-		String bits = converter.hexToBits("499602d2");
-		String actualResult = converter.bitsToInt(bits, true);
+		String bits = hexConverter.convertFrom("499602d2", false);
+		String actualResult = intConverter.convertTo(bits, true);
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
@@ -89,8 +96,8 @@ class PanbyteTest {
 
 	@Test
 	void testHexToIntToLittleEndian() {
-		String bits = converter.hexToBits("d2029649");
-		String actualResult = converter.bitsToInt(bits, false);
+		String bits = hexConverter.convertFrom("d2029649", false);
+		String actualResult = intConverter.convertTo(bits, false);
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
