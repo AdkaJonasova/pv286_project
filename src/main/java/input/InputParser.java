@@ -1,5 +1,7 @@
 package input;
 
+import java.util.List;
+
 public class InputParser {
 
     private boolean fromFlag = false;
@@ -48,5 +50,15 @@ public class InputParser {
         outputFileFlag = false;
         delimiterFlag = false;
         helpFlag = false;
+    }
+
+    private boolean checkFormat(String format) {
+        List<String> possibleFormats = List.of("bytes", "hex", "int", "bits", "array");
+        return possibleFormats.contains(format);
+    }
+
+    private boolean checkOption(String option) {
+        List<String> possibleOptions = List.of("big", "little");
+        return possibleOptions.contains(option);
     }
 }
