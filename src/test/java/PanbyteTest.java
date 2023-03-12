@@ -6,7 +6,7 @@ class PanbyteTest {
 	Converter converter = new Converter();
 
 	@Test
-	void testBytestoBytes(){
+	void testBytesToBytes(){
 		String bits = converter.bytesToBits("test");
 		String actualResult = converter.bitsToBytes(bits);
 		String expectedResult = "test";
@@ -23,6 +23,24 @@ class PanbyteTest {
 		assertEquals(expectedResult, actualResult);
 	}
 
+	@Test
+	void testBytesToHex() {
+		String bits = converter.bytesToBits("test");
+		String actualResult = converter.bitsToHex(bits);
+		String expectedResult = "74657374";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToBytesWithSpaces(){
+		String bits = converter.hexToBits("74 65 73 74");
+		String actualResult = converter.bitsToBytes(bits);
+		String expectedResult = "test";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
 
 	@Test
 	void testIntToHex() {
@@ -33,8 +51,5 @@ class PanbyteTest {
 		assertEquals(expectedResult, actualResult);
 	}
 
-	@Test
-	void testBytesToHex() {
 
-	}
 }

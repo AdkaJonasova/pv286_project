@@ -1,3 +1,5 @@
+import org.junit.platform.commons.util.StringUtils;
+
 public class Converter {
 
     // To bits
@@ -20,6 +22,7 @@ public class Converter {
     }
 
     public String hexToBits(String hexStr) {
+        hexStr = hexStr.replace(Separator.SPACE, Separator.EMPTY);
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < hexStr.length(); i++) {
             String binaryString = String.format("%4s", Integer.toBinaryString(Character.digit(hexStr.charAt(i), 16)))
