@@ -36,6 +36,30 @@ public class InputParserTest {
         assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
     }
 
+    @Test
+    public void testMissingFromArgument() {
+        String[] input = {"hex", "-t", "bytes"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testMissingToArgument() {
+        String[] input = {"-f", "hex", "bytes"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testMissingFromFormat() {
+        String[] input = {"-f", "-t", "bytes"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testMissingToFormat() {
+        String[] input = {"-f", "hex", "-t"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
     private static List<List<String>> getFormatsVariations() {
         List<String> list = Arrays.asList("bytes", "hex", "int", "bits", "array");
         List<List<String>> variationsOfFormats = new ArrayList<>();
