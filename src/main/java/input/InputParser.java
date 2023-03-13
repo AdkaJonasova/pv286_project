@@ -25,7 +25,7 @@ public class InputParser {
 
     public ParserResult parse(String[] input) throws InputParsingException {
         if (input.length == 0) {
-            throw new InputParsingException();
+            throw new InputParsingException("Cannot run program without any arguments.");
         }
 
         var optionsFound = false;
@@ -46,27 +46,34 @@ public class InputParser {
         }
 
         if (isAnyFlagEnabled() || fromRepresentation.equals("") || toRepresentation.equals("")) {
-            throw new InputParsingException();
+            throw new InputParsingException("Missing value for one of the switches.");
         }
 
         return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, helpFlag);
     }
 
     private void parseFlag(String argument) throws InputParsingException {
-        if (argument.equals("-f")) {
-            fromFlag = true;
-        } else if (argument.equals("-t")) {
-            toFlag = true;
-        } else if (argument.equals("-i")) {
-            inputFileFlag = true;
-        } else if (argument.equals("-o")) {
-            outputFileFlag = true;
-        } else if (argument.equals("-d")) {
-            delimiterFlag = true;
-        } else if (argument.equals("-h")) {
-            helpFlag = true;
-        } else {
-            throw new InputParsingException();
+        switch (argument) {
+            case "-f":
+                fromFlag = true;
+                break;
+            case "-t":
+                toFlag = true;
+                break;
+            case "-i":
+                inputFileFlag = true;
+                break;
+            case "-o":
+                outputFileFlag = true;
+                break;
+            case "-d":
+                delimiterFlag = true;
+                break;
+            case "-h":
+                helpFlag = true;
+                break;
+            default:
+                throw new InputParsingException("Invalid switch encountered.");
         }
     }
 
@@ -80,7 +87,7 @@ public class InputParser {
         } else if (delimiterFlag) {
             delimiter = argument;
         } else {
-            throw new InputParsingException();
+            throw new InputParsingException("Invalid value for one of the switches.");
         }
     }
 
@@ -91,7 +98,7 @@ public class InputParser {
                 fromOptions = argumentParts[1];
                 return true;
             } else {
-                throw new InputParsingException();
+                throw new InputParsingException("Invalid option for this from format.");
             }
         } else if (shouldLookForToOptions && argument.startsWith("--to-options")) {
             var argumentParts = argument.split("=");
@@ -99,7 +106,7 @@ public class InputParser {
                 toOptions = argumentParts[1];
                 return true;
             } else {
-                throw new InputParsingException();
+                throw new InputParsingException("Invalid option for this to format");
             }
         }
         return false;
