@@ -49,7 +49,6 @@ public class ParserResult {
 
     //endregion
 
-
     @Override
     public String toString() {
         return String.format("From = %s, To = %s, From options = %s, To options = %s", from, to, fromOption, toOption);

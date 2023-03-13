@@ -121,7 +121,7 @@ public class InputParser {
     private boolean checkToOption(String option) {
         List<String> possibleIntOptions = List.of("big", "little");
 
-        if (fromRepresentation.equals("int")) {
+        if (toRepresentation.equals("int")) {
             return possibleIntOptions.contains(option);
         }
         return false;
