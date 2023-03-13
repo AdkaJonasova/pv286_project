@@ -1,5 +1,7 @@
 package input;
 
+import exception.InputParsingException;
+
 import java.util.List;
 
 public class InputParser {
@@ -20,7 +22,7 @@ public class InputParser {
     private boolean shouldLookForFromOptions = false;
     private boolean shouldLookForToOptions = false;
 
-    public ParserResult parse(String[] input) {
+    public ParserResult parse(String[] input) throws InputParsingException {
         for (var argument : input) {
             if (shouldLookForFromOptions || shouldLookForToOptions) {
                 parseOptions(argument);
@@ -67,16 +69,20 @@ public class InputParser {
         }
     }
 
-    private void parseOptions(String argument) {
+    private void parseOptions(String argument) throws InputParsingException {
         if (shouldLookForFromOptions && argument.startsWith("--from-options")) {
             var argumentParts = argument.split("=");
             if (argumentParts.length == 2 && checkFromOption(argumentParts[1])) {
                 fromOptions = argumentParts[1];
+            } else {
+                throw new InputParsingException();
             }
         } else if (shouldLookForToOptions && argument.startsWith("--to-options")) {
             var argumentParts = argument.split("=");
             if (argumentParts.length == 2 && checkToOption(argumentParts[1])) {
                 toOptions = argumentParts[1];
+            } else {
+                throw new InputParsingException();
             }
         }
     }
