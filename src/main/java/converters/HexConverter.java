@@ -1,8 +1,8 @@
 package converters;
 
-/**
- * @author Michal Badin
- */
+import static utils.Separator.EMPTY;
+import static utils.Separator.SPACE;
+
 public class HexConverter implements IConverter {
 	@Override
 	public String convertTo(String bitStr) {
@@ -25,7 +25,7 @@ public class HexConverter implements IConverter {
 
 	@Override
 	public String convertFrom(String str) {
-		str = str.replace(Separator.SPACE, Separator.EMPTY);
+		str = str.replace(SPACE.getText(), EMPTY.getText());
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < str.length(); i++) {
 			String binaryString = String.format("%4s", Integer.toBinaryString(Character.digit(str.charAt(i), 16)))

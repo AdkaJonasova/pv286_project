@@ -1,8 +1,5 @@
 package converters;
 
-/**
- * @author Michal Badin
- */
 public class BytesConverter implements IConverter {
 	@Override
 	public String convertTo(String bitStr) {
