@@ -29,7 +29,7 @@ public class InputParserTest {
             }
         }
     }
-
+    // region missing args and formats tests
     @Test
     public void testEmptyArgs() {
         String[] emptyInput = {};
@@ -71,6 +71,57 @@ public class InputParserTest {
         String[] input = {"-f", "-t"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
+
+    @Test
+    public void testMissingFromArgAndFormat() {
+        String[] input = {"-f", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testMissingToArgAndFormat() {
+        String[] input = {"-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+    // endregion
+
+    //region invalid args and formats tests
+    @Test
+    public void invalidFromArgMissingDash() {
+        String[] emptyInput = {"f", "hex", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+
+    @Test
+    public void invalidFromArgMissingChar() {
+        String[] emptyInput = {"-", "hex", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+
+    @Test
+    public void invalidToArgMissingDash() {
+        String[] emptyInput = {"-f", "hex", "t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+
+    @Test
+    public void invalidToArgMissingChar() {
+        String[] emptyInput = {"-f", "hex", "-", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+
+    @Test
+    public void invalidFromFormat() {
+        String[] emptyInput = {"-f", "aray", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+
+    @Test
+    public void invalidToFormat() {
+        String[] emptyInput = {"-f", "array", "-t", "hexe"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+    //endregion
 
     private static List<List<String>> getFormatsVariations() {
         List<String> list = Arrays.asList("bytes", "hex", "int", "bits", "array");
