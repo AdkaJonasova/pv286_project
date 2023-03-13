@@ -98,7 +98,4 @@ public class ParserResult {
         return String
                 .format(formatString, from, fromOption, to, toOption, getInputFile(), getOutputFile(), getDelimiter(), shouldPrintHelp);
     }
-
-
-
 }

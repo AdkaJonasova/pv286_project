@@ -51,7 +51,6 @@ public class InputParser {
             throw new InputParsingException("Missing value for one of the switches.");
         }
 
-
         return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, inputFile, outputFile,
                 delimiter, helpFlag);
     }
