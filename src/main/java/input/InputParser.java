@@ -37,7 +37,7 @@ public class InputParser {
         return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions);
     }
 
-    private void parseFlag(String argument) {
+    private void parseFlag(String argument) throws InputParsingException {
         if (argument.equals("-f")) {
             fromFlag = true;
         } else if (argument.equals("-t")) {
@@ -51,11 +51,11 @@ public class InputParser {
         } else if (argument.equals("-h")) {
             helpFlag = true;
         } else {
-            // chyba
+            throw new InputParsingException();
         }
     }
 
-    private void parseValue(String argument) {
+    private void parseValue(String argument) throws InputParsingException {
         if (fromFlag && checkFormat(argument)) {
             fromRepresentation = argument;
             shouldLookForFromOptions = true;
@@ -65,7 +65,7 @@ public class InputParser {
         } else if (delimiterFlag) {
             delimiter = argument;
         } else {
-            // chyba
+            throw new InputParsingException();
         }
     }
 
