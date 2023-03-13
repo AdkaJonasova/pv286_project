@@ -4,6 +4,7 @@ public class Program {
 
     public static void main(String[] args) {
         InputParser inputParser = new InputParser();
-        inputParser.parse(args);
+        var result = inputParser.parse(args);
+        System.out.println(result.toString());
     }
 }

@@ -20,7 +20,7 @@ public class InputParser {
     private boolean shouldLookForFromOptions = false;
     private boolean shouldLookForToOptions = false;
 
-    public void parse(String[] input) {
+    public ParserResult parse(String[] input) {
         for (var argument : input) {
             if (shouldLookForFromOptions || shouldLookForToOptions) {
                 parseOptions(argument);
@@ -32,8 +32,7 @@ public class InputParser {
                 resetFlags();
             }
         }
-        System.out.println(fromRepresentation + " " + toRepresentation);
-        System.out.println(fromOptions + " " + toOptions);
+        return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions);
     }
 
     private void parseFlag(String argument) {
