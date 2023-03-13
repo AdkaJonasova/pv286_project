@@ -5,7 +5,7 @@ import converters.HexConverter;
 import converters.IntConverter;
 import org.junit.jupiter.api.Test;
 
-class PanbyteTest {
+class ConverterTest {
 
 	BytesConverter byteConverter = new BytesConverter();
 	HexConverter hexConverter = new HexConverter();
@@ -101,5 +101,4 @@ class PanbyteTest {
 
 		assertEquals(expectedResult, actualResult);
 	}
-
 }
