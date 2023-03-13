@@ -6,12 +6,14 @@ public class ParserResult {
     private String to;
     private String fromOption;
     private String toOption;
+    private boolean shouldPrintHelp;
 
-    public ParserResult(String from, String to, String fromOption, String toOption) {
+    public ParserResult(String from, String to, String fromOption, String toOption, boolean shouldPrintHelp) {
         this.from = from;
         this.to = to;
         this.fromOption = fromOption;
         this.toOption = toOption;
+        this.setShouldPrintHelp(shouldPrintHelp);
     }
 
     //region Setters and Getters
@@ -47,10 +49,20 @@ public class ParserResult {
         this.toOption = toOption;
     }
 
+    public boolean getShouldPrintHelp() {
+        return shouldPrintHelp;
+    }
+
+    public void setShouldPrintHelp(boolean shouldPrintHelp) {
+        this.shouldPrintHelp = shouldPrintHelp;
+    }
     //endregion
 
     @Override
     public String toString() {
-        return String.format("From = %s, To = %s, From options = %s, To options = %s", from, to, fromOption, toOption);
+        var formatString = "From = %s, To = %s, From options = %s, To options = %s, Print help = %s";
+        return String.format(formatString, from, to, fromOption, toOption, shouldPrintHelp);
     }
+
+
 }

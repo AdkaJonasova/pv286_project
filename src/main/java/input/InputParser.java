@@ -35,7 +35,7 @@ public class InputParser {
                 resetFlags();
             }
         }
-        return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions);
+        return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, helpFlag);
     }
 
     private void parseFlag(String argument) throws InputParsingException {
