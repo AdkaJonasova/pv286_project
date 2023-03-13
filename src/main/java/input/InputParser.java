@@ -24,6 +24,10 @@ public class InputParser {
     private boolean shouldLookForToOptions = false;
 
     public ParserResult parse(String[] input) throws InputParsingException {
+        if (input.length == 0) {
+            throw new InputParsingException();
+        }
+
         var optionsFound = false;
         for (var argument : input) {
             if (shouldLookForFromOptions || shouldLookForToOptions) {
