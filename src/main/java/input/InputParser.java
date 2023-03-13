@@ -45,7 +45,7 @@ public class InputParser {
             optionsFound = false;
         }
 
-        if (isAnyFlagEnabled()) {
+        if (isAnyFlagEnabled() || fromRepresentation.equals("") || toRepresentation.equals("")) {
             throw new InputParsingException();
         }
 
