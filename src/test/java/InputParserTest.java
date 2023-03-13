@@ -20,6 +20,7 @@ public class InputParserTest {
         for (List<String> formats : variationsOfFormats) {
             String[] input = {"-f", formats.get(0), "-t", formats.get(1)};
             try {
+                inputParser = new InputParser();
                 ParserResult parserResult = inputParser.parse(input);
                 assertEquals(parserResult.getFrom(), formats.get(0));
                 assertEquals(parserResult.getTo(), formats.get(1));
@@ -29,6 +30,7 @@ public class InputParserTest {
             }
         }
     }
+
     // region missing args and formats tests
     @Test
     public void testEmptyArgs() {
@@ -193,7 +195,27 @@ public class InputParserTest {
         }
     }
 
-    private static List<List<String>> getFormatsVariations() {
+    //region invalid options
+    @Test
+    public void testThrowingExceptionWhenFromBitsOptionsIsBig() {
+        String[] input = {"-f", "bits", "--from-options=big", "-t", "int", "--to-options=big"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenFromBitsOptionsIsLittle() {
+        String[] input = {"-f", "bits", "--from-options=little", "-t", "int", "--to-options=big"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenToBitsIsSet() {
+        String[] input = {"-t", "bits", "--from-options=left", "-f", "int", "--to-options=big"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+    //endregion
+
+    private List<List<String>> getFormatsVariations() {
         List<String> list = Arrays.asList("bytes", "hex", "int", "bits", "array");
         List<List<String>> variationsOfFormats = new ArrayList<>();
 
