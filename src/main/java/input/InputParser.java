@@ -17,11 +17,14 @@ public class InputParser {
     private String toOptions = "";
     private String delimiter = "";
 
+    private boolean shouldLookForFromOptions = false;
+    private boolean shouldLookForToOptions = false;
+
     public void parse(String[] input) {
         for (var argument : input) {
-            if (fromFlag || toFlag) {
+            if (shouldLookForFromOptions || shouldLookForToOptions) {
                 parseOptions(argument);
-                resetFromToFlags();
+                resetLookForOptionsFlags();
             } else if (argument.startsWith("-")) {
                 parseFlag(argument);
             } else {
@@ -54,8 +57,10 @@ public class InputParser {
     private void parseValue(String argument) {
         if (fromFlag && checkFormat(argument)) {
             fromRepresentation = argument;
+            shouldLookForFromOptions = true;
         } else if (toFlag && checkFormat(argument)) {
             toRepresentation = argument;
+            shouldLookForToOptions = true;
         } else if (delimiterFlag) {
             delimiter = argument;
         } else {
@@ -64,25 +69,31 @@ public class InputParser {
     }
 
     private void parseOptions(String argument) {
-        if (fromFlag && argument.startsWith("--from-options") && checkFromOption(argument)) {
+        if (shouldLookForFromOptions && argument.startsWith("--from-options")) {
             var argumentParts = argument.split("=");
-            fromOptions = argumentParts[1];
-        } else if (toFlag && argument.startsWith("--to-options") && checkToOption(argument)) {
+            if (argumentParts.length == 2 && checkFromOption(argumentParts[1])) {
+                fromOptions = argumentParts[1];
+            }
+        } else if (shouldLookForToOptions && argument.startsWith("--to-options")) {
             var argumentParts = argument.split("=");
-            toOptions = argumentParts[1];
+            if (argumentParts.length == 2 && checkToOption(argumentParts[1])) {
+                toOptions = argumentParts[1];
+            }
         }
     }
 
     private void resetFlags() {
+        fromFlag = false;
+        toFlag = false;
         inputFileFlag = false;
         outputFileFlag = false;
         delimiterFlag = false;
         helpFlag = false;
     }
 
-    private void resetFromToFlags() {
-        fromFlag = false;
-        toFlag = false;
+    private void resetLookForOptionsFlags() {
+        shouldLookForFromOptions = false;
+        shouldLookForToOptions = false;
     }
 
     private boolean checkFormat(String format) {
@@ -93,6 +104,7 @@ public class InputParser {
     private boolean checkFromOption(String option) {
         List<String> possibleIntOptions = List.of("big", "little");
         List<String> possibleBitOptions = List.of("left", "right");
+
         if (fromRepresentation.equals("int")) {
             return possibleIntOptions.contains(option);
         } else if (fromRepresentation.equals("bits")) {
@@ -103,6 +115,7 @@ public class InputParser {
 
     private boolean checkToOption(String option) {
         List<String> possibleIntOptions = List.of("big", "little");
+
         if (fromRepresentation.equals("int")) {
             return possibleIntOptions.contains(option);
         }
