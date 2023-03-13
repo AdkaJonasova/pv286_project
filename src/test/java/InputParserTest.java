@@ -178,6 +178,21 @@ public class InputParserTest {
     }
     //endregion
 
+    @Test
+    public void testCorrectFromToOptions() {
+        String[] input = {"-f", "bits", "--from-options=right", "-t", "hex", "--to-options=right"};
+        try {
+            ParserResult parserResult = inputParser.parse(input);
+            assertEquals(parserResult.getFrom(), "bits");
+            assertEquals(parserResult.getTo(), "hex");
+            assertEquals(parserResult.getFromOption(), "right");
+            assertEquals(parserResult.getToOption(), "right");
+        } catch (InputParsingException e) {
+            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
+            assert false;
+        }
+    }
+
     private static List<List<String>> getFormatsVariations() {
         List<String> list = Arrays.asList("bytes", "hex", "int", "bits", "array");
         List<List<String>> variationsOfFormats = new ArrayList<>();
