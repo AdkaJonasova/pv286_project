@@ -121,6 +121,12 @@ public class InputParserTest {
         String[] input = {"-f", "array", "-t", "hexe"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
+
+    @Test
+    public void testInvalidArg() {
+        String[] input = {"-ff", "array", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
     //endregion
 
     //region invalid args and formats positions tests
