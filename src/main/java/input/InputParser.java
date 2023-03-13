@@ -35,7 +35,7 @@ public class InputParser {
                 resetLookForOptionsFlags();
             }
             if (!optionsFound) {
-                if (argument.startsWith("-")) {
+                if (argument.startsWith("-") && !isAnyFlagEnabled()) {
                     parseFlag(argument);
                 } else {
                     parseValue(argument);
@@ -44,6 +44,11 @@ public class InputParser {
             }
             optionsFound = false;
         }
+
+        if (isAnyFlagEnabled()) {
+            throw new InputParsingException();
+        }
+
         return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, helpFlag);
     }
 
@@ -132,5 +137,9 @@ public class InputParser {
             return IntOption.contains(option);
         }
         return false;
+    }
+
+    private boolean isAnyFlagEnabled() {
+        return fromFlag || toFlag || inputFileFlag || outputFileFlag || delimiterFlag;
     }
 }
