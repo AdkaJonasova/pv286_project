@@ -180,13 +180,13 @@ public class InputParserTest {
 
     @Test
     public void testCorrectFromToOptions() {
-        String[] input = {"-f", "bits", "--from-options=right", "-t", "hex", "--to-options=right"};
+        String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big"};
         try {
             ParserResult parserResult = inputParser.parse(input);
             assertEquals(parserResult.getFrom(), "bits");
-            assertEquals(parserResult.getTo(), "hex");
+            assertEquals(parserResult.getTo(), "int");
             assertEquals(parserResult.getFromOption(), "right");
-            assertEquals(parserResult.getToOption(), "right");
+            assertEquals(parserResult.getToOption(), "big");
         } catch (InputParsingException e) {
             System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
             assert false;
