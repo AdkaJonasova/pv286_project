@@ -60,6 +60,18 @@ public class InputParserTest {
         assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
+    @Test
+    public void testMissingFromToArgs() {
+        String[] input = {"-f", "-t"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testMissingFromToFormats() {
+        String[] input = {"-f", "-t"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
     private static List<List<String>> getFormatsVariations() {
         List<String> list = Arrays.asList("bytes", "hex", "int", "bits", "array");
         List<List<String>> variationsOfFormats = new ArrayList<>();
