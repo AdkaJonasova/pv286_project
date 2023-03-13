@@ -1,8 +1,9 @@
 package input;
 
 import exception.InputParsingException;
-
-import java.util.List;
+import utils.BitsOption;
+import utils.Format;
+import utils.IntOption;
 
 public class InputParser {
 
@@ -102,27 +103,21 @@ public class InputParser {
     }
 
     private boolean checkFormat(String format) {
-        List<String> possibleFormats = List.of("bytes", "hex", "int", "bits", "array");
-        return possibleFormats.contains(format);
+        return Format.contains(format);
     }
 
     private boolean checkFromOption(String option) {
-        List<String> possibleIntOptions = List.of("big", "little");
-        List<String> possibleBitOptions = List.of("left", "right");
-
         if (fromRepresentation.equals("int")) {
-            return possibleIntOptions.contains(option);
+            return IntOption.contains(option);
         } else if (fromRepresentation.equals("bits")) {
-            return possibleBitOptions.contains(option);
+            return BitsOption.contains(option);
         }
         return false;
     }
 
     private boolean checkToOption(String option) {
-        List<String> possibleIntOptions = List.of("big", "little");
-
         if (toRepresentation.equals("int")) {
-            return possibleIntOptions.contains(option);
+            return IntOption.contains(option);
         }
         return false;
     }

@@ -1,6 +1,8 @@
 package utils;
 
 
+import java.util.Arrays;
+
 public enum Format {
 	INT("int"),
 	HEX("hex"),
@@ -16,5 +18,9 @@ public enum Format {
 
 	public String getText() {
 		return text;
+	}
+
+	public static boolean contains(String value) {
+		return Arrays.stream(values()).anyMatch(option -> option.getText().equals(value));
 	}
 }
