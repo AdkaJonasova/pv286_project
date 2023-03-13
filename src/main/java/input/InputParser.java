@@ -24,16 +24,21 @@ public class InputParser {
     private boolean shouldLookForToOptions = false;
 
     public ParserResult parse(String[] input) throws InputParsingException {
+        var optionsFound = false;
         for (var argument : input) {
             if (shouldLookForFromOptions || shouldLookForToOptions) {
-                parseOptions(argument);
+                optionsFound = parseOptions(argument);
                 resetLookForOptionsFlags();
-            } else if (argument.startsWith("-")) {
-                parseFlag(argument);
-            } else {
-                parseValue(argument);
-                resetFlags();
             }
+            if (!optionsFound) {
+                if (argument.startsWith("-")) {
+                    parseFlag(argument);
+                } else {
+                    parseValue(argument);
+                    resetFlags();
+                }
+            }
+            optionsFound = false;
         }
         return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, helpFlag);
     }
@@ -70,11 +75,12 @@ public class InputParser {
         }
     }
 
-    private void parseOptions(String argument) throws InputParsingException {
+    private boolean parseOptions(String argument) throws InputParsingException {
         if (shouldLookForFromOptions && argument.startsWith("--from-options")) {
             var argumentParts = argument.split("=");
             if (argumentParts.length == 2 && checkFromOption(argumentParts[1])) {
                 fromOptions = argumentParts[1];
+                return true;
             } else {
                 throw new InputParsingException();
             }
@@ -82,10 +88,12 @@ public class InputParser {
             var argumentParts = argument.split("=");
             if (argumentParts.length == 2 && checkToOption(argumentParts[1])) {
                 toOptions = argumentParts[1];
+                return true;
             } else {
                 throw new InputParsingException();
             }
         }
+        return false;
     }
 
     private void resetFlags() {
