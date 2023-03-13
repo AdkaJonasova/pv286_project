@@ -143,6 +143,20 @@ public class InputParserTest {
     }
     //endregion o
 
+    //region duplicate args and formats tests
+    @Test
+    public void testDuplicateFromArg() {
+        String[] emptyInput = {"-f", "hex", "-t", "hex", "-f", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+
+    @Test
+    public void testDuplicateToArg() {
+        String[] emptyInput = {"-f", "hex", "-t", "hex", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+    //endregion
+
     private static List<List<String>> getFormatsVariations() {
         List<String> list = Arrays.asList("bytes", "hex", "int", "bits", "array");
         List<List<String>> variationsOfFormats = new ArrayList<>();
