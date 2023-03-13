@@ -18,6 +18,8 @@ public class InputParser {
     private String toRepresentation = "";
     private String fromOptions = "";
     private String toOptions = "";
+    private String inputFile = "";
+    private String outputFile = "";
     private String delimiter = "";
 
     private boolean shouldLookForFromOptions = false;
@@ -53,27 +55,20 @@ public class InputParser {
     }
 
     private void parseFlag(String argument) throws InputParsingException {
-        switch (argument) {
-            case "-f":
-                fromFlag = true;
-                break;
-            case "-t":
-                toFlag = true;
-                break;
-            case "-i":
-                inputFileFlag = true;
-                break;
-            case "-o":
-                outputFileFlag = true;
-                break;
-            case "-d":
-                delimiterFlag = true;
-                break;
-            case "-h":
-                helpFlag = true;
-                break;
-            default:
-                throw new InputParsingException("Invalid switch encountered.");
+        if (argument.equals("-f") && fromRepresentation.isEmpty()) {
+            fromFlag = true;
+        } else if (argument.equals("-t") && toRepresentation.isEmpty()) {
+            toFlag = true;
+        } else if (argument.equals("-i") && inputFile.isEmpty()) {
+            inputFileFlag = true;
+        } else if (argument.equals("-o") && outputFile.isEmpty()) {
+            outputFileFlag = true;
+        } else if (argument.equals("-d") && delimiter.isEmpty()) {
+            delimiterFlag = true;
+        } else if (argument.equals("-h")) {
+            helpFlag = true;
+        } else {
+            throw new InputParsingException("Invalid or duplicate switch encountered.");
         }
     }
 
