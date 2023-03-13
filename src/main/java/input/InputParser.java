@@ -51,7 +51,9 @@ public class InputParser {
             throw new InputParsingException("Missing value for one of the switches.");
         }
 
-        return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, helpFlag);
+
+        return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, inputFile, outputFile,
+                delimiter, helpFlag);
     }
 
     private void parseFlag(String argument) throws InputParsingException {
@@ -79,6 +81,10 @@ public class InputParser {
         } else if (toFlag && checkFormat(argument)) {
             toRepresentation = argument;
             shouldLookForToOptions = true;
+        } else if (inputFileFlag) {
+            inputFile = argument;
+        } else if (outputFileFlag) {
+            outputFile = argument;
         } else if (delimiterFlag) {
             delimiter = argument;
         } else {

@@ -6,14 +6,21 @@ public class ParserResult {
     private String to;
     private String fromOption;
     private String toOption;
+    private String inputFile;
+    private String outputFile;
+    private String delimiter;
     private boolean shouldPrintHelp;
 
-    public ParserResult(String from, String to, String fromOption, String toOption, boolean shouldPrintHelp) {
+    public ParserResult(String from, String to, String fromOption, String toOption, String inputFile, String outputFile,
+                        String delimiter, boolean shouldPrintHelp) {
         this.from = from;
         this.to = to;
         this.fromOption = fromOption;
         this.toOption = toOption;
-        this.setShouldPrintHelp(shouldPrintHelp);
+        this.inputFile = inputFile;
+        this.outputFile = outputFile;
+        this.delimiter = delimiter;
+        this.shouldPrintHelp = shouldPrintHelp;
     }
 
     //region Setters and Getters
@@ -56,13 +63,42 @@ public class ParserResult {
     public void setShouldPrintHelp(boolean shouldPrintHelp) {
         this.shouldPrintHelp = shouldPrintHelp;
     }
+
+    public String getInputFile() {
+        return inputFile;
+    }
+
+    public void setInputFile(String inputFile) {
+        this.inputFile = inputFile;
+    }
+
+    public String getOutputFile() {
+        return outputFile;
+    }
+
+    public void setOutputFile(String outputFile) {
+        this.outputFile = outputFile;
+    }
+
+    public String getDelimiter() {
+        return delimiter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+    }
     //endregion
 
     @Override
     public String toString() {
-        var formatString = "From = %s, To = %s, From options = %s, To options = %s, Print help = %s";
-        return String.format(formatString, from, to, fromOption, toOption, shouldPrintHelp);
+        var formatString = "From = %s, From options = %s \n " +
+                "To = %s, To options = %s \n" +
+                "Input file = %s, Output file = %s \n" +
+                "Delimiter = %s, Print help = %s";
+        return String
+                .format(formatString, from, fromOption, to, toOption, getInputFile(), getOutputFile(), getDelimiter(), shouldPrintHelp);
     }
+
 
 
 }
