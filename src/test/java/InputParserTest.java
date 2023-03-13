@@ -30,6 +30,12 @@ public class InputParserTest {
         }
     }
 
+    @Test
+    public void testEmptyArgs() {
+        String[] emptyInput = {};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+
     private static List<List<String>> getFormatsVariations() {
         List<String> list = Arrays.asList("bytes", "hex", "int", "bits", "array");
         List<List<String>> variationsOfFormats = new ArrayList<>();
