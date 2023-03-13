@@ -32,8 +32,8 @@ public class InputParserTest {
     // region missing args and formats tests
     @Test
     public void testEmptyArgs() {
-        String[] emptyInput = {};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
     @Test
@@ -88,72 +88,87 @@ public class InputParserTest {
     //region invalid args and formats tests
     @Test
     public void testInvalidFromArgMissingDash() {
-        String[] emptyInput = {"f", "hex", "-t", "hex"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"f", "hex", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
     @Test
     public void testInvalidFromArgMissingChar() {
-        String[] emptyInput = {"-", "hex", "-t", "hex"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"-", "hex", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
     @Test
     public void testInvalidToArgMissingDash() {
-        String[] emptyInput = {"-f", "hex", "t", "hex"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"-f", "hex", "t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
     @Test
     public void testInvalidToArgMissingChar() {
-        String[] emptyInput = {"-f", "hex", "-", "hex"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"-f", "hex", "-", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
     @Test
     public void testInvalidFromFormat() {
-        String[] emptyInput = {"-f", "aray", "-t", "hex"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"-f", "aray", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
     @Test
     public void testInvalidToFormat() {
-        String[] emptyInput = {"-f", "array", "-t", "hexe"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"-f", "array", "-t", "hexe"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
     //endregion
 
     //region invalid args and formats positions tests
     @Test
     public void testInvalidPositionsArgsThenFormats() {
-        String[] emptyInput = {"-f", "-t", "hex", "hex"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"-f", "-t", "hex", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
     @Test
     public void testInvalidPositionsFormatsThenArgs() {
-        String[] emptyInput = {"hex", "hex", "-f", "-t"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"hex", "hex", "-f", "-t"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
     @Test
     public void testInvalidOrderOfArgsAndFormats() {
-        String[] emptyInput = {"hex", "-f", "hex", "-t"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"hex", "-f", "hex", "-t"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
     //endregion o
 
     //region duplicate args and formats tests
     @Test
     public void testDuplicateFromArg() {
-        String[] emptyInput = {"-f", "hex", "-t", "hex", "-f", "hex"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"-f", "hex", "-t", "hex", "-f", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
 
     @Test
     public void testDuplicateToArg() {
-        String[] emptyInput = {"-f", "hex", "-t", "hex", "-t", "hex"};
-        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+        String[] input = {"-f", "hex", "-t", "hex", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+    //endregion
+
+    //region swapped position from to args
+    @Test
+    public void testSwappedPositionToThenFromArg() {
+        String[] input = {"-t", "hex", "-f", "bytes"};
+        try {
+            ParserResult parserResult = inputParser.parse(input);
+            assertEquals(parserResult.getFrom(), "bytes");
+            assertEquals(parserResult.getTo(), "hex");
+        } catch (InputParsingException e) {
+            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
+            assert false;
+        }
     }
     //endregion
 
