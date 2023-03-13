@@ -64,10 +64,10 @@ public class InputParser {
     }
 
     private void parseOptions(String argument) {
-        if (fromFlag && argument.startsWith("--from-options")) {
+        if (fromFlag && argument.startsWith("--from-options") && checkFromOption(argument)) {
             var argumentParts = argument.split("=");
             fromOptions = argumentParts[1];
-        } else if (toFlag && argument.startsWith("--to-options")) {
+        } else if (toFlag && argument.startsWith("--to-options") && checkToOption(argument)) {
             var argumentParts = argument.split("=");
             toOptions = argumentParts[1];
         }
@@ -90,8 +90,22 @@ public class InputParser {
         return possibleFormats.contains(format);
     }
 
-    private boolean checkOption(String option) {
-        List<String> possibleOptions = List.of("big", "little");
-        return possibleOptions.contains(option);
+    private boolean checkFromOption(String option) {
+        List<String> possibleIntOptions = List.of("big", "little");
+        List<String> possibleBitOptions = List.of("left", "right");
+        if (fromRepresentation.equals("int")) {
+            return possibleIntOptions.contains(option);
+        } else if (fromRepresentation.equals("bits")) {
+            return possibleBitOptions.contains(option);
+        }
+        return false;
+    }
+
+    private boolean checkToOption(String option) {
+        List<String> possibleIntOptions = List.of("big", "little");
+        if (fromRepresentation.equals("int")) {
+            return possibleIntOptions.contains(option);
+        }
+        return false;
     }
 }
