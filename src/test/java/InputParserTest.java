@@ -85,7 +85,7 @@ public class InputParserTest {
     }
     // endregion
 
-    //region testInvalid args and formats tests
+    //region invalid args and formats tests
     @Test
     public void testInvalidFromArgMissingDash() {
         String[] emptyInput = {"f", "hex", "-t", "hex"};
@@ -122,6 +122,26 @@ public class InputParserTest {
         assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
     }
     //endregion
+
+    //region invalid args and formats positions tests
+    @Test
+    public void testInvalidPositionsArgsThenFormats() {
+        String[] emptyInput = {"-f", "-t", "hex", "hex"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+
+    @Test
+    public void testInvalidPositionsFormatsThenArgs() {
+        String[] emptyInput = {"hex", "hex", "-f", "-t"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+
+    @Test
+    public void testInvalidOrderOfArgsAndFormats() {
+        String[] emptyInput = {"hex", "-f", "hex", "-t"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
+    }
+    //endregion o
 
     private static List<List<String>> getFormatsVariations() {
         List<String> list = Arrays.asList("bytes", "hex", "int", "bits", "array");
