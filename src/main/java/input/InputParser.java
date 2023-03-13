@@ -6,8 +6,6 @@ public class InputParser {
 
     private boolean fromFlag = false;
     private boolean toFlag = false;
-    private boolean fromOptionsFlag = false;
-    private boolean toOptionsFlag = false;
     private boolean inputFileFlag = false;
     private boolean outputFileFlag = false;
     private boolean delimiterFlag = false;
@@ -21,13 +19,18 @@ public class InputParser {
 
     public void parse(String[] input) {
         for (var argument : input) {
-            if (argument.startsWith("-")) {
+            if (fromFlag || toFlag) {
+                parseOptions(argument);
+                resetFromToFlags();
+            } else if (argument.startsWith("-")) {
                 parseFlag(argument);
             } else {
                 parseValue(argument);
                 resetFlags();
             }
         }
+        System.out.println(fromRepresentation + " " + toRepresentation);
+        System.out.println(fromOptions + " " + toOptions);
     }
 
     private void parseFlag(String argument) {
@@ -43,10 +46,6 @@ public class InputParser {
             delimiterFlag = true;
         } else if (argument.equals("-h")) {
             helpFlag = true;
-        } else if (argument.startsWith("--from-options")) {
-            fromOptionsFlag = true;
-        } else if (argument.startsWith("--to-options")) {
-            toOptionsFlag = true;
         } else {
             // chyba
         }
@@ -57,10 +56,6 @@ public class InputParser {
             fromRepresentation = argument;
         } else if (toFlag && checkFormat(argument)) {
             toRepresentation = argument;
-        } else if (fromOptionsFlag && checkOption(argument)) {
-            fromOptions = argument;
-        } else if (toOptionsFlag && checkOption(argument)) {
-            toOptions = argument;
         } else if (delimiterFlag) {
             delimiter = argument;
         } else {
@@ -68,15 +63,26 @@ public class InputParser {
         }
     }
 
+    private void parseOptions(String argument) {
+        if (fromFlag && argument.startsWith("--from-options")) {
+            var argumentParts = argument.split("=");
+            fromOptions = argumentParts[1];
+        } else if (toFlag && argument.startsWith("--to-options")) {
+            var argumentParts = argument.split("=");
+            toOptions = argumentParts[1];
+        }
+    }
+
     private void resetFlags() {
-        fromFlag = false;
-        toFlag = false;
-        fromOptionsFlag = false;
-        toOptionsFlag = false;
         inputFileFlag = false;
         outputFileFlag = false;
         delimiterFlag = false;
         helpFlag = false;
+    }
+
+    private void resetFromToFlags() {
+        fromFlag = false;
+        toFlag = false;
     }
 
     private boolean checkFormat(String format) {
