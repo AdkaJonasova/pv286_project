@@ -85,39 +85,39 @@ public class InputParserTest {
     }
     // endregion
 
-    //region invalid args and formats tests
+    //region testInvalid args and formats tests
     @Test
-    public void invalidFromArgMissingDash() {
+    public void testInvalidFromArgMissingDash() {
         String[] emptyInput = {"f", "hex", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
     }
 
     @Test
-    public void invalidFromArgMissingChar() {
+    public void testInvalidFromArgMissingChar() {
         String[] emptyInput = {"-", "hex", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
     }
 
     @Test
-    public void invalidToArgMissingDash() {
+    public void testInvalidToArgMissingDash() {
         String[] emptyInput = {"-f", "hex", "t", "hex"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
     }
 
     @Test
-    public void invalidToArgMissingChar() {
+    public void testInvalidToArgMissingChar() {
         String[] emptyInput = {"-f", "hex", "-", "hex"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
     }
 
     @Test
-    public void invalidFromFormat() {
+    public void testInvalidFromFormat() {
         String[] emptyInput = {"-f", "aray", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
     }
 
     @Test
-    public void invalidToFormat() {
+    public void testInvalidToFormat() {
         String[] emptyInput = {"-f", "array", "-t", "hexe"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(emptyInput));
     }
