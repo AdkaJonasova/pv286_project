@@ -212,6 +212,32 @@ public class InputParserTest {
     }
     //endregion
 
+    //region help arg
+    @Test
+    public void testParserResultContainsHelpArgWhenHGiven() {
+        String[] input = {"-h"};
+        try {
+            ParserResult parserResult = inputParser.parse(input);
+            assertTrue(parserResult.getShouldPrintHelp());
+        } catch (InputParsingException e) {
+            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
+            assert false;
+        }
+    }
+
+    @Test
+    public void testParserResultContainsHelpArgWhenHelpGiven() {
+        String[] input = {"--help"};
+        try {
+            ParserResult parserResult = inputParser.parse(input);
+            assertTrue(parserResult.getShouldPrintHelp());
+        } catch (InputParsingException e) {
+            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
+            assert false;
+        }
+    }
+    //endregion
+
     //region invalid options
     @Test
     public void testThrowingExceptionWhenFromBitsOptionsIsBig() {
