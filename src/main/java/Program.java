@@ -23,7 +23,8 @@ public class Program {
             var convertedValue = result.getTo().getConverter().convertTo(convertedFromVal, result.getToOption());
             System.out.println(convertedValue);
         } catch (InputParsingException e) {
-            System.out.println("Chyba");
+            System.out.println("ERROR: " + e.getMessage());
+            System.exit(1);
         }
     }
 }
