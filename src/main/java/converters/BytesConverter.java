@@ -19,7 +19,7 @@ public class BytesConverter implements IConverter {
 
 	@Override
 	public String convertFrom(String str, String option) {
-		return this.convertTo(str);
+		return this.convertFrom(str);
 	}
 
 	public String convertFrom(String str) {
