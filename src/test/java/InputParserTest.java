@@ -209,8 +209,20 @@ public class InputParserTest {
     }
 
     @Test
-    public void testThrowingExceptionWhenToBitsIsSet() {
-        String[] input = {"-t", "bits", "--from-options=left", "-f", "int", "--to-options=big"};
+    public void testThrowingExceptionWhenOptionsStartsWithOneDash() {
+        String[] input = {"-f", "bits", "-from-options=left", "-t", "int", "--to-options=big"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenBitsToOptionsAreSet() {
+        String[] input = {"-t", "bits", "--from-options=left", "-f", "int", "--to-options=left"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenBitsHaveTwoFromOptions() {
+        String[] input = {"-f", "bits", "--from-options=left", "--from-options=left", "-t", "int", "--to-options=big"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
     //endregion
