@@ -1,6 +1,6 @@
 package converters;
 
-public class BytesConverter implements IConverter {
+public class BytesConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, String option) {
 		return this.convertTo(bitStr);

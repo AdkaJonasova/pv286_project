@@ -12,10 +12,10 @@ public enum Format {
 	ARRAY("array", new BytesConverter(), "array = Byte array");
 
 	private final String text;
-	private final IConverter converter;
+	private final Converter converter;
 	private final String description;
 
-	Format(String text, IConverter converter, String description) {
+	Format(String text, Converter converter, String description) {
 		this.text = text;
 		this.converter = converter;
 		this.description = description;
@@ -25,7 +25,7 @@ public enum Format {
 		return text;
 	}
 
-	public IConverter getConverter() {
+	public Converter getConverter() {
 		return converter;
 	}
 

@@ -3,7 +3,7 @@ package converters;
 import static utils.Separator.EMPTY;
 import static utils.Separator.SPACE;
 
-public class HexConverter implements IConverter {
+public class HexConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, String option) {
 		return this.convertTo(bitStr);

@@ -1,12 +1,11 @@
 package converters;
 
-import utils.Format;
 import utils.IntOption;
 import utils.Separator;
 
 import static utils.IntOption.LITTLE;
 
-public class IntConverter implements IConverter {
+public class IntConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, String option) {
 		option = Separator.isEmpty(option) ? "big" : option;
@@ -49,16 +48,4 @@ public class IntConverter implements IConverter {
 		}
 		return bitStr;
 	}
-
-	private static String addMissingZerosToBitString(String bitStr) {
-		if (bitStr.length() % 8 != 0){
-			int padding = 8 - (bitStr.length() % 8);
-			StringBuilder sb = new StringBuilder();
-			sb.append("0".repeat(padding));
-			sb.append(bitStr);
-			bitStr = sb.toString();
-		}
-		return bitStr;
-	}
-
 }
