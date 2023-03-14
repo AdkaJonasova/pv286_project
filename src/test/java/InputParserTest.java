@@ -22,8 +22,8 @@ public class InputParserTest {
             try {
                 inputParser = new InputParser();
                 ParserResult parserResult = inputParser.parse(input);
-                assertEquals(parserResult.getFrom(), formats.get(0));
-                assertEquals(parserResult.getTo(), formats.get(1));
+                assertEquals(parserResult.getFrom().getText(), formats.get(0));
+                assertEquals(parserResult.getTo().getText(), formats.get(1));
             } catch (InputParsingException e) {
                 System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
                 assert false;
@@ -171,8 +171,8 @@ public class InputParserTest {
         String[] input = {"-t", "hex", "-f", "bytes"};
         try {
             ParserResult parserResult = inputParser.parse(input);
-            assertEquals(parserResult.getFrom(), "bytes");
-            assertEquals(parserResult.getTo(), "hex");
+            assertEquals(parserResult.getFrom().getText(), "bytes");
+            assertEquals(parserResult.getTo().getText(), "hex");
         } catch (InputParsingException e) {
             System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
             assert false;
@@ -185,8 +185,8 @@ public class InputParserTest {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big"};
         try {
             ParserResult parserResult = inputParser.parse(input);
-            assertEquals(parserResult.getFrom(), "bits");
-            assertEquals(parserResult.getTo(), "int");
+            assertEquals(parserResult.getFrom().getText(), "bits");
+            assertEquals(parserResult.getTo().getText(), "int");
             assertEquals(parserResult.getFromOption(), "right");
             assertEquals(parserResult.getToOption(), "big");
         } catch (InputParsingException e) {
