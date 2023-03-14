@@ -47,7 +47,7 @@ public class InputParser {
             optionsFound = false;
         }
 
-        if (isAnyFlagEnabled() || fromRepresentation.equals("") || toRepresentation.equals("")) {
+        if (!helpFlag && (isAnyFlagEnabled() || fromRepresentation.equals("") || toRepresentation.equals(""))) {
             throw new InputParsingException("Missing value for one of the switches.");
         }
 
@@ -66,7 +66,7 @@ public class InputParser {
             outputFileFlag = true;
         } else if (argument.equals("-d") && delimiter.isEmpty()) {
             delimiterFlag = true;
-        } else if (argument.equals("-h")) {
+        } else if (argument.equals("-h") && !isAnyFlagEnabled()) {
             helpFlag = true;
         } else {
             throw new InputParsingException("Invalid or duplicate switch encountered.");

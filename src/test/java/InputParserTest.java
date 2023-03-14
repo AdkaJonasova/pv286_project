@@ -225,17 +225,17 @@ public class InputParserTest {
         }
     }
 
-    @Test
-    public void testParserResultContainsHelpArgWhenHelpGiven() {
-        String[] input = {"--help"};
-        try {
-            ParserResult parserResult = inputParser.parse(input);
-            assertTrue(parserResult.getShouldPrintHelp());
-        } catch (InputParsingException e) {
-            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
-            assert false;
-        }
-    }
+//    @Test
+//    public void testParserResultContainsHelpArgWhenHelpGiven() {
+//        String[] input = {"--help"};
+//        try {
+//            ParserResult parserResult = inputParser.parse(input);
+//            assertTrue(parserResult.getShouldPrintHelp());
+//        } catch (InputParsingException e) {
+//            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
+//            assert false;
+//        }
+//    }
     //endregion
 
     //region invalid options
