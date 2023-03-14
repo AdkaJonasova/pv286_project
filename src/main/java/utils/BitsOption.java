@@ -3,17 +3,23 @@ package utils;
 import java.util.Arrays;
 
 public enum BitsOption {
-	LEFT("left"),
-	RIGHT("right");
+	LEFT("left", "left = If necessary, pad input with zero bits from left -> default"),
+	RIGHT("right", "right = If necessary, pad input with zero bits from right");
 
 	private final String text;
+	private final String description;
 
-	BitsOption(String text) {
+	BitsOption(String text, String description) {
 		this.text = text;
+		this.description = description;
 	}
 
 	public String getText() {
 		return text;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public static boolean contains(String value) {

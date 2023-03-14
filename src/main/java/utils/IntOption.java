@@ -3,17 +3,25 @@ package utils;
 import java.util.Arrays;
 
 public enum IntOption {
-	BIG("big"),
-	LITTLE("little");
+	BIG("big",
+			"Store the integer in big-endian representation (most significant byte at the lowest address) -> default"),
+	LITTLE("little",
+			"Store the integer in little-endian representation (least significant byte at the lowest address)");
 
 	private final String text;
+	private final String description;
 
-	IntOption(String text) {
+	IntOption(String text, String description) {
 		this.text = text;
+		this.description = description;
 	}
 
 	public String getText() {
 		return text;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public static IntOption fromString(String text) {
