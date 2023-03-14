@@ -195,6 +195,21 @@ public class InputParserTest {
         }
     }
 
+    @Test
+    public void testCorrectParseResultWhenPositionsOfArgsFormatsOptionsInInputAreRandom() {
+        String[] input = {"--to-options=big", "--from-options=right", "-t", "int", "-f", "bits" };
+        try {
+            ParserResult parserResult = inputParser.parse(input);
+            assertEquals(parserResult.getFrom().getText(), "bits");
+            assertEquals(parserResult.getTo().getText(), "int");
+            assertEquals(parserResult.getFromOption(), "right");
+            assertEquals(parserResult.getToOption(), "big");
+        } catch (InputParsingException e) {
+            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
+            assert false;
+        }
+    }
+
     //region invalid options
     @Test
     public void testThrowingExceptionWhenFromBitsOptionsIsBig() {
