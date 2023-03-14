@@ -180,6 +180,7 @@ public class InputParserTest {
     }
     //endregion
 
+    //region correct options
     @Test
     public void testCorrectFromToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big"};
@@ -209,6 +210,7 @@ public class InputParserTest {
             assert false;
         }
     }
+    //endregion
 
     //region invalid options
     @Test
