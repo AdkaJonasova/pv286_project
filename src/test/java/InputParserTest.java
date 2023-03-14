@@ -242,6 +242,18 @@ public class InputParserTest {
         String[] input = {"-f", "bits", "--from-options=left", "--from-options=left", "-t", "int", "--to-options=big"};
         assertThrows(InputParsingException.class, () -> inputParser.parse(input));
     }
+
+    @Test
+    public void testThrowingExceptionWhenMissingFormatBeforeOptions() {
+        String[] input = {"-f", "--from-options=left", "-t", "int", "--to-options=big"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenArgsAreGivenInInvalidOrder() {
+        String[] input = {"--from-options=left", "--to-options=big", "-f", "bits", "--from-options=left", "-t", "int"};
+        assertThrows(InputParsingException.class, () -> inputParser.parse(input));
+    }
     //endregion
 
     private List<List<String>> getFormatsVariations() {
