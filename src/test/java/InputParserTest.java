@@ -197,8 +197,8 @@ public class InputParserTest {
     }
 
     @Test
-    public void testCorrectParseResultWhenPositionsOfArgsFormatsOptionsInInputAreRandom() {
-        String[] input = {"--to-options=big", "--from-options=right", "-t", "int", "-f", "bits" };
+    public void testCorrectParseResultWhenPositionsOfArgsWithOptionsAreSwapped() {
+        String[] input = {"-t", "int", "--to-options=big", "-f", "bits", "--from-options=right" };
         try {
             ParserResult parserResult = inputParser.parse(input);
             assertEquals(parserResult.getFrom().getText(), "bits");
