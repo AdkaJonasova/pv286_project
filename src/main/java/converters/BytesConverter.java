@@ -2,6 +2,10 @@ package converters;
 
 public class BytesConverter implements IConverter {
 	@Override
+	public String convertTo(String bitStr, String option) {
+		return this.convertTo(bitStr);
+	}
+
 	public String convertTo(String bitStr) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < bitStr.length(); i += 8) {
@@ -14,6 +18,10 @@ public class BytesConverter implements IConverter {
 	}
 
 	@Override
+	public String convertFrom(String str, String option) {
+		return this.convertTo(str);
+	}
+
 	public String convertFrom(String str) {
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < str.length(); i++) {

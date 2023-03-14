@@ -5,6 +5,10 @@ import static utils.Separator.SPACE;
 
 public class HexConverter implements IConverter {
 	@Override
+	public String convertTo(String bitStr, String option) {
+		return this.convertTo(bitStr);
+	}
+
 	public String convertTo(String bitStr) {
 		StringBuilder builder = new StringBuilder();
 
@@ -24,6 +28,10 @@ public class HexConverter implements IConverter {
 	}
 
 	@Override
+	public String convertFrom(String str, String option) {
+		return this.convertTo(str);
+	}
+
 	public String convertFrom(String str) {
 		str = str.replace(SPACE.getText(), EMPTY.getText());
 		StringBuilder builder = new StringBuilder();

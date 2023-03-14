@@ -15,4 +15,8 @@ public enum Separator {
 	public String getText() {
 		return text;
 	}
+
+	public static Boolean isEmpty(String str){
+		return str == null || str.equals("");
+	}
 }

@@ -16,6 +16,15 @@ public enum IntOption {
 		return text;
 	}
 
+	public static IntOption fromString(String text) {
+		for (IntOption intOption : IntOption.values()) {
+			if (intOption.getText().equalsIgnoreCase(text)) {
+				return intOption;
+			}
+		}
+		return null;
+	}
+
 	public static boolean contains(String value) {
 		return Arrays.stream(values()).anyMatch(option -> option.getText().equals(value));
 	}

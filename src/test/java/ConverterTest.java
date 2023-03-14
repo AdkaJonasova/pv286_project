@@ -50,7 +50,7 @@ class ConverterTest {
 
 	@Test
 	void testIntToHex() {
-		String bits = intConverter.convertFrom("1234567890");
+		String bits = intConverter.convertFrom("1234567890", null);
 		String actualResult = hexConverter.convertTo(bits);
 		String expectedResult = "499602d2";
 
@@ -59,7 +59,7 @@ class ConverterTest {
 
 	@Test
 	void testIntWithBigEndianToHex() {
-		String bits = intConverter.convertFrom("1234567890", true);
+		String bits = intConverter.convertFrom("1234567890", "big");
 		String actualResult = hexConverter.convertTo(bits);
 		String expectedResult = "499602d2";
 
@@ -68,7 +68,7 @@ class ConverterTest {
 
 	@Test
 	void testIntWithLittleEndianToHex() {
-		String bits = intConverter.convertFrom("1234567890", false);
+		String bits = intConverter.convertFrom("1234567890", "little");
 		String actualResult = hexConverter.convertTo(bits);
 		String expectedResult = "d2029649";
 
@@ -78,7 +78,7 @@ class ConverterTest {
 	@Test
 	void testHexToInt() {
 		String bits = hexConverter.convertFrom("499602d2");
-		String actualResult = intConverter.convertTo(bits);
+		String actualResult = intConverter.convertTo(bits, null);
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
@@ -87,7 +87,7 @@ class ConverterTest {
 	@Test
 	void testHexToIntToBigEndian() {
 		String bits = hexConverter.convertFrom("499602d2");
-		String actualResult = intConverter.convertTo(bits, true);
+		String actualResult = intConverter.convertTo(bits, "big");
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
@@ -96,7 +96,7 @@ class ConverterTest {
 	@Test
 	void testHexToIntToLittleEndian() {
 		String bits = hexConverter.convertFrom("d2029649");
-		String actualResult = intConverter.convertTo(bits, false);
+		String actualResult = intConverter.convertTo(bits, "little");
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);

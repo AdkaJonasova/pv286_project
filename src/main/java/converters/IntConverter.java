@@ -1,13 +1,18 @@
 package converters;
 
+import utils.Format;
+import utils.IntOption;
+import utils.Separator;
+
+import static utils.IntOption.LITTLE;
+
 public class IntConverter implements IConverter {
 	@Override
-	public String convertTo(String bitStr) {
-		return this.convertTo(bitStr, true);
-	}
+	public String convertTo(String bitStr, String option) {
+		option = Separator.isEmpty(option) ? "big" : option;
+		IntOption endian = IntOption.fromString(option);
 
-	public String convertTo(String bitStr, boolean isBigEndian) {
-		if (!isBigEndian){
+		if (LITTLE.equals(endian)){
 			StringBuilder builder = new StringBuilder();
 			bitStr = addMissingZerosToBitString(bitStr);
 
@@ -20,23 +25,21 @@ public class IntConverter implements IConverter {
 		}
 
 		long unsignedInt = Long.parseUnsignedLong(bitStr, 2);
-		String intstr = Long.toUnsignedString(unsignedInt);
-		return intstr;
+		return Long.toUnsignedString(unsignedInt);
 	}
 
 	@Override
-	public String convertFrom(String str){
-		return this.convertFrom(str, true);
-	}
-
-	public String convertFrom(String str, boolean isBigEndian) {
+	public String convertFrom(String str, String option) {
 		long unsignedInt = Long.parseUnsignedLong(str);
 		String bitStr = Long.toBinaryString(unsignedInt);
 		StringBuilder result = new StringBuilder();
 
 		bitStr = addMissingZerosToBitString(bitStr);
 
-		if (!isBigEndian){
+		option = Separator.isEmpty(option) ? "big" : option;
+		IntOption endian = IntOption.fromString(option);
+
+		if (LITTLE.equals(endian)){
 			for (int i = bitStr.length() - 1; i >= 0; i -= 8) {
 				int startIndex = Math.max(i - 7, 0);
 				String chunk = bitStr.substring(startIndex, i + 1);
