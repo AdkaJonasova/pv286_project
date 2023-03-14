@@ -4,8 +4,8 @@ import utils.Format;
 
 public class ParserResult {
 
-    private final String from;
-    private final String to;
+    private final Format from;
+    private final Format to;
     private final String fromOption;
     private final String toOption;
     private final String inputFile;
@@ -13,7 +13,7 @@ public class ParserResult {
     private final String delimiter;
     private final boolean shouldPrintHelp;
 
-    public ParserResult(String from, String to, String fromOption, String toOption, String inputFile, String outputFile,
+    public ParserResult(Format from, Format to, String fromOption, String toOption, String inputFile, String outputFile,
                         String delimiter, boolean shouldPrintHelp) {
         this.from = from;
         this.to = to;
@@ -26,11 +26,11 @@ public class ParserResult {
     }
 
     //region Getters
-    public String getFrom() {
+    public Format getFrom() {
         return from;
     }
 
-    public String getTo() {
+    public Format getTo() {
         return to;
     }
 

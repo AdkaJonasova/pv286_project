@@ -19,13 +19,6 @@ public enum Format {
 
 	private final String text;
 	private final IConverter converter;
-	private static final Map<String, Format> FORMAT_MAP = new HashMap<>();
-
-	static {
-		for (Format format : Format.values()) {
-			FORMAT_MAP.put(format.getText(), format);
-		}
-	}
 
 	Format(String text, IConverter converter) {
 		this.text = text;
@@ -41,7 +34,12 @@ public enum Format {
 	}
 
 	public static Format fromString(String text) {
-		return FORMAT_MAP.get(text.toLowerCase());
+		for (Format format : Format.values()) {
+			if (format.getText().equalsIgnoreCase(text)) {
+				return format;
+			}
+		}
+		return null;
 	}
 
 	public static boolean contains(String value) {
