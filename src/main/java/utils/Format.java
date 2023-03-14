@@ -1,16 +1,13 @@
 package utils;
 
-import converters.BytesConverter;
-import converters.HexConverter;
-import converters.IConverter;
-import converters.IntConverter;
+import converters.*;
 
 import java.util.Arrays;
 
 public enum Format {
 	INT("int", new IntConverter(), "int = Integer"),
 	HEX("hex", new HexConverter(), "hex = Hex-encoded string"),
-	BITS("bits", new IntConverter(), "bits = 0,1-represented bits"),
+	BITS("bits", new BitsConverter(), "bits = 0,1-represented bits"),
 	BYTES("bytes", new BytesConverter(), "bytes = Raw bytes"),
 	ARRAY("array", new BytesConverter(), "array = Byte array");
 
