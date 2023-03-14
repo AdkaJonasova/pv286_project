@@ -1,5 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import converters.BitsConverter;
 import converters.BytesConverter;
 import converters.HexConverter;
 import converters.IntConverter;
@@ -10,6 +11,7 @@ class ConverterTest {
 	BytesConverter byteConverter = new BytesConverter();
 	HexConverter hexConverter = new HexConverter();
 	IntConverter intConverter = new IntConverter();
+	BitsConverter bitsConverter = new BitsConverter();
 
 	@Test
 	void testBytesToBytes(){
@@ -85,7 +87,7 @@ class ConverterTest {
 	}
 
 	@Test
-	void testHexToIntToBigEndian() {
+	void testHexToIntWithBigEndian() {
 		String bits = hexConverter.convertFrom("499602d2");
 		String actualResult = intConverter.convertTo(bits, "big");
 		String expectedResult = "1234567890";
@@ -94,10 +96,46 @@ class ConverterTest {
 	}
 
 	@Test
-	void testHexToIntToLittleEndian() {
+	void testHexToIntWithLittleEndian() {
 		String bits = hexConverter.convertFrom("d2029649");
 		String actualResult = intConverter.convertTo(bits, "little");
 		String expectedResult = "1234567890";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testBitsWithSpacesToBytes() {
+		String bits = bitsConverter.convertFrom("100 1111 0100 1011", null);
+		String actualResult = byteConverter.convertTo(bits);
+		String expectedResult = "OK";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testBitsWithLeftPadToBytes() {
+		String bits = bitsConverter.convertFrom("100111101001011", "left");
+		String actualResult = byteConverter.convertTo(bits);
+		String expectedResult = "OK";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testBitsWithRightPadToHex() {
+		String bits = bitsConverter.convertFrom("100111101001011", "right");
+		String actualResult = hexConverter.convertTo(bits);
+		String expectedResult = "9e96";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testBytesToBits() {
+		String bits = byteConverter.convertFrom("OK", null);
+		String actualResult = bitsConverter.convertTo(bits, null);
+		String expectedResult = "0100111101001011";
 
 		assertEquals(expectedResult, actualResult);
 	}
