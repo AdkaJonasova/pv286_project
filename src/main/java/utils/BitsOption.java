@@ -22,6 +22,15 @@ public enum BitsOption {
 		return description;
 	}
 
+	public static BitsOption fromString(String text) {
+		for (BitsOption bitsOption : BitsOption.values()) {
+			if (bitsOption.getText().equalsIgnoreCase(text)) {
+				return bitsOption;
+			}
+		}
+		return null;
+	}
+
 	public static boolean contains(String value) {
 		return Arrays.stream(values()).anyMatch(option -> option.getText().equals(value));
 	}
