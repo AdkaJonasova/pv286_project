@@ -9,7 +9,7 @@ public enum Format {
 	HEX("hex", new HexConverter(), "hex = Hex-encoded string"),
 	BITS("bits", new BitsConverter(), "bits = 0,1-represented bits"),
 	BYTES("bytes", new BytesConverter(), "bytes = Raw bytes"),
-	ARRAY("array", new BytesConverter(), "array = Byte array");
+	ARRAY("array", new ArrayConverter(), "array = Byte array");
 
 	private final String text;
 	private final Converter converter;
