@@ -1,9 +1,11 @@
 package input;
 
+import utils.Format;
+
 public class ParserResult {
 
-    private String from;
-    private String to;
+    private Format from;
+    private Format to;
     private String fromOption;
     private String toOption;
     private String inputFile;
@@ -11,7 +13,7 @@ public class ParserResult {
     private String delimiter;
     private boolean shouldPrintHelp;
 
-    public ParserResult(String from, String to, String fromOption, String toOption, String inputFile, String outputFile,
+    public ParserResult(Format from, Format to, String fromOption, String toOption, String inputFile, String outputFile,
                         String delimiter, boolean shouldPrintHelp) {
         this.from = from;
         this.to = to;
@@ -25,19 +27,19 @@ public class ParserResult {
 
     //region Setters and Getters
     public String getFrom() {
-        return from;
+        return from.getText();
     }
 
     public void setFrom(String from) {
-        this.from = from;
+        this.from = Format.fromString(from);
     }
 
     public String getTo() {
-        return to;
+        return to.getText();
     }
 
     public void setTo(String to) {
-        this.to = to;
+        this.to = Format.fromString(to);
     }
 
     public String getFromOption() {
