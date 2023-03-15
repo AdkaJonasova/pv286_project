@@ -10,13 +10,9 @@ public class HexConverter extends Converter {
 	}
 
 	public String convertTo(String bitStr) {
-		StringBuilder builder = new StringBuilder();
+		bitStr = addMissingZerosToBitString(bitStr);
 
-		StringBuilder bitStrBuilder = new StringBuilder(bitStr);
-		while (bitStrBuilder.length() % 4 != 0) {
-			bitStrBuilder.insert(0, "0");
-		}
-		bitStr = bitStrBuilder.toString();
+		StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < bitStr.length(); i += 4) {
 			String nibble = bitStr.substring(i, i + 4);

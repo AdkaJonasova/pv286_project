@@ -7,6 +7,8 @@ public class BytesConverter extends Converter {
 	}
 
 	public String convertTo(String bitStr) {
+		bitStr = addMissingZerosToBitString(bitStr);
+
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < bitStr.length(); i += 8) {
 			String byteString = bitStr.substring(i, Math.min(i + 8, bitStr.length()));
