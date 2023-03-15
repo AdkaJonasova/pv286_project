@@ -36,7 +36,7 @@ public enum ArrayOption implements IOption{
 		return description;
 	}
 
-	public ArrayOption fromString(String text) {
+	public static ArrayOption fromString(String text) {
 		for (ArrayOption arrayOption : ArrayOption.values()) {
 			if (arrayOption.getText().equalsIgnoreCase(text)) {
 				return arrayOption;
