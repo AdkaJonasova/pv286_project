@@ -9,7 +9,7 @@ import static utils.IntOption.LITTLE;
 public class IntConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, String option) {
-		IntOption endian = Separator.isEmpty(option) ? IntOption.fromString(option) : BIG;
+		IntOption endian = Separator.isEmpty(option) ? BIG : IntOption.fromString(option);
 
 		if (LITTLE.equals(endian)){
 			StringBuilder builder = new StringBuilder();
@@ -34,7 +34,7 @@ public class IntConverter extends Converter {
 		StringBuilder result = new StringBuilder();
 
 		bitStr = addMissingZerosToBitString(bitStr);
-		IntOption endian = Separator.isEmpty(option) ? IntOption.fromString(option) : BIG;
+		IntOption endian = Separator.isEmpty(option) ? BIG : IntOption.fromString(option);
 
 		if (LITTLE.equals(endian)){
 			for (int i = bitStr.length() - 1; i >= 0; i -= 8) {
