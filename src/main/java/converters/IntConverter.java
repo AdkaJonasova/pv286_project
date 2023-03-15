@@ -3,13 +3,13 @@ package converters;
 import utils.IntOption;
 import utils.Separator;
 
+import static utils.IntOption.BIG;
 import static utils.IntOption.LITTLE;
 
 public class IntConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, String option) {
-		option = Separator.isEmpty(option) ? "big" : option;
-		IntOption endian = IntOption.fromString(option);
+		IntOption endian = Separator.isEmpty(option) ? IntOption.fromString(option) : BIG;
 
 		if (LITTLE.equals(endian)){
 			StringBuilder builder = new StringBuilder();
@@ -34,9 +34,7 @@ public class IntConverter extends Converter {
 		StringBuilder result = new StringBuilder();
 
 		bitStr = addMissingZerosToBitString(bitStr);
-
-		option = Separator.isEmpty(option) ? "big" : option;
-		IntOption endian = IntOption.fromString(option);
+		IntOption endian = Separator.isEmpty(option) ? IntOption.fromString(option) : BIG;
 
 		if (LITTLE.equals(endian)){
 			for (int i = bitStr.length() - 1; i >= 0; i -= 8) {
