@@ -1,9 +1,10 @@
 package input;
 
 import exception.InputParsingException;
-import utils.BitsOption;
-import utils.Format;
-import utils.IntOption;
+import options.BitsOption;
+import format.Format;
+import options.IOption;
+import options.IntOption;
 
 public class InputParser {
 
@@ -16,8 +17,8 @@ public class InputParser {
 
     private String fromRepresentation = "";
     private String toRepresentation = "";
-    private String fromOptions = "";
-    private String toOptions = "";
+    private IOption fromOptions;
+    private IOption toOptions;
     private String inputFile = "";
     private String outputFile = "";
     private String delimiter = "";
@@ -95,15 +96,13 @@ public class InputParser {
         if (shouldLookForFromOptions && argument.startsWith("--from-options")) {
             var argumentParts = argument.split("=");
             if (argumentParts.length == 2 && checkFromOption(argumentParts[1])) {
-                fromOptions = argumentParts[1];
                 return true;
             } else {
                 throw new InputParsingException("Invalid option for this from format.");
             }
         } else if (shouldLookForToOptions && argument.startsWith("--to-options")) {
             var argumentParts = argument.split("=");
-            if (argumentParts.length == 2 && checkToOption(argumentParts[1])) {
-                toOptions = argumentParts[1];
+            if (argumentParts.length == 2 && checkToOption(argumentParts[1])) {;
                 return true;
             } else {
                 throw new InputParsingException("Invalid option for this to format");
@@ -131,17 +130,20 @@ public class InputParser {
     }
 
     private boolean checkFromOption(String option) {
-        if (fromRepresentation.equals("int")) {
-            return IntOption.contains(option);
-        } else if (fromRepresentation.equals("bits")) {
-            return BitsOption.contains(option);
+        if (fromRepresentation.equals("int") && IntOption.contains(option)) {
+            fromOptions = IntOption.fromString(option);
+            return true;
+        } else if (fromRepresentation.equals("bits") && BitsOption.contains(option)) {
+            fromOptions = BitsOption.fromString(option);
+            return true;
         }
         return false;
     }
 
     private boolean checkToOption(String option) {
-        if (toRepresentation.equals("int")) {
-            return IntOption.contains(option);
+        if (toRepresentation.equals("int")&& IntOption.contains(option)) {
+            toOptions = IntOption.fromString(option);
+            return true;
         }
         return false;
     }

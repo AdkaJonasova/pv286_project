@@ -1,11 +1,13 @@
 package converters;
 
+import options.IOption;
+
 import static utils.Separator.EMPTY;
 import static utils.Separator.SPACE;
 
 public class HexConverter extends Converter {
 	@Override
-	public String convertTo(String bitStr, String option) {
+	public String convertTo(String bitStr, IOption option) {
 		return this.convertTo(bitStr);
 	}
 
@@ -24,15 +26,15 @@ public class HexConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String str, String option) {
-		return this.convertFrom(str);
+	public String convertFrom(String input, IOption option) {
+		return this.convertFrom(input);
 	}
 
-	public String convertFrom(String str) {
-		str = str.replace(SPACE.getText(), EMPTY.getText());
+	public String convertFrom(String input) {
+		input = input.replace(SPACE.getText(), EMPTY.getText());
 		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < str.length(); i++) {
-			String binaryString = String.format("%4s", Integer.toBinaryString(Character.digit(str.charAt(i), 16)))
+		for (int i = 0; i < input.length(); i++) {
+			String binaryString = String.format("%4s", Integer.toBinaryString(Character.digit(input.charAt(i), 16)))
 					.replace(' ', '0');
 			builder.append(binaryString);
 		}

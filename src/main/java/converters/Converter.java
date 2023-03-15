@@ -1,12 +1,13 @@
 package converters;
 
-import utils.BitsOption;
+import options.BitsOption;
+import options.IOption;
 
-import static utils.BitsOption.LEFT;
+import static options.BitsOption.LEFT;
 
 public abstract class Converter {
-	public abstract String convertTo(String bitStr, String option);
-	public abstract String convertFrom(String str, String option);
+	public abstract String convertTo(String bitStr, IOption option);
+	public abstract String convertFrom(String input, IOption option);
 
 	protected static String addMissingZerosToBitString(String bitStr){
 		return addMissingZerosToBitString(bitStr, LEFT);

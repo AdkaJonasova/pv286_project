@@ -1,8 +1,8 @@
-package utils;
+package options;
 
 import java.util.Arrays;
 
-public enum BitsOption {
+public enum BitsOption implements IOption {
 	LEFT("left", "left = If necessary, pad input with zero bits from left -> default"),
 	RIGHT("right", "right = If necessary, pad input with zero bits from right");
 
@@ -14,10 +14,12 @@ public enum BitsOption {
 		this.description = description;
 	}
 
+	@Override
 	public String getText() {
 		return text;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
 	}

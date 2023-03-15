@@ -1,3 +1,7 @@
+import static options.BitsOption.LEFT;
+import static options.BitsOption.RIGHT;
+import static options.IntOption.BIG;
+import static options.IntOption.LITTLE;
 import static org.junit.jupiter.api.Assertions.*;
 
 import converters.*;
@@ -59,7 +63,7 @@ class ConverterTest {
 
 	@Test
 	void testIntWithBigEndianToHex() {
-		String bits = intConverter.convertFrom("1234567890", "big");
+		String bits = intConverter.convertFrom("1234567890", BIG);
 		String actualResult = hexConverter.convertTo(bits);
 		String expectedResult = "499602d2";
 
@@ -68,7 +72,7 @@ class ConverterTest {
 
 	@Test
 	void testIntWithLittleEndianToHex() {
-		String bits = intConverter.convertFrom("1234567890", "little");
+		String bits = intConverter.convertFrom("1234567890", LITTLE);
 		String actualResult = hexConverter.convertTo(bits);
 		String expectedResult = "d2029649";
 
@@ -87,7 +91,7 @@ class ConverterTest {
 	@Test
 	void testHexToIntWithBigEndian() {
 		String bits = hexConverter.convertFrom("499602d2");
-		String actualResult = intConverter.convertTo(bits, "big");
+		String actualResult = intConverter.convertTo(bits, BIG);
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
@@ -96,7 +100,7 @@ class ConverterTest {
 	@Test
 	void testHexToIntWithLittleEndian() {
 		String bits = hexConverter.convertFrom("d2029649");
-		String actualResult = intConverter.convertTo(bits, "little");
+		String actualResult = intConverter.convertTo(bits, LITTLE);
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
@@ -113,7 +117,7 @@ class ConverterTest {
 
 	@Test
 	void testBitsWithLeftPadToBytes() {
-		String bits = bitsConverter.convertFrom("100111101001011", "left");
+		String bits = bitsConverter.convertFrom("100111101001011", LEFT);
 		String actualResult = byteConverter.convertTo(bits);
 		String expectedResult = "OK";
 
@@ -122,7 +126,7 @@ class ConverterTest {
 
 	@Test
 	void testBitsWithRightPadToHex() {
-		String bits = bitsConverter.convertFrom("100111101001011", "right");
+		String bits = bitsConverter.convertFrom("100111101001011", RIGHT);
 		String actualResult = hexConverter.convertTo(bits);
 		String expectedResult = "9e96";
 

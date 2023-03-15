@@ -1,8 +1,8 @@
-package utils;
+package options;
 
 import java.util.Arrays;
 
-public enum IntOption {
+public enum IntOption implements IOption {
 	BIG("big",
 			"Store the integer in big-endian representation (most significant byte at the lowest address) -> default"),
 	LITTLE("little",
@@ -16,10 +16,12 @@ public enum IntOption {
 		this.description = description;
 	}
 
+	@Override
 	public String getText() {
 		return text;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
 	}

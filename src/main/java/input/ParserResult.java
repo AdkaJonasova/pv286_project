@@ -1,19 +1,20 @@
 package input;
 
-import utils.Format;
+import format.Format;
+import options.IOption;
 
 public class ParserResult {
 
     private final Format from;
     private final Format to;
-    private final String fromOption;
-    private final String toOption;
+    private final IOption fromOption;
+    private final IOption toOption;
     private final String inputFile;
     private final String outputFile;
     private final String delimiter;
     private final boolean shouldPrintHelp;
 
-    public ParserResult(Format from, Format to, String fromOption, String toOption, String inputFile, String outputFile,
+    public ParserResult(Format from, Format to, IOption fromOption, IOption toOption, String inputFile, String outputFile,
                         String delimiter, boolean shouldPrintHelp) {
         this.from = from;
         this.to = to;
@@ -34,11 +35,11 @@ public class ParserResult {
         return to;
     }
 
-    public String getFromOption() {
+    public IOption getFromOption() {
         return fromOption;
     }
 
-    public String getToOption() {
+    public IOption getToOption() {
         return toOption;
     }
 
