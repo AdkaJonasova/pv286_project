@@ -33,19 +33,19 @@ public enum Flag {
         return description;
     }
 
-    public String getByShort(String shortFlag) {
+    public static Flag getByShort(String shortFlag) {
         for (var flag : Flag.values()) {
             if (flag.shortVersion.equals(shortFlag)) {
-                return flag.shortVersion;
+                return flag;
             }
         }
         return null;
     }
 
-    public String getByLong(String shortFlag) {
+    public static Flag getByLong(String shortFlag) {
         for (var flag : Flag.values()) {
             if (flag.longVersion.equals(shortFlag)) {
-                return flag.longVersion;
+                return flag;
             }
         }
         return null;
