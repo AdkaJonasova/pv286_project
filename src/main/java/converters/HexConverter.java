@@ -1,11 +1,13 @@
 package converters;
 
+import options.IOption;
+
 import static utils.Separator.EMPTY;
 import static utils.Separator.SPACE;
 
 public class HexConverter extends Converter {
 	@Override
-	public String convertTo(String bitStr, String option) {
+	public String convertTo(String bitStr, IOption option) {
 		return this.convertTo(bitStr);
 	}
 
@@ -24,7 +26,7 @@ public class HexConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String str, String option) {
+	public String convertFrom(String str, IOption option) {
 		return this.convertFrom(str);
 	}
 

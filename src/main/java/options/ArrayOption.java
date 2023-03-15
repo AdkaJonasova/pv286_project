@@ -1,9 +1,9 @@
-package utils;
+package options;
 
 
 import java.util.Arrays;
 
-public enum ArrayOption {
+public enum ArrayOption implements IOption{
 	ZEROX_PREFIXED_HEX_NUMBER("0x", "0x – Represent bytes as a 0x-prefixed hex number (e.g., 0xff; default)."),
 	DECIMAL_NUMBER("0", "0 – Represent bytes as a decimal number (e.g., 255)."),
 	CHARACTERS("a", "a – Represent bytes as characters (e.g., 'a', '\\x00')"),
@@ -26,15 +26,17 @@ public enum ArrayOption {
 		this.description = description;
 	}
 
+	@Override
 	public String getText() {
 		return text;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
 	}
 
-	public static ArrayOption fromString(String text) {
+	public ArrayOption fromString(String text) {
 		for (ArrayOption arrayOption : ArrayOption.values()) {
 			if (arrayOption.getText().equalsIgnoreCase(text)) {
 				return arrayOption;

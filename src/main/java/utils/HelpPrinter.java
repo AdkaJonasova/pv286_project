@@ -1,5 +1,9 @@
 package utils;
 
+import format.Format;
+import options.BitsOption;
+import options.IntOption;
+
 public class HelpPrinter {
 
     public static void printHelp() {

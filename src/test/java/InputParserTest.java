@@ -188,8 +188,8 @@ public class InputParserTest {
             ParserResult parserResult = inputParser.parse(input);
             assertEquals(parserResult.getFrom().getText(), "bits");
             assertEquals(parserResult.getTo().getText(), "int");
-            assertEquals(parserResult.getFromOption(), "right");
-            assertEquals(parserResult.getToOption(), "big");
+            assertEquals(parserResult.getFromOption().getText(), "right");
+            assertEquals(parserResult.getToOption().getText(), "big");
         } catch (InputParsingException e) {
             System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
             assert false;
@@ -203,8 +203,8 @@ public class InputParserTest {
             ParserResult parserResult = inputParser.parse(input);
             assertEquals(parserResult.getFrom().getText(), "bits");
             assertEquals(parserResult.getTo().getText(), "int");
-            assertEquals(parserResult.getFromOption(), "right");
-            assertEquals(parserResult.getToOption(), "big");
+            assertEquals(parserResult.getFromOption().getText(), "right");
+            assertEquals(parserResult.getToOption().getText(), "big");
         } catch (InputParsingException e) {
             System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
             assert false;

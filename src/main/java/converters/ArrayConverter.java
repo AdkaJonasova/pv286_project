@@ -1,13 +1,15 @@
 package converters;
 
 
+import options.IOption;
+
 import java.util.Arrays;
 
-import static utils.ArrayOption.*;
+import static options.ArrayOption.*;
 
 public class ArrayConverter extends Converter {
 	@Override
-	public String convertTo(String bitStr, String option) {
+	public String convertTo(String bitStr, IOption option) {
 		bitStr = addMissingZerosToBitString(bitStr);
 
 		int byteArrayLength = bitStr.length() / 8;
@@ -27,7 +29,7 @@ public class ArrayConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String str, String option) {
+	public String convertFrom(String str, IOption option) {
 		return null;
 	}
 }
