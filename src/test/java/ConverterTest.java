@@ -1,9 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import converters.BitsConverter;
-import converters.BytesConverter;
-import converters.HexConverter;
-import converters.IntConverter;
+import converters.*;
 import org.junit.jupiter.api.Test;
 
 class ConverterTest {
@@ -12,6 +9,7 @@ class ConverterTest {
 	HexConverter hexConverter = new HexConverter();
 	IntConverter intConverter = new IntConverter();
 	BitsConverter bitsConverter = new BitsConverter();
+	ArrayConverter arrayConverter = new ArrayConverter();
 
 	@Test
 	void testBytesToBytes(){
@@ -136,6 +134,15 @@ class ConverterTest {
 		String bits = byteConverter.convertFrom("OK", null);
 		String actualResult = bitsConverter.convertTo(bits, null);
 		String expectedResult = "0100111101001011";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToArray() {
+		String bits = hexConverter.convertFrom("01020304", null);
+		String actualResult = arrayConverter.convertTo(bits, null);
+		String expectedResult = "{0x1, 0x2, 0x3, 0x4}";
 
 		assertEquals(expectedResult, actualResult);
 	}
