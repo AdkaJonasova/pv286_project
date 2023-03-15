@@ -22,15 +22,15 @@ public class BytesConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String str, IOption option) {
-		return this.convertFrom(str);
+	public String convertFrom(String input, IOption option) {
+		return this.convertFrom(input);
 	}
 
-	public String convertFrom(String str) {
-		StringBuilder result = new StringBuilder();
-		for (int i = 0; i < str.length(); i++) {
+	public String convertFrom(String input) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < input.length(); i++) {
 			StringBuilder binaryBuilder = new StringBuilder();
-			int charValue = str.charAt(i);
+			int charValue = input.charAt(i);
 			while (charValue > 0) {
 				binaryBuilder.append(charValue % 2);
 				charValue /= 2;
@@ -38,8 +38,8 @@ public class BytesConverter extends Converter {
 			while (binaryBuilder.length() < 8) {
 				binaryBuilder.append(0);
 			}
-			result.append(binaryBuilder.reverse());
+			builder.append(binaryBuilder.reverse());
 		}
-		return result.toString();
+		return builder.toString();
 	}
 }

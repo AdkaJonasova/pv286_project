@@ -29,10 +29,10 @@ public class IntConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String str, IOption option) {
+	public String convertFrom(String input, IOption option) {
 		IntOption endian = option == null ? BIG : (IntOption) option;
 
-		long unsignedInt = Long.parseUnsignedLong(str);
+		long unsignedInt = Long.parseUnsignedLong(input);
 		String bitStr = Long.toBinaryString(unsignedInt);
 		StringBuilder result = new StringBuilder();
 

@@ -17,10 +17,10 @@ public class BitsConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String str, IOption option) {
+	public String convertFrom(String input, IOption option) {
 		BitsOption padSide = option == null ? LEFT : (BitsOption) option;
 
-		str = str.replace(SPACE.getText(), EMPTY.getText());
-		return addMissingZerosToBitString(str, padSide);
+		input = input.replace(SPACE.getText(), EMPTY.getText());
+		return addMissingZerosToBitString(input, padSide);
 	}
 }

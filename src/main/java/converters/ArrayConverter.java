@@ -29,7 +29,7 @@ public class ArrayConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String str, IOption option) {
+	public String convertFrom(String input, IOption option) {
 		return null;
 	}
 }

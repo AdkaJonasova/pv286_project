@@ -7,7 +7,7 @@ import static options.BitsOption.LEFT;
 
 public abstract class Converter {
 	public abstract String convertTo(String bitStr, IOption option);
-	public abstract String convertFrom(String str, IOption option);
+	public abstract String convertFrom(String input, IOption option);
 
 	protected static String addMissingZerosToBitString(String bitStr){
 		return addMissingZerosToBitString(bitStr, LEFT);
