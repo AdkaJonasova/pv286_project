@@ -5,20 +5,18 @@ import options.BitsOption;
 import format.Format;
 import options.IOption;
 import options.IntOption;
+import utils.Flag;
+
+import java.util.Objects;
 
 public class InputParser {
 
-    private boolean fromFlag = false;
-    private boolean toFlag = false;
-    private boolean inputFileFlag = false;
-    private boolean outputFileFlag = false;
-    private boolean delimiterFlag = false;
-    private boolean helpFlag = false;
+    private Flag currentFlag = null;
 
     private String fromRepresentation = "";
     private String toRepresentation = "";
-    private IOption fromOptions;
-    private IOption toOptions;
+    private IOption fromOptions = null;
+    private IOption toOptions = null;
     private String inputFile = "";
     private String outputFile = "";
     private String delimiter = "";
@@ -38,54 +36,61 @@ public class InputParser {
                 resetLookForOptionsFlags();
             }
             if (!optionsFound) {
-                if (argument.startsWith("-") && !isAnyFlagEnabled()) {
+                if (Objects.isNull(currentFlag) && (argument.startsWith("-") || argument.startsWith("--"))) {
                     parseFlag(argument);
-                } else {
+                } else if (Objects.nonNull(currentFlag)) {
                     parseValue(argument);
-                    resetFlags();
+                    currentFlag = null;
+                } else {
+                    throw new InputParsingException(String.format("Argument %s not allowed here", argument));
                 }
             }
             optionsFound = false;
         }
 
-        if (!helpFlag && (isAnyFlagEnabled() || fromRepresentation.equals("") || toRepresentation.equals(""))) {
+        var shouldPrintHelp = Objects.nonNull(currentFlag) && currentFlag.equals(Flag.HELP);
+        if (!shouldPrintHelp && (Objects.nonNull(currentFlag) || fromRepresentation.equals("") || toRepresentation.equals(""))) {
             throw new InputParsingException("Missing value for one of the switches.");
         }
 
         return new ParserResult(Format.fromString(fromRepresentation), Format.fromString(toRepresentation), fromOptions,
-                toOptions, inputFile, outputFile, delimiter, helpFlag);
+                toOptions, inputFile, outputFile, delimiter, shouldPrintHelp);
     }
 
     private void parseFlag(String argument) throws InputParsingException {
-        if (argument.equals("-f") && fromRepresentation.isEmpty()) {
-            fromFlag = true;
-        } else if (argument.equals("-t") && toRepresentation.isEmpty()) {
-            toFlag = true;
-        } else if (argument.equals("-i") && inputFile.isEmpty()) {
-            inputFileFlag = true;
-        } else if (argument.equals("-o") && outputFile.isEmpty()) {
-            outputFileFlag = true;
-        } else if (argument.equals("-d") && delimiter.isEmpty()) {
-            delimiterFlag = true;
-        } else if (argument.equals("-h") && !isAnyFlagEnabled()) {
-            helpFlag = true;
-        } else {
-            throw new InputParsingException("Invalid or duplicate switch encountered.");
+        // try to resolve short version of flag
+        currentFlag = Flag.getByShort(argument);
+        if (Objects.nonNull(currentFlag)) {
+            return;
         }
+
+        // long versions of flags are in format: --flag=value
+        var splitArgument= argument.split("=");
+        if (splitArgument.length != 2) {
+            throw new InputParsingException(String.format("Invalid argument encountered -> %s", argument));
+        }
+
+        // try to resolve long version of flag
+        currentFlag = Flag.getByLong(splitArgument[0]);
+        if (Objects.isNull(currentFlag)) {
+            throw new InputParsingException(String.format("Invalid flag encountered -> %s", splitArgument[0]));
+        }
+        // parse value part from long version of flag
+        parseValue(splitArgument[1]);
     }
 
     private void parseValue(String argument) throws InputParsingException {
-        if (fromFlag && checkFormat(argument)) {
+        if (currentFlag.equals(Flag.FROM) && fromRepresentation.isEmpty() && checkFormat(argument)) {
             fromRepresentation = argument;
             shouldLookForFromOptions = true;
-        } else if (toFlag && checkFormat(argument)) {
+        } else if (currentFlag.equals(Flag.TO) && toRepresentation.isEmpty() && checkFormat(argument)) {
             toRepresentation = argument;
             shouldLookForToOptions = true;
-        } else if (inputFileFlag) {
+        } else if (currentFlag.equals(Flag.INPUT_FILE)) {
             inputFile = argument;
-        } else if (outputFileFlag) {
+        } else if (currentFlag.equals(Flag.OUTPUT_FILE)) {
             outputFile = argument;
-        } else if (delimiterFlag) {
+        } else if (currentFlag.equals(Flag.DELIMITER)) {
             delimiter = argument;
         } else {
             throw new InputParsingException("Invalid value for one of the switches.");
@@ -95,29 +100,20 @@ public class InputParser {
     private boolean parseOptions(String argument) throws InputParsingException {
         if (shouldLookForFromOptions && argument.startsWith("--from-options")) {
             var argumentParts = argument.split("=");
-            if (argumentParts.length == 2 && checkFromOption(argumentParts[1])) {
+            if (argumentParts.length == 2 && resolveFromOptions(argumentParts[1])) {
                 return true;
             } else {
                 throw new InputParsingException("Invalid option for this from format.");
             }
         } else if (shouldLookForToOptions && argument.startsWith("--to-options")) {
             var argumentParts = argument.split("=");
-            if (argumentParts.length == 2 && checkToOption(argumentParts[1])) {;
+            if (argumentParts.length == 2 && resolveToOptions(argumentParts[1])) {;
                 return true;
             } else {
                 throw new InputParsingException("Invalid option for this to format");
             }
         }
         return false;
-    }
-
-    private void resetFlags() {
-        fromFlag = false;
-        toFlag = false;
-        inputFileFlag = false;
-        outputFileFlag = false;
-        delimiterFlag = false;
-        helpFlag = false;
     }
 
     private void resetLookForOptionsFlags() {
@@ -129,7 +125,7 @@ public class InputParser {
         return Format.contains(format);
     }
 
-    private boolean checkFromOption(String option) {
+    private boolean resolveFromOptions(String option) {
         if (fromRepresentation.equals("int") && IntOption.contains(option)) {
             fromOptions = IntOption.fromString(option);
             return true;
@@ -140,15 +136,11 @@ public class InputParser {
         return false;
     }
 
-    private boolean checkToOption(String option) {
-        if (toRepresentation.equals("int")&& IntOption.contains(option)) {
+    private boolean resolveToOptions(String option) {
+        if (toRepresentation.equals("int")) {
             toOptions = IntOption.fromString(option);
             return true;
         }
         return false;
-    }
-
-    private boolean isAnyFlagEnabled() {
-        return fromFlag || toFlag || inputFileFlag || outputFileFlag || delimiterFlag;
     }
 }
