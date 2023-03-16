@@ -168,6 +168,24 @@ public class InputParserTest {
         String[] input = {"-ff", "array", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
+
+    @Test
+    public void testThrowingExceptionWhenTextFromArgMissingDash() {
+        String[] input = {"-from=hex", "--to=int"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenTextFromArgIsInvalid() {
+        String[] input = {"-f=hex", "--to=int"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenFormatForTextFromArgIsInvalid() {
+        String[] input = {"--from=aray", "--to=int"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
     //endregion
 
     //region invalid args and formats positions tests
