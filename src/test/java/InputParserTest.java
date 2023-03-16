@@ -57,6 +57,18 @@ public class InputParserTest {
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
+    @Test
+    public void testCorrectParserResultWhenArgAsTextWithOptions() {
+        String[] input = {"--from=bits", "--from-options=right", "--to=int", "--to-options=big"};
+        checkParserResultWithOptions(input, "bits", "int", "right", "big");
+    }
+
+    @Test
+    public void testCorrectParserResultWhenArgAsTextWithOptionsAreSwapped() {
+        String[] input = {"--to=int", "--to-options=big", "--from=bits", "--from-options=right"};
+        checkParserResultWithOptions(input, "bits", "int", "right", "big");
+    }
+
 
     // region missing args and formats tests
     @Test
