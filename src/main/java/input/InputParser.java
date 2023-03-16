@@ -40,7 +40,6 @@ public class InputParser {
                     parseFlag(argument);
                 } else if (Objects.nonNull(currentFlag)) {
                     parseValue(argument);
-                    currentFlag = null;
                 } else {
                     throw new InputParsingException(String.format("Argument %s not allowed here", argument));
                 }
@@ -95,6 +94,7 @@ public class InputParser {
         } else {
             throw new InputParsingException("Invalid value for one of the switches.");
         }
+        currentFlag = null;
     }
 
     private boolean parseOptions(String argument) throws InputParsingException {
