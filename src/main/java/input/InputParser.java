@@ -7,14 +7,15 @@ import options.IOption;
 import options.IntOption;
 import utils.Flag;
 
+import java.text.Normalizer;
 import java.util.Objects;
 
 public class InputParser {
 
     private Flag currentFlag = null;
 
-    private String fromRepresentation = "";
-    private String toRepresentation = "";
+    private Format fromRepresentation = null;
+    private Format toRepresentation = null;
     private IOption fromOptions = null;
     private IOption toOptions = null;
     private String inputFile = "";
@@ -48,12 +49,13 @@ public class InputParser {
         }
 
         var shouldPrintHelp = Objects.nonNull(currentFlag) && currentFlag.equals(Flag.HELP);
-        if (!shouldPrintHelp && (Objects.nonNull(currentFlag) || fromRepresentation.equals("") || toRepresentation.equals(""))) {
+        if (!shouldPrintHelp &&
+                (Objects.nonNull(currentFlag) || Objects.isNull(fromRepresentation) || Objects.isNull(toRepresentation))) {
             throw new InputParsingException("Missing value for one of the switches.");
         }
 
-        return new ParserResult(Format.fromString(fromRepresentation), Format.fromString(toRepresentation), fromOptions,
-                toOptions, inputFile, outputFile, delimiter, shouldPrintHelp);
+        return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, inputFile, outputFile,
+                delimiter, shouldPrintHelp);
     }
 
     private void parseFlag(String argument) throws InputParsingException {
@@ -85,11 +87,11 @@ public class InputParser {
     }
 
     private void parseValue(String argument) throws InputParsingException {
-        if (currentFlag.equals(Flag.FROM) && fromRepresentation.isEmpty() && checkFormat(argument)) {
-            fromRepresentation = argument;
+        if (currentFlag.equals(Flag.FROM) && Objects.isNull(fromRepresentation) && checkFormat(argument)) {
+            fromRepresentation = Format.fromString(argument);
             shouldLookForFromOptions = true;
-        } else if (currentFlag.equals(Flag.TO) && toRepresentation.isEmpty() && checkFormat(argument)) {
-            toRepresentation = argument;
+        } else if (currentFlag.equals(Flag.TO) && Objects.isNull(toRepresentation) && checkFormat(argument)) {
+            toRepresentation = Format.fromString(argument);
             shouldLookForToOptions = true;
         } else if (currentFlag.equals(Flag.INPUT_FILE)) {
             inputFile = argument;
@@ -132,10 +134,10 @@ public class InputParser {
     }
 
     private boolean resolveFromOptions(String option) {
-        if (fromRepresentation.equals("int") && IntOption.contains(option)) {
+        if (fromRepresentation.equals(Format.INT) && IntOption.contains(option)) {
             fromOptions = IntOption.fromString(option);
             return true;
-        } else if (fromRepresentation.equals("bits") && BitsOption.contains(option)) {
+        } else if (fromRepresentation.equals(Format.BITS) && BitsOption.contains(option)) {
             fromOptions = BitsOption.fromString(option);
             return true;
         }
@@ -143,7 +145,7 @@ public class InputParser {
     }
 
     private boolean resolveToOptions(String option) {
-        if (toRepresentation.equals("int")) {
+        if (toRepresentation.equals(Format.INT)) {
             toOptions = IntOption.fromString(option);
             return true;
         }
