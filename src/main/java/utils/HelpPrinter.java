@@ -9,20 +9,30 @@ public class HelpPrinter {
     public static void printHelp() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("Allowed formats are: \n");
-        for (Format format : Format.values()) {
+        printAllowedFormats(builder);
+        printAllowedOptions(builder);
+        printAllowedFlags(builder);
+
+        System.out.println(builder);
+    }
+
+    private static void printAllowedFlags(StringBuilder builder) {
+        builder.append("Allowed flags are: \n");
+        for (Flag flag : Flag.values()) {
             builder.append("- ")
-                   .append(format.getDescription())
-                   .append("\n");
+                    .append(flag.getDescription())
+                    .append("\n");
         }
         builder.append("\n");
+    }
 
+    private static void printAllowedOptions(StringBuilder builder) {
         builder.append("Allowed options for int format are: \n")
-               .append("-> For input and output options \n");
+                .append("-> For input and output options \n");
         for (IntOption intOption : IntOption.values()) {
             builder.append("    - ")
-                   .append(intOption.getDescription())
-                   .append("\n");
+                    .append(intOption.getDescription())
+                    .append("\n");
         }
         builder.append("\n");
 
@@ -30,22 +40,20 @@ public class HelpPrinter {
                 .append("-> For input options \n");
         for (BitsOption bitOption : BitsOption.values()) {
             builder.append("    - ")
-                   .append(bitOption.getDescription())
-                   .append("\n");
+                    .append(bitOption.getDescription())
+                    .append("\n");
         }
         builder.append("\n");
+    }
 
-        String allowedFlags = "Allowed flags are: \n " +
-                "- -f FORMAT = Set input data format \n " +
-                "- --from-options=OPTIONS = Set input options \n " +
-                "- -t FORMAT = Set output data format \n " +
-                "- --to-options=OPTIONS = Set output options \n " +
-                "- -i FILE = Set input file (default is standard input) \n " +
-                "- -o FILE = Set output file (default is standard output) \n " +
-                "- -d DELIMITER = Record delimiter (default is newline) \n " +
-                "- -h = Print help \n\n";
-
-        builder.append(allowedFlags);
-        System.out.println(builder);
+    private static void printAllowedFormats(StringBuilder builder) {
+        builder.append("Allowed formats are: \n");
+        for (Format format : Format.values()) {
+            builder.append("- ")
+                    .append(format.getDescription())
+                    .append("\n");
+        }
+        builder.append("\n");
     }
 }
+
