@@ -28,10 +28,29 @@ public class InputParserTest {
     }
 
     @Test
-    public void testCorrectParserResultWhenDifferentTypeArgFromToAreGiven() {
+    public void testCorrectParserResultWhenFromArgAsText() {
         String[] input = {"--from=hex", "-t", "bytes"};
         checkParserResult(input, "hex", "bytes");
     }
+
+    @Test
+    public void testCorrectParserResultWhenToArgAsText() {
+        String[] input = {"-f", "bytes", "--to=hex"};
+        checkParserResult(input, "bytes", "hex");
+    }
+
+    @Test
+    public void testThrowingExceptionWhenTwoSameFromArgsAreGiven() {
+        String[] input = {"-f", "bytes", "--from=bytes" ,"--to=hex"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenTwoSameToArgsAreGiven() {
+        String[] input = {"-f", "bytes", "-t", "hex" ,"--to=hex"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
 
     // region missing args and formats tests
     @Test
