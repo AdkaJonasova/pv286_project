@@ -170,6 +170,12 @@ public class InputParserTest {
     }
 
     @Test
+    public void testThrowingExceptionWhenShortFromArgWithTwoDashes() {
+        String[] input = {"--f", "array", "-t", "hex"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
     public void testThrowingExceptionWhenTextFromArgMissingDash() {
         String[] input = {"-from=hex", "--to=int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
@@ -184,6 +190,18 @@ public class InputParserTest {
     @Test
     public void testThrowingExceptionWhenFormatForTextFromArgIsInvalid() {
         String[] input = {"--from=aray", "--to=int"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenFormatForTextFromArgIsEmpty() {
+        String[] input = {"--from=", "--to=int"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testThrowingExceptionWhenEqualsMissing() {
+        String[] input = {"--fromhex", "--to=int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
     //endregion
