@@ -63,6 +63,12 @@ public class InputParser {
             return;
         }
 
+        // try to resolve help flag
+        currentFlag = Flag.getByLong(argument);
+        if (Objects.nonNull(currentFlag) && currentFlag.equals(Flag.HELP)) {
+            return;
+        }
+
         // long versions of flags are in format: --flag=value
         var splitArgument= argument.split("=");
         if (splitArgument.length != 2) {
