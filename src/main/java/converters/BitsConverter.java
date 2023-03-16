@@ -1,24 +1,20 @@
 package converters;
 
 import options.BitsOption;
-import options.IOption;
-import options.IntOption;
-import utils.Separator;
 
 import static options.BitsOption.LEFT;
-import static options.IntOption.BIG;
 import static utils.Separator.EMPTY;
 import static utils.Separator.SPACE;
 
-public class BitsConverter extends Converter {
+public class BitsConverter extends Converter<BitsOption> {
 	@Override
-	public String convertTo(String bitStr, IOption option) {
+	public String convertTo(String bitStr, BitsOption option) {
 		return addMissingZerosToBitString(bitStr, LEFT);
 	}
 
 	@Override
-	public String convertFrom(String input, IOption option) {
-		BitsOption padSide = option == null ? LEFT : (BitsOption) option;
+	public String convertFrom(String input, BitsOption option) {
+		BitsOption padSide = option == null ? LEFT : option;
 
 		input = input.replace(SPACE.getText(), EMPTY.getText());
 		return addMissingZerosToBitString(input, padSide);

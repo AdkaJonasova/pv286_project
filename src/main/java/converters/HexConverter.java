@@ -5,7 +5,7 @@ import options.IOption;
 import static utils.Separator.EMPTY;
 import static utils.Separator.SPACE;
 
-public class HexConverter extends Converter {
+public class HexConverter extends Converter<IOption> {
 	@Override
 	public String convertTo(String bitStr, IOption option) {
 		return this.convertTo(bitStr);

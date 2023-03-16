@@ -1,16 +1,14 @@
 package converters;
 
-import options.IOption;
 import options.IntOption;
-import utils.Separator;
 
 import static options.IntOption.BIG;
 import static options.IntOption.LITTLE;
 
-public class IntConverter extends Converter {
+public class IntConverter extends Converter<IntOption> {
 	@Override
-	public String convertTo(String bitStr, IOption option) {
-		IntOption endian = option == null ? BIG : (IntOption) option;
+	public String convertTo(String bitStr, IntOption option) {
+		IntOption endian = option == null ? BIG : option;
 
 		if (LITTLE.equals(endian)){
 			StringBuilder builder = new StringBuilder();
@@ -29,8 +27,8 @@ public class IntConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String input, IOption option) {
-		IntOption endian = option == null ? BIG : (IntOption) option;
+	public String convertFrom(String input, IntOption option) {
+		IntOption endian = option == null ? BIG : option;
 
 		long unsignedInt = Long.parseUnsignedLong(input);
 		String bitStr = Long.toBinaryString(unsignedInt);

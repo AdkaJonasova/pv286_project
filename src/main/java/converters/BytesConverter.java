@@ -2,7 +2,7 @@ package converters;
 
 import options.IOption;
 
-public class BytesConverter extends Converter {
+public class BytesConverter extends Converter<IOption> {
 	@Override
 	public String convertTo(String bitStr, IOption option) {
 		return this.convertTo(bitStr);

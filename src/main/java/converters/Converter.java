@@ -5,9 +5,9 @@ import options.IOption;
 
 import static options.BitsOption.LEFT;
 
-public abstract class Converter {
-	public abstract String convertTo(String bitStr, IOption option);
-	public abstract String convertFrom(String input, IOption option);
+public abstract class Converter<Option extends IOption> {
+	public abstract String convertTo(String bitStr, Option option);
+	public abstract String convertFrom(String input, Option option);
 
 	protected static String addMissingZerosToBitString(String bitStr){
 		return addMissingZerosToBitString(bitStr, LEFT);
