@@ -27,6 +27,12 @@ public class InputParserTest {
         checkParserResult(input, "hex", "int");
     }
 
+    @Test
+    public void testCorrectParserResultWhenDifferentTypeArgFromToAreGiven() {
+        String[] input = {"--from=hex", "-t", "bytes"};
+        checkParserResult(input, "hex", "bytes");
+    }
+
     // region missing args and formats tests
     @Test
     public void testEmptyArgs() {
