@@ -3,8 +3,6 @@ package converters;
 import options.BitsOption;
 
 import static options.BitsOption.LEFT;
-import static utils.Separator.EMPTY;
-import static utils.Separator.SPACE;
 
 public class BitsConverter extends Converter<BitsOption> {
 	@Override
@@ -16,7 +14,7 @@ public class BitsConverter extends Converter<BitsOption> {
 	public String convertFrom(String input, BitsOption option) {
 		BitsOption padSide = option == null ? LEFT : option;
 
-		input = input.replace(SPACE.getText(), EMPTY.getText());
+		input = input.replace(" ", "");
 		return addMissingZerosToBitString(input, padSide);
 	}
 }

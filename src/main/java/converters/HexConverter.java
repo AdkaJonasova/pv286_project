@@ -2,8 +2,6 @@ package converters;
 
 import options.IOption;
 
-import static utils.Separator.EMPTY;
-import static utils.Separator.SPACE;
 
 public class HexConverter extends Converter<IOption> {
 	@Override
@@ -31,7 +29,7 @@ public class HexConverter extends Converter<IOption> {
 	}
 
 	public String convertFrom(String input) {
-		input = input.replace(SPACE.getText(), EMPTY.getText());
+		input = input.replace(" ", "");
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < input.length(); i++) {
 			String binaryString = String.format("%4s", Integer.toBinaryString(Character.digit(input.charAt(i), 16)))
