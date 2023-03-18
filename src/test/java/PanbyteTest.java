@@ -62,6 +62,69 @@ public class PanbyteTest {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    @Test
+    public void testFromHexToInt() {
+        String echo = "499602d2";
+        String[] args = {"-f", "hex","-t", "int"};
+        String expectedOutput = "1234567890";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromHexToIntOptionsBig() {
+        String echo = "499602d2";
+        String[] args = {"-f", "hex","-t", "int" ,"--to-options=big"};
+        String expectedOutput = "1234567890";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromHexToIntOptionsLittle() {
+        String echo = "d2029649";
+        String[] args = {"-f", "hex","-t", "int" ,"--to-options=little"};
+        String expectedOutput = "1234567890";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromBitsToBytes() {
+        String echo = "100 1111 0100 1011";
+        String[] args = {"-f", "bits","-t", "bytes"};
+        String expectedOutput = "OK";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromBitsOptionsLeftToBytes() {
+        String echo = "100111101001011";
+        String[] args = {"-f", "bits", "--from-options=left", "-t", "bytes"};
+        String expectedOutput = "OK";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromBitsOptionsRightToHex() {
+        String echo = "100111101001011";
+        String[] args = {"-f", "bits", "--from-options=right", "-t", "hex"};
+        String expectedOutput = "9e96";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromBytesToBits() {
+        String echo = "OK";
+        String[] args = {"-f", "bytes", "-t", "bits"};
+        String expectedOutput = "0100111101001011";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
 
     private String getOutputOfProgramCall(String echo, String[] args) {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes());
