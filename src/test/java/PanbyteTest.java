@@ -53,6 +53,15 @@ public class PanbyteTest {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    @Test
+    public void testInputFrom1234567890IntWithOptionsLittleToHexExpected499602d2() {
+        String echo = "1234567890";
+        String[] args = {"-f", "int", "--from-options=little" ,"-t", "hex"};
+        String expectedOutput = "d2029649";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
 
     private String getOutputOfProgramCall(String echo, String[] args) {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes());
