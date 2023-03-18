@@ -7,7 +7,6 @@ import options.IOption;
 import options.IntOption;
 import utils.Flag;
 
-import java.text.Normalizer;
 import java.util.Objects;
 
 public class InputParser {
@@ -26,9 +25,7 @@ public class InputParser {
     private boolean shouldLookForToOptions = false;
 
     public ParserResult parse(String[] input) throws InputParsingException {
-        if (input.length == 0) {
-            throw new InputParsingException("Cannot run program without any arguments.");
-        }
+        assertInputNonEmpty(input);
 
         var optionsFound = false;
         for (var argument : input) {
@@ -60,6 +57,8 @@ public class InputParser {
         clearAttributes();
         return result;
     }
+
+
 
     private void parseFlag(String argument) throws InputParsingException {
         // try to resolve short version of flag
@@ -157,6 +156,12 @@ public class InputParser {
             return true;
         }
         return false;
+    }
+
+    private void assertInputNonEmpty(String[] input) throws InputParsingException {
+        if (input.length == 0) {
+            throw new InputParsingException("Cannot run program without any arguments.");
+        }
     }
 
     private void resetLookForOptionsFlags() {
