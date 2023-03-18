@@ -33,7 +33,8 @@ public class InputParser {
                 optionsFound = parseOptions(argument);
             }
             if (!optionsFound) {
-                if (Objects.isNull(currentFlag) && (argument.startsWith("-") || argument.startsWith("--"))) {
+                if (Objects.isNull(currentFlag) &&
+                        (argument.startsWith(ParserConstants.SHORT_FLAG_START) || argument.startsWith(ParserConstants.LONG_FLAG_START))) {
                     parseFlag(argument);
                 } else if (Objects.nonNull(currentFlag)) {
                     parseValue(argument);
@@ -67,14 +68,14 @@ public class InputParser {
             return;
         }
 
-        // try to resolve help flag
+        // try to resolve help flag since it is the only flag without value
         currentFlag = Flag.getByLong(argument);
         if (Objects.nonNull(currentFlag) && currentFlag.equals(Flag.HELP)) {
             return;
         }
 
         // long versions of flags are in format: --flag=value
-        var splitArgument= argument.split("=");
+        var splitArgument= argument.split(ParserConstants.LONG_ATTR_DELIMITER);
         if (splitArgument.length != 2) {
             throw new InputParsingException(String.format("Invalid argument encountered -> %s", argument));
         }
@@ -113,7 +114,7 @@ public class InputParser {
             if (!shouldLookForFromOptions) {
                 throw new InputParsingException("From options not allowed here");
             }
-            var argumentParts = argument.split("=");
+            var argumentParts = argument.split(ParserConstants.LONG_ATTR_DELIMITER);
             if (argumentParts.length == 2 && resolveFromOptions(argumentParts[1])) {
                 return true;
             } else {
@@ -125,7 +126,7 @@ public class InputParser {
             if (!shouldLookForToOptions) {
                 throw new InputParsingException("To options not allowed here");
             }
-            var argumentParts = argument.split("=");
+            var argumentParts = argument.split(ParserConstants.LONG_ATTR_DELIMITER);
             if (argumentParts.length == 2 && resolveToOptions(argumentParts[1])) {;
                 return true;
             } else {
