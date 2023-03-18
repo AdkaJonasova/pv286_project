@@ -54,8 +54,10 @@ public class InputParser {
             throw new InputParsingException("Missing value for one of the switches.");
         }
 
-        return new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, inputFile, outputFile,
-                delimiter, shouldPrintHelp);
+        var result = new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, inputFile,
+                outputFile, delimiter, shouldPrintHelp);
+        clearAttributes();
+        return result;
     }
 
     private void parseFlag(String argument) throws InputParsingException {
@@ -159,5 +161,17 @@ public class InputParser {
     private void resetLookForOptionsFlags() {
         shouldLookForFromOptions = false;
         shouldLookForToOptions = false;
+    }
+
+    private void clearAttributes() {
+        currentFlag = null;
+        fromRepresentation = null;
+        toRepresentation = null;
+        fromOptions = null;
+        toOptions = null;
+        inputFile = "";
+        outputFile = "";
+        delimiter = "";
+        resetLookForOptionsFlags();
     }
 }
