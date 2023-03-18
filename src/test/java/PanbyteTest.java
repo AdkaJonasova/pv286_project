@@ -26,6 +26,15 @@ public class PanbyteTest {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    @Test
+    public void testInput74_65_73_74FromHexToBytesExpectedTest() {
+        String echo = "74 65 73 74";
+        String[] args = {"-f", "hex", "-t", "bytes"};
+        String expectedOutput = "test";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
     private String getOutputOfProgramCall(String echo, String[] args) {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes());
         System.setIn(byteArrayInputStream);
