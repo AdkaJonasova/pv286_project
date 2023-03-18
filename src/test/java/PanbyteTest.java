@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PanbyteTest {
 
     @Test
-    public void testInput74657374FromHexToBytesExpectedTest() {
+    public void testFromHexToBytes() {
         String echo = "74657374";
         String[] args = {"-f", "hex", "-t", "bytes"};
         String expectedOutput = "test";
@@ -18,7 +18,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testInputTestFromBytesToHexExpected74657374() {
+    public void testFromBytesToHex() {
         String echo = "test";
         String[] args = {"-f", "bytes", "-t", "hex"};
         String expectedOutput = "74657374";
@@ -27,7 +27,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testInput74_65_73_74FromHexToBytesExpectedTest() {
+    public void testFromSpacedHexToBytes() {
         String echo = "74 65 73 74";
         String[] args = {"-f", "hex", "-t", "bytes"};
         String expectedOutput = "test";
@@ -36,7 +36,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testInputFrom1234567890IntToHexExpected499602d2() {
+    public void testFromIntToHex() {
         String echo = "1234567890";
         String[] args = {"-f", "int", "-t", "hex"};
         String expectedOutput = "499602d2";
@@ -45,7 +45,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testInputFrom1234567890IntWithOptionsBigToHexExpected499602d2() {
+    public void testFromIntOptionsBigToHex() {
         String echo = "1234567890";
         String[] args = {"-f", "int", "--from-options=big" ,"-t", "hex"};
         String expectedOutput = "499602d2";
@@ -54,7 +54,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testInputFrom1234567890IntWithOptionsLittleToHexExpected499602d2() {
+    public void testFromIntOptionsLittleToHex() {
         String echo = "1234567890";
         String[] args = {"-f", "int", "--from-options=little" ,"-t", "hex"};
         String expectedOutput = "d2029649";
