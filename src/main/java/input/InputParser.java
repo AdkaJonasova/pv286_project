@@ -34,7 +34,6 @@ public class InputParser {
         for (var argument : input) {
             if (shouldLookForFromOptions || shouldLookForToOptions) {
                 optionsFound = parseOptions(argument);
-                resetLookForOptionsFlags();
             }
             if (!optionsFound) {
                 if (Objects.isNull(currentFlag) && (argument.startsWith("-") || argument.startsWith("--"))) {
@@ -44,6 +43,8 @@ public class InputParser {
                 } else {
                     throw new InputParsingException(String.format("Argument %s not allowed here", argument));
                 }
+            } else {
+                resetLookForOptionsFlags();
             }
             optionsFound = false;
         }
