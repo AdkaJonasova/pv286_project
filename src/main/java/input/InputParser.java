@@ -100,33 +100,37 @@ public class InputParser {
         } else if (currentFlag.equals(Flag.DELIMITER)) {
             delimiter = argument;
         } else {
-            throw new InputParsingException("Invalid value for one of the switches.");
+            throw new InputParsingException("Invalid value for one of the arguments.");
         }
         currentFlag = null;
     }
 
     private boolean parseOptions(String argument) throws InputParsingException {
-        if (shouldLookForFromOptions && argument.startsWith("--from-options")) {
+        // look for from options
+        if (argument.startsWith(Flag.FROM_OPTIONS.getLongVersion())) {
+            if (!shouldLookForFromOptions) {
+                throw new InputParsingException("From options not allowed here");
+            }
             var argumentParts = argument.split("=");
             if (argumentParts.length == 2 && resolveFromOptions(argumentParts[1])) {
                 return true;
             } else {
-                throw new InputParsingException("Invalid option for this from format.");
+                throw new InputParsingException(String.format("Invalid option encountered: %s", argument));
             }
-        } else if (shouldLookForToOptions && argument.startsWith("--to-options")) {
+        }
+        // look for to options
+        if (argument.startsWith(Flag.TO_OPTIONS.getLongVersion())) {
+            if (!shouldLookForToOptions) {
+                throw new InputParsingException("To options not allowed here");
+            }
             var argumentParts = argument.split("=");
             if (argumentParts.length == 2 && resolveToOptions(argumentParts[1])) {;
                 return true;
             } else {
-                throw new InputParsingException("Invalid option for this to format");
+                throw new InputParsingException(String.format("Invalid option encountered: %s", argument));
             }
         }
         return false;
-    }
-
-    private void resetLookForOptionsFlags() {
-        shouldLookForFromOptions = false;
-        shouldLookForToOptions = false;
     }
 
     private boolean checkFormat(String format) {
@@ -150,5 +154,10 @@ public class InputParser {
             return true;
         }
         return false;
+    }
+
+    private void resetLookForOptionsFlags() {
+        shouldLookForFromOptions = false;
+        shouldLookForToOptions = false;
     }
 }
