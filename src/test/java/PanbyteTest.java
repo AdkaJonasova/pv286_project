@@ -35,6 +35,25 @@ public class PanbyteTest {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    @Test
+    public void testInputFrom1234567890IntToHexExpected499602d2() {
+        String echo = "1234567890";
+        String[] args = {"-f", "int", "-t", "hex"};
+        String expectedOutput = "499602d2";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testInputFrom1234567890IntWithOptionsBigToHexExpected499602d2() {
+        String echo = "1234567890";
+        String[] args = {"-f", "int", "--from-options=big" ,"-t", "hex"};
+        String expectedOutput = "499602d2";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+
     private String getOutputOfProgramCall(String echo, String[] args) {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes());
         System.setIn(byteArrayInputStream);
