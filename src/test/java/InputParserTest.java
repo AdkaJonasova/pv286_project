@@ -266,6 +266,12 @@ public class InputParserTest {
         String[] input = {"-f", "int", "--from-options=big", "--from-options=little", "-t", "int", "--to-options=little"};
         checkParserResultWithOptions(input, "int", "int", "little", "little");
     }
+
+    @Test
+    public void testCorrectFromToDuplicateToOptions() {
+        String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big"};
+        checkParserResultWithOptions(input, "bits", "int", "right", "big");
+    }
     //endregion
 
     //region help arg
