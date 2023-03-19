@@ -33,6 +33,7 @@ public class InputParser {
                 optionsFound = parseOptions(argument);
             }
             if (!optionsFound) {
+                resetLookForOptionsFlags();
                 if (Objects.isNull(currentFlag) &&
                         (argument.startsWith(ParserConstants.SHORT_FLAG_START) || argument.startsWith(ParserConstants.LONG_FLAG_START))) {
                     parseFlag(argument);
@@ -44,8 +45,6 @@ public class InputParser {
                 } else {
                     throw new InputParsingException(String.format("Argument %s not allowed here", argument));
                 }
-            } else {
-                resetLookForOptionsFlags();
             }
             optionsFound = false;
         }
