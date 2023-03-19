@@ -11,6 +11,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
+          distribution: 'temurin'
       - name: Run build
         run: ./gradlew build --exclude-task test
 
@@ -23,6 +24,6 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-
+          distribution: 'temurin'
       - name: Run tests
         run: ./gradlew test
