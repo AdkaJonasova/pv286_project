@@ -34,7 +34,7 @@ sourceSets {
 
 test {
     testLogging {
-        events 'started', 'passed', 'failed'
+        events 'passed', 'failed'
     }
     useJUnitPlatform()
     testClassesDirs = sourceSets.test.output.classesDirs
