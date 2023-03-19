@@ -348,6 +348,18 @@ public class InputParserTest {
         String[] input = {"--from-options=left", "--to-options=big", "-f", "bits", "--from-options=left", "-t", "int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
+
+    @Test
+    public void testThrowExceptionWhenToOptionsInsteadOfFromOptions() {
+        String[] input = {"-f", "int", "--to-options=little", "-t", "int", "--to-options=little"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testThrowsExceptionWhenFromOptionsInsteadOfToOptions() {
+        String[] input = {"-f", "int", "--from-options=little", "-t", "int", "--from-options=little"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
     //endregion
 
     private List<List<String>> getFormatsVariations() {
