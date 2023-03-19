@@ -19,7 +19,7 @@ class ConverterTest {
 	void testBytesToBytes(){
 		String bits = byteConverter.convertFrom("test");
 		String actualResult = byteConverter.convertTo(bits);
-		String expectedResult = "teste";
+		String expectedResult = "test";
 
 		assertEquals(expectedResult, actualResult);
 	}
