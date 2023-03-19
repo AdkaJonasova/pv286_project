@@ -360,6 +360,18 @@ public class InputParserTest {
         String[] input = {"-f", "int", "--from-options=little", "-t", "int", "--from-options=little"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
+
+    @Test
+    public void testThrowsExceptionWhenMissingFromOptionsAfterArg() {
+        String[] input = {"-f", "bits", "--from-options=", "-t", "int", "--to-options=little"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testThrowsExceptionWhenMissingToOptionsAfterArg() {
+        String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options="};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
     //endregion
 
     private List<List<String>> getFormatsVariations() {
