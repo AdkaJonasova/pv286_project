@@ -1,4 +1,4 @@
-name: Gradle Test
+name: Test
 
 on: [push]
 
@@ -13,9 +13,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Build with Gradle
-        run: ./gradlew build --exclude-task test
 
       - name: Run tests
         run: ./gradlew test
