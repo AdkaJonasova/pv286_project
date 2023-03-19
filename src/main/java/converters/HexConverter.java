@@ -2,7 +2,6 @@ package converters;
 
 import options.IOption;
 
-
 public class HexConverter extends Converter<IOption> {
 	@Override
 	public String convertTo(String bitStr, IOption option) {

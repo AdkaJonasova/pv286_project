@@ -67,6 +67,6 @@ public class ParserResult {
                 "Input file = %s, Output file = %s \n" +
                 "Delimiter = %s, Print help = %s";
         return String
-                .format(formatString, from, fromOption, to, toOption, getInputFile(), getOutputFile(), getDelimiter(), shouldPrintHelp);
+                .format(formatString, from, fromOption, to, toOption, inputFile, outputFile, delimiter, shouldPrintHelp);
     }
 }

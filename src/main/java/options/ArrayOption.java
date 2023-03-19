@@ -1,6 +1,5 @@
 package options;
 
-
 import java.util.Arrays;
 
 public enum ArrayOption implements IOption{

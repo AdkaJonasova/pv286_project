@@ -1,6 +1,5 @@
 package converters;
 
-
 import options.ArrayOption;
 
 import java.util.Arrays;
