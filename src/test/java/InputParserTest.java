@@ -333,7 +333,7 @@ public class InputParserTest {
 
     @Test
     public void testThrowingExceptionWhenBitsToOptionsAreSet() {
-        String[] input = {"-t", "bits", "--from-options=left", "-f", "int", "--to-options=left"};
+        String[] input = {"-t", "bits", "--to-options=left", "-f", "int", "--from-options=left"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
