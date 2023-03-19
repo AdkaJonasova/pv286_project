@@ -36,6 +36,9 @@ public class InputParser {
                 if (Objects.isNull(currentFlag) &&
                         (argument.startsWith(ParserConstants.SHORT_FLAG_START) || argument.startsWith(ParserConstants.LONG_FLAG_START))) {
                     parseFlag(argument);
+                    if (checkHelpFlag(input)) {
+                        break;
+                    }
                 } else if (Objects.nonNull(currentFlag)) {
                     parseValue(argument);
                 } else {
@@ -58,8 +61,6 @@ public class InputParser {
         clearAttributes();
         return result;
     }
-
-
 
     private void parseFlag(String argument) throws InputParsingException {
         // try to resolve short version of flag
@@ -138,6 +139,20 @@ public class InputParser {
 
     private boolean checkFormat(String format) {
         return Format.contains(format);
+    }
+
+    private boolean isHelpFlagAllowed(String[] input) {
+        return input.length == 1;
+    }
+
+    private boolean checkHelpFlag(String[] input) throws InputParsingException {
+        if (Objects.nonNull(currentFlag) && currentFlag.equals(Flag.HELP)) {
+            if (isHelpFlagAllowed(input)) {
+                return true;
+            }
+            throw new InputParsingException("Help argument is not allowed here.");
+        }
+        return false;
     }
 
     private boolean resolveFromOptions(String option) {
