@@ -290,8 +290,14 @@ public class InputParserTest {
     }
 
     @Test
-    public void testThrowExceptionWhenHelpWithOtherArgs() {
+    public void testThrowExceptionWhenHelpFirstWithOtherArgs() {
         String[] input = {"-h", "-f", "bits", "-to", "int"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testThrowExceptionWhenHelpLastWithOtherArgs() {
+        String[] input = {"-f", "bits", "-t", "int", "-h"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
     //endregion
