@@ -288,6 +288,12 @@ public class InputParserTest {
             assert false;
         }
     }
+
+    @Test
+    public void testThrowExceptionWhenHelpWithOtherArgs() {
+        String[] input = {"-h", "-f", "bits", "-to", "int"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
     //endregion
 
     //region invalid options
