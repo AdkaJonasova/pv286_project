@@ -255,12 +255,16 @@ public class InputParserTest {
         checkParserResultWithOptions(input, "bits", "int", "right", "big");
     }
 
-
-
     @Test
     public void testCorrectParseResultWhenPositionsOfArgsWithOptionsAreSwapped() {
         String[] input = {"-t", "int", "--to-options=big", "-f", "bits", "--from-options=right" };
         checkParserResultWithOptions(input, "bits", "int", "right", "big");
+    }
+
+    @Test
+    public void testCorrectFromToDuplicateFromOptions() {
+        String[] input = {"-f", "int", "--from-options=big", "--from-options=little", "-t", "int", "--to-options=little"};
+        checkParserResultWithOptions(input, "int", "int", "little", "little");
     }
     //endregion
 
@@ -324,12 +328,6 @@ public class InputParserTest {
     @Test
     public void testThrowingExceptionWhenBitsToOptionsAreSet() {
         String[] input = {"-t", "bits", "--from-options=left", "-f", "int", "--to-options=left"};
-        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
-    }
-
-    @Test
-    public void testThrowingExceptionWhenBitsHaveTwoFromOptions() {
-        String[] input = {"-f", "bits", "--from-options=left", "--from-options=left", "-t", "int", "--to-options=big"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
