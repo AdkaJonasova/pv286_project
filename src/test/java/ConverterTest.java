@@ -37,7 +37,7 @@ public class ConverterTest {
 	@Test
 	void testBytesToHex() {
 		String bits = byteConverter.convertFrom("test");
-		String actualResult = hexConverter.convertTo(bits);
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "74657374";
 
 		assertEquals(expectedResult, actualResult);
@@ -56,7 +56,7 @@ public class ConverterTest {
 	@Test
 	void testIntToHex() {
 		String bits = intConverter.convertFrom("1234567890", null);
-		String actualResult = hexConverter.convertTo(bits);
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "499602d2";
 
 		assertEquals(expectedResult, actualResult);
@@ -65,7 +65,7 @@ public class ConverterTest {
 	@Test
 	void testIntWithBigEndianToHex() {
 		String bits = intConverter.convertFrom("1234567890", List.of(BIG));
-		String actualResult = hexConverter.convertTo(bits);
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "499602d2";
 
 		assertEquals(expectedResult, actualResult);
@@ -74,7 +74,7 @@ public class ConverterTest {
 	@Test
 	void testIntWithLittleEndianToHex() {
 		String bits = intConverter.convertFrom("1234567890", List.of(LITTLE));
-		String actualResult = hexConverter.convertTo(bits);
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "d2029649";
 
 		assertEquals(expectedResult, actualResult);
@@ -128,7 +128,7 @@ public class ConverterTest {
 	@Test
 	void testBitsWithRightPadToHex() {
 		String bits = bitsConverter.convertFrom("100111101001011", List.of(RIGHT));
-		String actualResult = hexConverter.convertTo(bits);
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "9e96";
 
 		assertEquals(expectedResult, actualResult);

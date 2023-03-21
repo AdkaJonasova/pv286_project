@@ -1,6 +1,8 @@
 package converters;
 
 import options.ArrayOption;
+import options.BitsOption;
+import options.HexOption;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +23,20 @@ public class ArrayConverter extends Converter<ArrayOption> {
 			int startIndex = i * 8;
 			int endIndex = startIndex + 8;
 			String byteString = bitStr.substring(startIndex, endIndex);
-			String byteValue = new HexConverter().convertTo(byteString);
-			byteArray[i] = "0x" + (byteValue.startsWith("0") ? byteValue.charAt(1) : byteValue);
+
+			if (representation.equals(ZEROX_PREFIXED_HEX_NUMBER)){
+				String byteValue = new HexConverter().convertTo(byteString, List.of(HexOption.SHORT));
+				byteArray[i] = "0x" + byteValue;
+			} else if (representation.equals(DECIMAL_NUMBER)){
+				String byteValue = new IntConverter().convertTo(byteString, null);
+				byteArray[i] = byteValue;
+			} else if (representation.equals(ZEROB_PREFIXED_BINARY_NUMBER)) {
+				String byteValue = new BitsConverter().convertTo(byteString, List.of(BitsOption.SHORT));
+				byteArray[i] = "0b" + byteValue;
+			} else {
+				String byteValue = new HexConverter().convertTo(byteString, null);
+				byteArray[i] = "\\x" + byteValue;
+			}
 		}
 
 		String result = Arrays.toString(byteArray);
