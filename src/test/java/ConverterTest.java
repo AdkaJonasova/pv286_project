@@ -1,3 +1,4 @@
+import static options.ArrayOption.*;
 import static options.BitsOption.LEFT;
 import static options.BitsOption.RIGHT;
 import static options.IntOption.BIG;
@@ -148,6 +149,33 @@ public class ConverterTest {
 		String bits = hexConverter.convertFrom("01020304", null);
 		String actualResult = arrayConverter.convertTo(bits, null);
 		String expectedResult = "{0x1, 0x2, 0x3, 0x4}";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToArrayWithDecimal() {
+		String bits = hexConverter.convertFrom("01020304", null);
+		String actualResult = arrayConverter.convertTo(bits, List.of(DECIMAL_NUMBER));
+		String expectedResult = "{1, 2, 3, 4}";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToArrayWithChars() {
+		String bits = hexConverter.convertFrom("01020304", null);
+		String actualResult = arrayConverter.convertTo(bits, List.of(CHARACTERS));
+		String expectedResult = "{'\\x01', '\\x02', '\\x03', '\\x04'}";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToArrayWithBinary() {
+		String bits = hexConverter.convertFrom("01020304", null);
+		String actualResult = arrayConverter.convertTo(bits, List.of(ZEROB_PREFIXED_BINARY_NUMBER));
+		String expectedResult = "{0b1, 0b10, 0b11, 0b100}";
 
 		assertEquals(expectedResult, actualResult);
 	}

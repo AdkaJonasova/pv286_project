@@ -35,7 +35,7 @@ public class ArrayConverter extends Converter<ArrayOption> {
 				byteArray[i] = "0b" + byteValue;
 			} else {
 				String byteValue = new HexConverter().convertTo(byteString, null);
-				byteArray[i] = "\\x" + byteValue;
+				byteArray[i] = "'\\x" + byteValue + "'";
 			}
 		}
 
