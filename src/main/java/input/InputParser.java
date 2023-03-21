@@ -7,22 +7,35 @@ import options.IOption;
 import options.IntOption;
 import utils.Flag;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class InputParser {
 
-    private Flag currentFlag = null;
+    private Flag currentFlag;
 
-    private Format fromRepresentation = null;
-    private Format toRepresentation = null;
-    private IOption fromOptions = null;
-    private IOption toOptions = null;
-    private String inputFile = "";
-    private String outputFile = "";
-    private String delimiter = "";
+    private Format fromRepresentation;
+    private Format toRepresentation;
+    private List<IOption> fromOptions;
+    private List<IOption> toOptions;
+    private String inputFile;
+    private String outputFile;
+    private String delimiter;
 
     private boolean shouldLookForFromOptions = false;
     private boolean shouldLookForToOptions = false;
+
+    public InputParser(){
+        this.currentFlag = null;
+        this.fromRepresentation = null;
+        this.toRepresentation = null;
+        this.fromOptions = new ArrayList<>();
+        this.toOptions = new ArrayList<>();
+        this.inputFile = "";
+        this.outputFile = "";
+        this.delimiter = "";
+    }
 
     public ParserResult parse(String[] input) throws InputParsingException {
         assertInputNonEmpty(input);
@@ -156,10 +169,10 @@ public class InputParser {
 
     private boolean resolveFromOptions(String option) {
         if (fromRepresentation.equals(Format.INT) && IntOption.contains(option)) {
-            fromOptions = IntOption.fromString(option);
+            fromOptions.add(IntOption.fromString(option));
             return true;
         } else if (fromRepresentation.equals(Format.BITS) && BitsOption.contains(option)) {
-            fromOptions = BitsOption.fromString(option);
+            fromOptions.add(BitsOption.fromString(option));
             return true;
         }
         return false;
@@ -167,7 +180,7 @@ public class InputParser {
 
     private boolean resolveToOptions(String option) {
         if (toRepresentation.equals(Format.INT)) {
-            toOptions = IntOption.fromString(option);
+            toOptions.add(IntOption.fromString(option));
             return true;
         }
         return false;
@@ -188,8 +201,8 @@ public class InputParser {
         currentFlag = null;
         fromRepresentation = null;
         toRepresentation = null;
-        fromOptions = null;
-        toOptions = null;
+        fromOptions = new ArrayList<>();
+        toOptions = new ArrayList<>();
         inputFile = "";
         outputFile = "";
         delimiter = "";

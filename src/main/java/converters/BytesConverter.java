@@ -2,9 +2,11 @@ package converters;
 
 import options.IOption;
 
+import java.util.List;
+
 public class BytesConverter extends Converter<IOption> {
 	@Override
-	public String convertTo(String bitStr, IOption option) {
+	public String convertTo(String bitStr, List<IOption> options) {
 		return this.convertTo(bitStr);
 	}
 
@@ -22,7 +24,7 @@ public class BytesConverter extends Converter<IOption> {
 	}
 
 	@Override
-	public String convertFrom(String input, IOption option) {
+	public String convertFrom(String input, List<IOption> options) {
 		return this.convertFrom(input);
 	}
 

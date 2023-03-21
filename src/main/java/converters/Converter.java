@@ -3,11 +3,13 @@ package converters;
 import options.BitsOption;
 import options.IOption;
 
+import java.util.List;
+
 import static options.BitsOption.LEFT;
 
-public abstract class Converter<Option extends IOption> {
-	public abstract String convertTo(String bitStr, Option option);
-	public abstract String convertFrom(String input, Option option);
+public abstract class Converter<O extends IOption> {
+	public abstract String convertTo(String bitStr, List<O> options);
+	public abstract String convertFrom(String input, List<O> options);
 
 	protected static String addMissingZerosToBitString(String bitStr){
 		return addMissingZerosToBitString(bitStr, LEFT);

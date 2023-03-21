@@ -1,6 +1,7 @@
 package options;
 
 import java.util.Arrays;
+import java.util.List;
 
 public enum ArrayOption implements IOption{
 	ZEROX_PREFIXED_HEX_NUMBER("0x", "0x – Represent bytes as a 0x-prefixed hex number (e.g., 0xff; default)."),
@@ -34,6 +35,36 @@ public enum ArrayOption implements IOption{
 	public String getDescription() {
 		return description;
 	}
+
+	public static ArrayOption getLastRepresentationOption(List<ArrayOption> options){
+		List<ArrayOption> representationOptions = Arrays.asList(
+				ZEROX_PREFIXED_HEX_NUMBER,
+				DECIMAL_NUMBER,
+				CHARACTERS,
+				ZEROB_PREFIXED_BINARY_NUMBER);
+
+		return options == null ? ZEROX_PREFIXED_HEX_NUMBER : options.stream()
+				.filter(representationOptions::contains)
+				.reduce((first, second) -> second)
+				.orElse(ZEROX_PREFIXED_HEX_NUMBER);
+	}
+
+	public static ArrayOption getLastBracketOption(List<ArrayOption> options){
+		List<ArrayOption> bracketOptions = Arrays.asList(
+				LEFT_CURLY_BRACKETS,
+				RIGHT_CURLY_BRACKETS,
+				CURLY_BRACKETS,
+				LEFT_SQUARE_BRACKETS,
+				RIGHT_SQUARE_BRACKETS,
+				SQUARE_BRACKETS,
+				LEFT_REGULAR_BRACKETS,
+				RIGHT_REGULAR_BRACKETS,
+				REGULAR_BRACKETS);
+
+		return options == null ? CURLY_BRACKETS : options.stream()
+				.filter(bracketOptions::contains)
+				.reduce((first, second) -> second)
+				.orElse(CURLY_BRACKETS);	}
 
 	public static ArrayOption fromString(String text) {
 		for (ArrayOption arrayOption : ArrayOption.values()) {

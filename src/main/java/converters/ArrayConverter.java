@@ -3,12 +3,16 @@ package converters;
 import options.ArrayOption;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static options.ArrayOption.*;
 
 public class ArrayConverter extends Converter<ArrayOption> {
 	@Override
-	public String convertTo(String bitStr, ArrayOption option) {
+	public String convertTo(String bitStr, List<ArrayOption> options) {
+		ArrayOption representation = ArrayOption.getLastRepresentationOption(options);
+		ArrayOption bracket = ArrayOption.getLastBracketOption(options);
+
 		bitStr = addMissingZerosToBitString(bitStr);
 
 		int byteArrayLength = bitStr.length() / 8;
@@ -28,7 +32,11 @@ public class ArrayConverter extends Converter<ArrayOption> {
 	}
 
 	@Override
-	public String convertFrom(String input, ArrayOption option) {
+	public String convertFrom(String input, List<ArrayOption> options) {
+		return convertFrom(input);
+	}
+
+	public String convertFrom(String input) {
 		return null;
 	}
 }
