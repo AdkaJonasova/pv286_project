@@ -39,18 +39,20 @@ public class ArrayConverter extends Converter<ArrayOption> {
 			}
 		}
 
-		String result = Arrays.toString(byteArray);
-		result = result.replace(LEFT_SQUARE_BRACKETS.getText(), LEFT_CURLY_BRACKETS.getText());
-		result = result.replace(RIGHT_SQUARE_BRACKETS.getText(), RIGHT_CURLY_BRACKETS.getText());
-		return result;
+		String result = String.join(", ", byteArray);
+
+		if (LEFT_CURLY_BRACKETS.equals(bracket) || RIGHT_CURLY_BRACKETS.equals(bracket) || CURLY_BRACKETS.equals(bracket)){
+			return "{" + result + "}";
+		} else if (LEFT_SQUARE_BRACKETS.equals(bracket) || RIGHT_SQUARE_BRACKETS.equals(bracket) || SQUARE_BRACKETS.equals(bracket)){
+			return "[" + result + "]";
+		}
+
+		return "(" + result + ")";
 	}
 
 	@Override
 	public String convertFrom(String input, List<ArrayOption> options) {
-		return convertFrom(input);
-	}
-
-	public String convertFrom(String input) {
 		return null;
 	}
+
 }
