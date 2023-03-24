@@ -3,6 +3,7 @@ import input.InputParser;
 import utils.FileHelper;
 import utils.HelpPrinter;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Program {
@@ -10,25 +11,28 @@ public class Program {
     public static void main(String[] args) {
         InputParser inputParser = new InputParser();
         try {
-            var result = inputParser.parse(args);
+            var userArgs = inputParser.parse(args);
 
             // if program should print help, don't ask for input
-            if (result.getShouldPrintHelp()) {
+            if (userArgs.getShouldPrintHelp()) {
                 HelpPrinter.printHelp();
                 return;
             }
 
-            var userInput = FileHelper.readFromFile(result.getInputFile(), result.getDelimiter());
+            var userInput = FileHelper.readFromFile(userArgs.getInputFile(), userArgs.getDelimiter());
+            var result = new ArrayList<String>();
             for (var val : userInput) {
-                System.out.println(val);
+                var convertedFromVal = userArgs.getFrom().getConverter().convertFrom(val, userArgs.getFromOptions());
+                var convertedValue = userArgs.getTo().getConverter().convertTo(convertedFromVal, userArgs.getToOptions());
+                result.add(convertedValue);
             }
 
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter value you want to convert: ");
             var valueToConvert = scanner.nextLine();
 
-            var convertedFromVal = result.getFrom().getConverter().convertFrom(valueToConvert, result.getFromOptions());
-            var convertedValue = result.getTo().getConverter().convertTo(convertedFromVal, result.getToOptions());
+            var convertedFromVal = userArgs.getFrom().getConverter().convertFrom(valueToConvert, userArgs.getFromOptions());
+            var convertedValue = userArgs.getTo().getConverter().convertTo(convertedFromVal, userArgs.getToOptions());
             System.out.println(convertedValue);
 
         } catch (InputParsingException e) {
