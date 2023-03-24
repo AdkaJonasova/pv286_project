@@ -13,7 +13,7 @@ public class IOHelper {
 
     private static final String DEFAULT_DELIMITER = System.lineSeparator();
 
-    private IOHelper() {}
+    private IOHelper() { }
 
     public static List<String> readFromStandardInput(String delimiter) {
         return readData(System.in, delimiter);
@@ -32,7 +32,7 @@ public class IOHelper {
         var result = new ArrayList<String>();
 
         Scanner scanner = new Scanner(inputStream);
-        scanner.useDelimiter(delimiter.isEmpty() ? DEFAULT_DELIMITER : delimiter);
+        scanner.useDelimiter(resolverDelimiter(delimiter));
         while (scanner.hasNext()) {
             result.add(scanner.next());
         }
@@ -44,7 +44,7 @@ public class IOHelper {
         for (int i = 0; i < text.size(); i++) {
             System.out.print(text.get(i));
             if (i != text.size() - 1)
-                System.out.print(delimiter.isEmpty() ? DEFAULT_DELIMITER : delimiter);
+                System.out.print(resolverDelimiter(delimiter));
         }
     }
 
@@ -53,7 +53,7 @@ public class IOHelper {
             for (int i = 0; i < text.size(); i++) {
                 writer.write(text.get(i));
                 if (i != text.size() - 1)
-                    writer.write(delimiter.isEmpty() ? DEFAULT_DELIMITER : delimiter);
+                    writer.write(resolverDelimiter(delimiter));
             }
             writer.flush();
         } catch (IOException e) {
@@ -61,4 +61,7 @@ public class IOHelper {
         }
     }
 
+    private static String resolverDelimiter(String delimiter) {
+        return delimiter.isEmpty() ? DEFAULT_DELIMITER : delimiter;
+    }
 }
