@@ -26,9 +26,10 @@ public class FileHelper {
 
     public static void writeToFile(List<String> text, String filePath, String delimiter) {
         try (FileWriter writer = new FileWriter(new File(filePath), false)) {
-            for (var val : text) {
-                writer.write(val);
-                writer.write(delimiter);
+            for (int i = 0; i < text.size(); i++) {
+                writer.write(text.get(i));
+                if (i != text.size() - 1)
+                    writer.write(delimiter);
             }
             writer.flush();
         } catch (IOException e) {

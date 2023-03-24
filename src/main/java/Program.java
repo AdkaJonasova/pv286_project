@@ -26,6 +26,7 @@ public class Program {
                 var convertedValue = userArgs.getTo().getConverter().convertTo(convertedFromVal, userArgs.getToOptions());
                 result.add(convertedValue);
             }
+            FileHelper.writeToFile(result, userArgs.getOutputFile(), userArgs.getDelimiter());
 
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter value you want to convert: ");
