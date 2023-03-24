@@ -37,6 +37,14 @@ public class OutputHelper {
         return result;
     }
 
+    public static void writeToStandardOutput(List<String> text, String delimiter) {
+        for (int i = 0; i < text.size(); i++) {
+            System.out.print(text.get(i));
+            if (i != text.size() - 1)
+                System.out.print(delimiter);
+        }
+    }
+
     public static void writeToFile(List<String> text, String filePath, String delimiter) {
         try (FileWriter writer = new FileWriter(new File(filePath), false)) {
             for (int i = 0; i < text.size(); i++) {

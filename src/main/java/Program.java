@@ -33,15 +33,12 @@ public class Program {
                 var convertedValue = userArgs.getTo().getConverter().convertTo(convertedFromVal, userArgs.getToOptions());
                 result.add(convertedValue);
             }
-            OutputHelper.writeToFile(result, userArgs.getOutputFile(), userArgs.getDelimiter());
 
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Please enter value you want to convert: ");
-            var valueToConvert = scanner.nextLine();
-
-            var convertedFromVal = userArgs.getFrom().getConverter().convertFrom(valueToConvert, userArgs.getFromOptions());
-            var convertedValue = userArgs.getTo().getConverter().convertTo(convertedFromVal, userArgs.getToOptions());
-            System.out.println(convertedValue);
+            if (userArgs.getOutputFile().isEmpty()) {
+                OutputHelper.writeToStandardOutput(result, userArgs.getDelimiter());
+            } else {
+                OutputHelper.writeToFile(result, userArgs.getOutputFile(), userArgs.getDelimiter());
+            }
 
         } catch (InputParsingException e) {
             System.out.println("ERROR: " + e.getMessage());
