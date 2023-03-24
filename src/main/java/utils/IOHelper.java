@@ -2,7 +2,6 @@ package utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class OutputHelper {
+public class IOHelper {
+
+    private IOHelper() {}
 
     public static List<String> readFromStandardInput(String delimiter) {
         return readData(System.in, delimiter);

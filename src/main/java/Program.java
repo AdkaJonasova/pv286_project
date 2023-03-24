@@ -1,11 +1,10 @@
 import exception.InputParsingException;
 import input.InputParser;
-import utils.OutputHelper;
+import utils.IOHelper;
 import utils.HelpPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Program {
 
@@ -22,9 +21,9 @@ public class Program {
 
             List<String> userInput;
             if (userArgs.getInputFile().isEmpty()) {
-                userInput = OutputHelper.readFromStandardInput(userArgs.getDelimiter());
+                userInput = IOHelper.readFromStandardInput(userArgs.getDelimiter());
             } else {
-                userInput = OutputHelper.readFromFile(userArgs.getInputFile(), userArgs.getDelimiter());
+                userInput = IOHelper.readFromFile(userArgs.getInputFile(), userArgs.getDelimiter());
             }
 
             var result = new ArrayList<String>();
@@ -35,9 +34,9 @@ public class Program {
             }
 
             if (userArgs.getOutputFile().isEmpty()) {
-                OutputHelper.writeToStandardOutput(result, userArgs.getDelimiter());
+                IOHelper.writeToStandardOutput(result, userArgs.getDelimiter());
             } else {
-                OutputHelper.writeToFile(result, userArgs.getOutputFile(), userArgs.getDelimiter());
+                IOHelper.writeToFile(result, userArgs.getOutputFile(), userArgs.getDelimiter());
             }
 
         } catch (InputParsingException e) {
