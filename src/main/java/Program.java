@@ -1,9 +1,10 @@
 import exception.InputParsingException;
 import input.InputParser;
-import utils.FileHelper;
+import utils.OutputHelper;
 import utils.HelpPrinter;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Program {
@@ -19,14 +20,20 @@ public class Program {
                 return;
             }
 
-            var userInput = FileHelper.readFromFile(userArgs.getInputFile(), userArgs.getDelimiter());
+            List<String> userInput;
+            if (userArgs.getInputFile().isEmpty()) {
+                userInput = OutputHelper.readFromStandardInput(userArgs.getDelimiter());
+            } else {
+                userInput = OutputHelper.readFromFile(userArgs.getInputFile(), userArgs.getDelimiter());
+            }
+
             var result = new ArrayList<String>();
             for (var val : userInput) {
                 var convertedFromVal = userArgs.getFrom().getConverter().convertFrom(val, userArgs.getFromOptions());
                 var convertedValue = userArgs.getTo().getConverter().convertTo(convertedFromVal, userArgs.getToOptions());
                 result.add(convertedValue);
             }
-            FileHelper.writeToFile(result, userArgs.getOutputFile(), userArgs.getDelimiter());
+            OutputHelper.writeToFile(result, userArgs.getOutputFile(), userArgs.getDelimiter());
 
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter value you want to convert: ");
