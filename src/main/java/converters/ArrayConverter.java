@@ -1,5 +1,6 @@
 package converters;
 
+import exceptions.ConverterException;
 import options.ArrayOption;
 import options.BitsOption;
 import options.HexOption;
@@ -11,7 +12,11 @@ import static options.ArrayOption.*;
 
 public class ArrayConverter extends Converter<ArrayOption> {
 	@Override
-	public String convertTo(String bitStr, List<ArrayOption> options) {
+	public String convertTo(String bitStr, List<ArrayOption> options) throws ConverterException {
+		if(!validateInput(bitStr, "^[0-1 ]+$")){
+			throw new ConverterException(String.format("Invalid input format: %s", bitStr));
+		}
+
 		ArrayOption representation = ArrayOption.getLastRepresentationOption(options);
 		ArrayOption bracket = ArrayOption.getLastBracketOption(options);
 

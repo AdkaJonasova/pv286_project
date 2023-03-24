@@ -1,5 +1,6 @@
 package converters;
 
+import exceptions.ConverterException;
 import options.BitsOption;
 import options.IOption;
 
@@ -8,8 +9,8 @@ import java.util.List;
 import static options.BitsOption.LEFT;
 
 public abstract class Converter<O extends IOption> {
-	public abstract String convertTo(String bitStr, List<O> options);
-	public abstract String convertFrom(String input, List<O> options);
+	public abstract String convertTo(String bitStr, List<O> options) throws ConverterException;
+	public abstract String convertFrom(String input, List<O> options) throws ConverterException;
 
 	protected static String addMissingZerosToBitString(String bitStr){
 		return addMissingZerosToBitString(bitStr, LEFT);
@@ -30,5 +31,9 @@ public abstract class Converter<O extends IOption> {
 			return sb.toString();
 		}
 		return bitStr;
+	}
+
+	protected static boolean validateInput(String input, String regex){
+		return input.matches(regex);
 	}
 }

@@ -1,6 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import exception.InputParsingException;
+import exceptions.InputParsingException;
 import input.InputParser;
 import input.ParserResult;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,5 @@
-import exception.InputParsingException;
+import exceptions.ConverterException;
+import exceptions.InputParsingException;
 import input.InputParser;
 import utils.IOHelper;
 import utils.HelpPrinter;
@@ -39,7 +40,7 @@ public class Program {
                 IOHelper.writeToFile(result, userArgs.getOutputFile(), userArgs.getDelimiter());
             }
 
-        } catch (InputParsingException e) {
+        } catch (InputParsingException | ConverterException e) {
             System.out.println("ERROR: " + e.getMessage());
             System.exit(1);
         }

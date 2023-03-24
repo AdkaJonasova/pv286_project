@@ -1,6 +1,6 @@
 package input;
 
-import exception.InputParsingException;
+import exceptions.InputParsingException;
 import options.BitsOption;
 import format.Format;
 import options.IOption;

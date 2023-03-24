@@ -1,5 +1,6 @@
 package converters;
 
+import exceptions.ConverterException;
 import options.IntOption;
 
 import java.util.List;
@@ -9,7 +10,11 @@ import static options.IntOption.LITTLE;
 
 public class IntConverter extends Converter<IntOption> {
 	@Override
-	public String convertTo(String bitStr, List<IntOption> options) {
+	public String convertTo(String bitStr, List<IntOption> options) throws ConverterException {
+		if(!validateInput(bitStr, "^[0-1 ]+$")){
+			throw new ConverterException(String.format("Invalid input format: %s", bitStr));
+		}
+
 		IntOption endian = options == null || options.isEmpty() || options.get(0) == null ? BIG : options.get(options.size()-1);
 
 		if (LITTLE.equals(endian)){
@@ -29,7 +34,11 @@ public class IntConverter extends Converter<IntOption> {
 	}
 
 	@Override
-	public String convertFrom(String input, List<IntOption> options) {
+	public String convertFrom(String input, List<IntOption> options) throws ConverterException {
+		if(!validateInput(input, "^\\d+$")){
+			throw new ConverterException(String.format("Invalid input format: %s", input));
+		}
+
 		IntOption endian = options == null || options.isEmpty() || options.get(0) == null ? BIG : options.get(options.size()-1);
 
 		long unsignedInt = Long.parseUnsignedLong(input);
