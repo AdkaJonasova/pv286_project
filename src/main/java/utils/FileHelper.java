@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class FileHelper {
 
-    public List<String> readFromFile(String filePath, String delimiter) {
+    public static List<String> readFromFile(String filePath, String delimiter) {
         var result = new ArrayList<String>();
 
         try (Scanner scanner = new Scanner(new File(filePath))) {
@@ -24,7 +24,7 @@ public class FileHelper {
         return result;
     }
 
-    public void writeToFile(List<String> text, String filePath, String delimiter) {
+    public static void writeToFile(List<String> text, String filePath, String delimiter) {
         try (FileWriter writer = new FileWriter(new File(filePath), false)) {
             for (var val : text) {
                 writer.write(val);

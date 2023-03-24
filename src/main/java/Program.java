@@ -1,5 +1,6 @@
 import exception.InputParsingException;
 import input.InputParser;
+import utils.FileHelper;
 import utils.HelpPrinter;
 
 import java.util.Scanner;
@@ -15,6 +16,11 @@ public class Program {
             if (result.getShouldPrintHelp()) {
                 HelpPrinter.printHelp();
                 return;
+            }
+
+            var userInput = FileHelper.readFromFile(result.getInputFile(), result.getDelimiter());
+            for (var val : userInput) {
+                System.out.println(val);
             }
 
             Scanner scanner = new Scanner(System.in);
