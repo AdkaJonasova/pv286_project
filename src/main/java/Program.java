@@ -21,8 +21,8 @@ public class Program {
             System.out.println("Please enter value you want to convert: ");
             var valueToConvert = scanner.nextLine();
 
-            var convertedFromVal = result.getFrom().getConverter().convertFrom(valueToConvert, result.getFromOption());
-            var convertedValue = result.getTo().getConverter().convertTo(convertedFromVal, result.getToOption());
+            var convertedFromVal = result.getFrom().getConverter().convertFrom(valueToConvert, result.getFromOptions());
+            var convertedValue = result.getTo().getConverter().convertTo(convertedFromVal, result.getToOptions());
             System.out.println(convertedValue);
 
         } catch (InputParsingException e) {

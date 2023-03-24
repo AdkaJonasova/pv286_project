@@ -1,14 +1,16 @@
 package converters;
 
-import options.IOption;
+import options.HexOption;
 
-public class HexConverter extends Converter<IOption> {
+import java.util.List;
+
+
+public class HexConverter extends Converter<HexOption> {
+
 	@Override
-	public String convertTo(String bitStr, IOption option) {
-		return this.convertTo(bitStr);
-	}
+	public String convertTo(String bitStr, List<HexOption> options) {
+		HexOption version = options == null || options.isEmpty() || options.get(0) == null ? HexOption.LONG : options.get(options.size() -1 );
 
-	public String convertTo(String bitStr) {
 		bitStr = addMissingZerosToBitString(bitStr);
 
 		StringBuilder builder = new StringBuilder();
@@ -19,11 +21,12 @@ public class HexConverter extends Converter<IOption> {
 			builder.append(Integer.toHexString(value));
 		}
 
-		return builder.toString();
+		String result = builder.toString();
+		return HexOption.SHORT.equals(version) && result.startsWith("0") ? result.substring(1) : result;
 	}
 
 	@Override
-	public String convertFrom(String input, IOption option) {
+	public String convertFrom(String input, List<HexOption> options) {
 		return this.convertFrom(input);
 	}
 

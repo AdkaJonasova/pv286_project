@@ -1,3 +1,4 @@
+import static options.ArrayOption.*;
 import static options.BitsOption.LEFT;
 import static options.BitsOption.RIGHT;
 import static options.IntOption.BIG;
@@ -7,8 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import converters.*;
 import org.junit.jupiter.api.Test;
 
-class ConverterTest {
+import java.util.List;
 
+public class ConverterTest {
 	BytesConverter byteConverter = new BytesConverter();
 	HexConverter hexConverter = new HexConverter();
 	IntConverter intConverter = new IntConverter();
@@ -36,7 +38,7 @@ class ConverterTest {
 	@Test
 	void testBytesToHex() {
 		String bits = byteConverter.convertFrom("test");
-		String actualResult = hexConverter.convertTo(bits);
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "74657374";
 
 		assertEquals(expectedResult, actualResult);
@@ -55,7 +57,7 @@ class ConverterTest {
 	@Test
 	void testIntToHex() {
 		String bits = intConverter.convertFrom("1234567890", null);
-		String actualResult = hexConverter.convertTo(bits);
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "499602d2";
 
 		assertEquals(expectedResult, actualResult);
@@ -63,8 +65,8 @@ class ConverterTest {
 
 	@Test
 	void testIntWithBigEndianToHex() {
-		String bits = intConverter.convertFrom("1234567890", BIG);
-		String actualResult = hexConverter.convertTo(bits);
+		String bits = intConverter.convertFrom("1234567890", List.of(BIG));
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "499602d2";
 
 		assertEquals(expectedResult, actualResult);
@@ -72,8 +74,8 @@ class ConverterTest {
 
 	@Test
 	void testIntWithLittleEndianToHex() {
-		String bits = intConverter.convertFrom("1234567890", LITTLE);
-		String actualResult = hexConverter.convertTo(bits);
+		String bits = intConverter.convertFrom("1234567890", List.of(LITTLE));
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "d2029649";
 
 		assertEquals(expectedResult, actualResult);
@@ -91,7 +93,7 @@ class ConverterTest {
 	@Test
 	void testHexToIntWithBigEndian() {
 		String bits = hexConverter.convertFrom("499602d2");
-		String actualResult = intConverter.convertTo(bits, BIG);
+		String actualResult = intConverter.convertTo(bits, List.of(BIG));
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
@@ -100,7 +102,7 @@ class ConverterTest {
 	@Test
 	void testHexToIntWithLittleEndian() {
 		String bits = hexConverter.convertFrom("d2029649");
-		String actualResult = intConverter.convertTo(bits, LITTLE);
+		String actualResult = intConverter.convertTo(bits, List.of(LITTLE));
 		String expectedResult = "1234567890";
 
 		assertEquals(expectedResult, actualResult);
@@ -117,7 +119,7 @@ class ConverterTest {
 
 	@Test
 	void testBitsWithLeftPadToBytes() {
-		String bits = bitsConverter.convertFrom("100111101001011", LEFT);
+		String bits = bitsConverter.convertFrom("100111101001011", List.of(LEFT));
 		String actualResult = byteConverter.convertTo(bits);
 		String expectedResult = "OK";
 
@@ -126,8 +128,8 @@ class ConverterTest {
 
 	@Test
 	void testBitsWithRightPadToHex() {
-		String bits = bitsConverter.convertFrom("100111101001011", RIGHT);
-		String actualResult = hexConverter.convertTo(bits);
+		String bits = bitsConverter.convertFrom("100111101001011", List.of(RIGHT));
+		String actualResult = hexConverter.convertTo(bits, null);
 		String expectedResult = "9e96";
 
 		assertEquals(expectedResult, actualResult);
@@ -147,6 +149,33 @@ class ConverterTest {
 		String bits = hexConverter.convertFrom("01020304", null);
 		String actualResult = arrayConverter.convertTo(bits, null);
 		String expectedResult = "{0x1, 0x2, 0x3, 0x4}";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToArrayWithDecimal() {
+		String bits = hexConverter.convertFrom("01020304", null);
+		String actualResult = arrayConverter.convertTo(bits, List.of(DECIMAL_NUMBER));
+		String expectedResult = "{1, 2, 3, 4}";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToArrayWithChars() {
+		String bits = hexConverter.convertFrom("01020304", null);
+		String actualResult = arrayConverter.convertTo(bits, List.of(CHARACTERS));
+		String expectedResult = "{'\\x01', '\\x02', '\\x03', '\\x04'}";
+
+		assertEquals(expectedResult, actualResult);
+	}
+
+	@Test
+	void testHexToArrayWithBinary() {
+		String bits = hexConverter.convertFrom("01020304", null);
+		String actualResult = arrayConverter.convertTo(bits, List.of(ZEROB_PREFIXED_BINARY_NUMBER));
+		String expectedResult = "{0b1, 0b10, 0b11, 0b100}";
 
 		assertEquals(expectedResult, actualResult);
 	}
