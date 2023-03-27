@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InputParserTest {
+class InputParserTest {
 
     @Test
-    public void testArgsFromTo() {
+    void testArgsFromTo() {
         List<List<String>> variationsOfFormats = getFormatsVariations();
         for (List<String> formats : variationsOfFormats) {
             String[] input = {"-f", formats.get(0), "-t", formats.get(1)};
@@ -22,49 +22,49 @@ public class InputParserTest {
     }
 
     @Test
-    public void testCorrectParserResultWhenArgsFromToAsText() {
+    void testCorrectParserResultWhenArgsFromToAsText() {
         String[] input = {"--from=hex", "--to=int"};
         checkParserResultWithAllArgs(input, "hex", "int", "", "", "");
     }
 
     @Test
-    public void testCorrectParserResultWhenFromArgAsText() {
+    void testCorrectParserResultWhenFromArgAsText() {
         String[] input = {"--from=hex", "-t", "bytes"};
         checkParserResultWithAllArgs(input, "hex", "bytes", "", "", "");
     }
 
     @Test
-    public void testCorrectParserResultWhenToArgAsText() {
+    void testCorrectParserResultWhenToArgAsText() {
         String[] input = {"-f", "bytes", "--to=hex"};
         checkParserResultWithAllArgs(input, "bytes", "hex", "", "", "");
     }
 
     @Test
-    public void testCorrectParserResultWhenToArgAsTextAndOptionsGiven() {
+    void testCorrectParserResultWhenToArgAsTextAndOptionsGiven() {
         String[] input = {"-f", "bytes", "--to=hex"};
         checkParserResultWithAllArgs(input, "bytes", "hex", "", "", "");
     }
 
     @Test
-    public void testThrowingExceptionWhenTwoSameFromArgsAreGiven() {
+    void testThrowingExceptionWhenTwoSameFromArgsAreGiven() {
         String[] input = {"-f", "bytes", "--from=bytes" ,"--to=hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenTwoSameToArgsAreGiven() {
+    void testThrowingExceptionWhenTwoSameToArgsAreGiven() {
         String[] input = {"-f", "bytes", "-t", "hex" ,"--to=hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testCorrectParserResultWhenArgAsTextWithOptions() {
+    void testCorrectParserResultWhenArgAsTextWithOptions() {
         String[] input = {"--from=bits", "--from-options=right", "--to=int", "--to-options=big"};
         checkParserResultWithOptions(input, "bits", "int", "right", "big");
     }
 
     @Test
-    public void testCorrectParserResultWhenArgAsTextWithOptionsAreSwapped() {
+    void testCorrectParserResultWhenArgAsTextWithOptionsAreSwapped() {
         String[] input = {"--to=int", "--to-options=big", "--from=bits", "--from-options=right"};
         checkParserResultWithOptions(input, "bits", "int", "right", "big");
     }
@@ -72,55 +72,55 @@ public class InputParserTest {
 
     // region missing args and formats tests
     @Test
-    public void testEmptyArgs() {
+    void testEmptyArgs() {
         String[] input = {};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testMissingFromArgument() {
+    void testMissingFromArgument() {
         String[] input = {"hex", "-t", "bytes"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testMissingToArgument() {
+    void testMissingToArgument() {
         String[] input = {"-f", "hex", "bytes"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testMissingFromFormat() {
+    void testMissingFromFormat() {
         String[] input = {"-f", "-t", "bytes"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testMissingToFormat() {
+    void testMissingToFormat() {
         String[] input = {"-f", "hex", "-t"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testMissingFromToArgs() {
+    void testMissingFromToArgs() {
         String[] input = {"-f", "-t"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testMissingFromToFormats() {
+    void testMissingFromToFormats() {
         String[] input = {"-f", "-t"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testMissingFromArgAndFormat() {
+    void testMissingFromArgAndFormat() {
         String[] input = {"-f", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testMissingToArgAndFormat() {
+    void testMissingToArgAndFormat() {
         String[] input = {"-t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
@@ -128,79 +128,79 @@ public class InputParserTest {
 
     //region invalid args and formats tests
     @Test
-    public void testInvalidFromArgMissingDash() {
+    void testInvalidFromArgMissingDash() {
         String[] input = {"f", "hex", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testInvalidFromArgMissingChar() {
+    void testInvalidFromArgMissingChar() {
         String[] input = {"-", "hex", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testInvalidToArgMissingDash() {
+    void testInvalidToArgMissingDash() {
         String[] input = {"-f", "hex", "t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testInvalidToArgMissingChar() {
+    void testInvalidToArgMissingChar() {
         String[] input = {"-f", "hex", "-", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testInvalidFromFormat() {
+    void testInvalidFromFormat() {
         String[] input = {"-f", "aray", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testInvalidToFormat() {
+    void testInvalidToFormat() {
         String[] input = {"-f", "array", "-t", "hexe"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testInvalidArg() {
+    void testInvalidArg() {
         String[] input = {"-ff", "array", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenShortFromArgWithTwoDashes() {
+    void testThrowingExceptionWhenShortFromArgWithTwoDashes() {
         String[] input = {"--f", "array", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenTextFromArgMissingDash() {
+    void testThrowingExceptionWhenTextFromArgMissingDash() {
         String[] input = {"-from=hex", "--to=int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenTextFromArgIsInvalid() {
+    void testThrowingExceptionWhenTextFromArgIsInvalid() {
         String[] input = {"-f=hex", "--to=int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenFormatForTextFromArgIsInvalid() {
+    void testThrowingExceptionWhenFormatForTextFromArgIsInvalid() {
         String[] input = {"--from=aray", "--to=int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenFormatForTextFromArgIsEmpty() {
+    void testThrowingExceptionWhenFormatForTextFromArgIsEmpty() {
         String[] input = {"--from=", "--to=int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenEqualsMissing() {
+    void testThrowingExceptionWhenEqualsMissing() {
         String[] input = {"--fromhex", "--to=int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
@@ -208,19 +208,19 @@ public class InputParserTest {
 
     //region invalid args and formats positions tests
     @Test
-    public void testInvalidPositionsArgsThenFormats() {
+    void testInvalidPositionsArgsThenFormats() {
         String[] input = {"-f", "-t", "hex", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testInvalidPositionsFormatsThenArgs() {
+    void testInvalidPositionsFormatsThenArgs() {
         String[] input = {"hex", "hex", "-f", "-t"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testInvalidOrderOfArgsAndFormats() {
+    void testInvalidOrderOfArgsAndFormats() {
         String[] input = {"hex", "-f", "hex", "-t"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
@@ -228,31 +228,31 @@ public class InputParserTest {
 
     //region duplicate args and formats tests
     @Test
-    public void testDuplicateFromArg() {
+    void testDuplicateFromArg() {
         String[] input = {"-f", "hex", "-t", "hex", "-f", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testDuplicateToArg() {
+    void testDuplicateToArg() {
         String[] input = {"-f", "hex", "-t", "hex", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testDuplicateInputFileArg() {
+    void testDuplicateInputFileArg() {
         String[] input = {"-f", "hex", "-t", "int", "-i", "my_file", "--input=my_file_2"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testDuplicateOutputFileArg() {
+    void testDuplicateOutputFileArg() {
         String[] input = {"-f", "hex", "-t", "int", "-o", "my_file", "--output=my_file_2"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testDuplicateDelimiterArg() {
+    void testDuplicateDelimiterArg() {
         String[] input = {"-f", "hex", "-t", "int", "-d", ",", "-d", "#"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
@@ -260,7 +260,7 @@ public class InputParserTest {
 
     //region swapped position from to args
     @Test
-    public void testSwappedPositionToThenFromArg() {
+    void testSwappedPositionToThenFromArg() {
         String[] input = {"-t", "hex", "-f", "bytes"};
         checkParserResultWithAllArgs(input, "bytes", "hex", "", "", "");
     }
@@ -268,43 +268,43 @@ public class InputParserTest {
 
     //region correct options
     @Test
-    public void testCorrectFromToOptions() {
+    void testCorrectFromToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big"};
         checkParserResultWithOptions(input, "bits", "int", "right", "big");
     }
 
     @Test
-    public void testCorrectParseResultWhenPositionsOfArgsWithOptionsAreSwapped() {
+    void testCorrectParseResultWhenPositionsOfArgsWithOptionsAreSwapped() {
         String[] input = {"-t", "int", "--to-options=big", "-f", "bits", "--from-options=right" };
         checkParserResultWithOptions(input, "bits", "int", "right", "big");
     }
 
     @Test
-    public void testCorrectFromToDuplicateFromOptions() {
+    void testCorrectFromToDuplicateFromOptions() {
         String[] input = {"-f", "int", "--from-options=big", "--from-options=little", "-t", "int", "--to-options=little"};
         checkParserResultWithOptions(input, "int", "int", "little", "little");
     }
 
     @Test
-    public void testCorrectFromToDuplicateToOptions() {
+    void testCorrectFromToDuplicateToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big"};
         checkParserResultWithOptions(input, "bits", "int", "right", "big");
     }
 
     @Test
-    public void testCorrectInputFile() {
+    void testCorrectInputFile() {
         String[] input = {"-f", "bytes", "-t", "int", "-i", "my_file"};
         checkParserResultWithAllArgs(input, "bytes", "int", "my_file", "", "");
     }
 
     @Test
-    public void testCorrectOutputFile() {
+    void testCorrectOutputFile() {
         String[] input = {"-f", "bytes", "-t", "int", "-o", "my_file"};
         checkParserResultWithAllArgs(input, "bytes", "int", "", "my_file", "");
     }
 
     @Test
-    public void testCorrectDelimiter() {
+    void testCorrectDelimiter() {
         String[] input = {"-f", "bytes", "-t", "int", "-d", ","};
         checkParserResultWithAllArgs(input, "bytes", "int", "", "", ",");
     }
@@ -312,7 +312,7 @@ public class InputParserTest {
 
     //region help arg
     @Test
-    public void testParserResultContainsHelpArgWhenHGiven() {
+    void testParserResultContainsHelpArgWhenHGiven() {
         String[] input = {"-h"};
         try {
             ParserResult parserResult = new InputParser().parse(input);
@@ -324,7 +324,7 @@ public class InputParserTest {
     }
 
     @Test
-    public void testParserResultContainsHelpArgWhenHelpGiven() {
+    void testParserResultContainsHelpArgWhenHelpGiven() {
         String[] input = {"--help"};
         try {
             ParserResult parserResult = new InputParser().parse(input);
@@ -336,13 +336,13 @@ public class InputParserTest {
     }
 
     @Test
-    public void testThrowExceptionWhenHelpFirstWithOtherArgs() {
+    void testThrowExceptionWhenHelpFirstWithOtherArgs() {
         String[] input = {"-h", "-f", "bits", "-to", "int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowExceptionWhenHelpLastWithOtherArgs() {
+    void testThrowExceptionWhenHelpLastWithOtherArgs() {
         String[] input = {"-f", "bits", "-t", "int", "-h"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
@@ -350,61 +350,61 @@ public class InputParserTest {
 
     //region invalid options
     @Test
-    public void testThrowingExceptionWhenFromBitsOptionsIsBig() {
+    void testThrowingExceptionWhenFromBitsOptionsIsBig() {
         String[] input = {"-f", "bits", "--from-options=big", "-t", "int", "--to-options=big"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenFromBitsOptionsIsLittle() {
+    void testThrowingExceptionWhenFromBitsOptionsIsLittle() {
         String[] input = {"-f", "bits", "--from-options=little", "-t", "int", "--to-options=big"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenOptionsStartsWithOneDash() {
+    void testThrowingExceptionWhenOptionsStartsWithOneDash() {
         String[] input = {"-f", "bits", "-from-options=left", "-t", "int", "--to-options=big"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenBitsToOptionsAreSet() {
+    void testThrowingExceptionWhenBitsToOptionsAreSet() {
         String[] input = {"-t", "bits", "--to-options=left", "-f", "int", "--from-options=left"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenMissingFormatBeforeOptions() {
+    void testThrowingExceptionWhenMissingFormatBeforeOptions() {
         String[] input = {"-f", "--from-options=left", "-t", "int", "--to-options=big"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowingExceptionWhenArgsAreGivenInInvalidOrder() {
+    void testThrowingExceptionWhenArgsAreGivenInInvalidOrder() {
         String[] input = {"--from-options=left", "--to-options=big", "-f", "bits", "--from-options=left", "-t", "int"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowExceptionWhenToOptionsInsteadOfFromOptions() {
+    void testThrowExceptionWhenToOptionsInsteadOfFromOptions() {
         String[] input = {"-f", "int", "--to-options=little", "-t", "int", "--to-options=little"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowsExceptionWhenFromOptionsInsteadOfToOptions() {
+    void testThrowsExceptionWhenFromOptionsInsteadOfToOptions() {
         String[] input = {"-f", "int", "--from-options=little", "-t", "int", "--from-options=little"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowsExceptionWhenMissingFromOptionsAfterArg() {
+    void testThrowsExceptionWhenMissingFromOptionsAfterArg() {
         String[] input = {"-f", "bits", "--from-options=", "-t", "int", "--to-options=little"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    public void testThrowsExceptionWhenMissingToOptionsAfterArg() {
+    void testThrowsExceptionWhenMissingToOptionsAfterArg() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options="};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
