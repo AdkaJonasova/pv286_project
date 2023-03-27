@@ -241,13 +241,13 @@ public class InputParserTest {
 
     @Test
     public void testDuplicateInputFileArg() {
-        String[] input = {"-f", "hex", "-t", "int", "-i", "my file", "--input=my_file_2"};
+        String[] input = {"-f", "hex", "-t", "int", "-i", "my_file", "--input=my_file_2"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
     public void testDuplicateOutputFileArg() {
-        String[] input = {"-f", "hex", "-t", "int", "-o", "my file", "--output=my_file_2"};
+        String[] input = {"-f", "hex", "-t", "int", "-o", "my_file", "--output=my_file_2"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
@@ -289,6 +289,24 @@ public class InputParserTest {
     public void testCorrectFromToDuplicateToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big"};
         checkParserResultWithOptions(input, "bits", "int", "right", "big");
+    }
+
+    @Test
+    public void testCorrectInputFile() {
+        String[] input = {"f", "bytes", "-t", "int", "-i", "my_file"};
+        checkParserResultWithAllArgs(input, "bytes", "int", "my_file", "", "");
+    }
+
+    @Test
+    public void testCorrectOutputFile() {
+        String[] input = {"f", "bytes", "-t", "int", "-o", "my_file"};
+        checkParserResultWithAllArgs(input, "bytes", "int", "", "my_file", "");
+    }
+
+    @Test
+    public void testCorrectDelimiter() {
+        String[] input = {"f", "bytes", "-t", "int", "-d", ","};
+        checkParserResultWithAllArgs(input, "bytes", "int", "", "", ",");
     }
     //endregion
 
@@ -427,6 +445,20 @@ public class InputParserTest {
         } catch (InputParsingException e) {
             System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
             assert false;
+        }
+    }
+
+    private static void checkParserResultWithAllArgs(String[] input, String from, String to, String inputFile,
+                                                     String outputFile, String delimiter) {
+        try {
+            ParserResult parserResult = new InputParser().parse(input);
+            assertEquals(parserResult.getFrom().getText(), from);
+            assertEquals(parserResult.getTo().getText(), to);
+            assertEquals(parserResult.getInputFile(), inputFile);
+            assertEquals(parserResult.getOutputFile(), outputFile);
+            assertEquals(parserResult.getDelimiter(), delimiter);
+        } catch (InputParsingException e) {
+            e.printStackTrace();
         }
     }
 }
