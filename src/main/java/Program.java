@@ -4,6 +4,7 @@ import input.InputParser;
 import utils.IOHelper;
 import utils.HelpPrinter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Program {
                 return;
             }
 
+            // get input from user ot input file
             List<String> userInput;
             if (userArgs.getInputFile().isEmpty()) {
                 userInput = IOHelper.readFromStandardInput(userArgs.getDelimiter());
@@ -27,6 +29,7 @@ public class Program {
                 userInput = IOHelper.readFromFile(userArgs.getInputFile(), userArgs.getDelimiter());
             }
 
+            // convert values
             var result = new ArrayList<String>();
             for (var val : userInput) {
                 var convertedFromVal = userArgs.getFrom().getConverter().convertFrom(val, userArgs.getFromOptions());
@@ -34,13 +37,14 @@ public class Program {
                 result.add(convertedValue);
             }
 
+            // write result in standard output or in the file
             if (userArgs.getOutputFile().isEmpty()) {
                 IOHelper.writeToStandardOutput(result, userArgs.getDelimiter());
             } else {
                 IOHelper.writeToFile(result, userArgs.getOutputFile(), userArgs.getDelimiter());
             }
 
-        } catch (InputParsingException | ConverterException e) {
+        } catch (InputParsingException | ConverterException | IOException e) {
             System.out.println("ERROR: " + e.getMessage());
             System.exit(1);
         }

@@ -1,6 +1,5 @@
 package utils;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,12 +18,11 @@ public class IOHelper {
         return readData(System.in, delimiter);
     }
 
-    public static List<String> readFromFile(String filePath, String delimiter) {
+    public static List<String> readFromFile(String filePath, String delimiter) throws IOException {
         try (InputStream stream = new FileInputStream(filePath)){
             return readData(stream, delimiter);
         } catch (IOException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
+            throw new IOException(String.format("Unable to read input from: %s", filePath));
         }
     }
 
@@ -32,10 +30,11 @@ public class IOHelper {
         var result = new ArrayList<String>();
 
         Scanner scanner = new Scanner(inputStream);
-        scanner.useDelimiter(resolverDelimiter(delimiter));
+        scanner.useDelimiter(resolveDelimiter(delimiter));
         while (scanner.hasNext()) {
             result.add(scanner.next());
         }
+
         scanner.close();
         return result;
     }
@@ -44,24 +43,24 @@ public class IOHelper {
         for (int i = 0; i < text.size(); i++) {
             System.out.print(text.get(i));
             if (i != text.size() - 1)
-                System.out.print(resolverDelimiter(delimiter));
+                System.out.print(resolveDelimiter(delimiter));
         }
     }
 
-    public static void writeToFile(List<String> text, String filePath, String delimiter) {
-        try (FileWriter writer = new FileWriter(new File(filePath), false)) {
+    public static void writeToFile(List<String> text, String filePath, String delimiter) throws IOException {
+        try (FileWriter writer = new FileWriter(filePath, false)) {
             for (int i = 0; i < text.size(); i++) {
                 writer.write(text.get(i));
                 if (i != text.size() - 1)
-                    writer.write(resolverDelimiter(delimiter));
+                    writer.write(resolveDelimiter(delimiter));
             }
             writer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException(String.format("Unable to write output into: %s", filePath));
         }
     }
 
-    private static String resolverDelimiter(String delimiter) {
+    private static String resolveDelimiter(String delimiter) {
         return delimiter.isEmpty() ? DEFAULT_DELIMITER : delimiter;
     }
 }
