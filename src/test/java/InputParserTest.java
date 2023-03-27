@@ -17,32 +17,32 @@ public class InputParserTest {
         List<List<String>> variationsOfFormats = getFormatsVariations();
         for (List<String> formats : variationsOfFormats) {
             String[] input = {"-f", formats.get(0), "-t", formats.get(1)};
-            checkParserResult(input, formats.get(0), formats.get(1));
+            checkParserResultWithAllArgs(input, formats.get(0), formats.get(1), "", "", "");
         }
     }
 
     @Test
     public void testCorrectParserResultWhenArgsFromToAsText() {
         String[] input = {"--from=hex", "--to=int"};
-        checkParserResult(input, "hex", "int");
+        checkParserResultWithAllArgs(input, "hex", "int", "", "", "");
     }
 
     @Test
     public void testCorrectParserResultWhenFromArgAsText() {
         String[] input = {"--from=hex", "-t", "bytes"};
-        checkParserResult(input, "hex", "bytes");
+        checkParserResultWithAllArgs(input, "hex", "bytes", "", "", "");
     }
 
     @Test
     public void testCorrectParserResultWhenToArgAsText() {
         String[] input = {"-f", "bytes", "--to=hex"};
-        checkParserResult(input, "bytes", "hex");
+        checkParserResultWithAllArgs(input, "bytes", "hex", "", "", "");
     }
 
     @Test
     public void testCorrectParserResultWhenToArgAsTextAndOptionsGiven() {
         String[] input = {"-f", "bytes", "--to=hex"};
-        checkParserResult(input, "bytes", "hex");
+        checkParserResultWithAllArgs(input, "bytes", "hex", "", "", "");
     }
 
     @Test
@@ -262,7 +262,7 @@ public class InputParserTest {
     @Test
     public void testSwappedPositionToThenFromArg() {
         String[] input = {"-t", "hex", "-f", "bytes"};
-        checkParserResult(input, "bytes", "hex");
+        checkParserResultWithAllArgs(input, "bytes", "hex", "", "", "");
     }
     //endregion
 
@@ -293,19 +293,19 @@ public class InputParserTest {
 
     @Test
     public void testCorrectInputFile() {
-        String[] input = {"f", "bytes", "-t", "int", "-i", "my_file"};
+        String[] input = {"-f", "bytes", "-t", "int", "-i", "my_file"};
         checkParserResultWithAllArgs(input, "bytes", "int", "my_file", "", "");
     }
 
     @Test
     public void testCorrectOutputFile() {
-        String[] input = {"f", "bytes", "-t", "int", "-o", "my_file"};
+        String[] input = {"-f", "bytes", "-t", "int", "-o", "my_file"};
         checkParserResultWithAllArgs(input, "bytes", "int", "", "my_file", "");
     }
 
     @Test
     public void testCorrectDelimiter() {
-        String[] input = {"f", "bytes", "-t", "int", "-d", ","};
+        String[] input = {"-f", "bytes", "-t", "int", "-d", ","};
         checkParserResultWithAllArgs(input, "bytes", "int", "", "", ",");
     }
     //endregion
@@ -423,18 +423,6 @@ public class InputParserTest {
         return variationsOfFormats;
     }
 
-    private static void checkParserResult(String[] input, String from, String to) {
-        try {
-            InputParser inputParser = new InputParser();
-            ParserResult parserResult = inputParser.parse(input);
-            assertEquals(parserResult.getFrom().getText(), from);
-            assertEquals(parserResult.getTo().getText(), to);
-        } catch (InputParsingException e) {
-            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
-            assert false;
-        }
-    }
-
     private static void checkParserResultWithOptions(String[] input, String from, String to, String fromOpt, String toOpt) {
         try {
             ParserResult parserResult = new InputParser().parse(input);
@@ -458,7 +446,8 @@ public class InputParserTest {
             assertEquals(parserResult.getOutputFile(), outputFile);
             assertEquals(parserResult.getDelimiter(), delimiter);
         } catch (InputParsingException e) {
-            e.printStackTrace();
+            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
+            assert false;
         }
     }
 }
