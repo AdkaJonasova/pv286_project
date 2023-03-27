@@ -109,14 +109,14 @@ public class InputParser {
         } else if (currentFlag.equals(Flag.TO) && Objects.isNull(toRepresentation) && checkFormat(argument)) {
             toRepresentation = Format.fromString(argument);
             shouldLookForToOptions = true;
-        } else if (currentFlag.equals(Flag.INPUT_FILE)) {
+        } else if (currentFlag.equals(Flag.INPUT_FILE) && inputFile.isEmpty()) {
             inputFile = argument;
-        } else if (currentFlag.equals(Flag.OUTPUT_FILE)) {
+        } else if (currentFlag.equals(Flag.OUTPUT_FILE) && outputFile.isEmpty()) {
             outputFile = argument;
-        } else if (currentFlag.equals(Flag.DELIMITER)) {
+        } else if (currentFlag.equals(Flag.DELIMITER) && delimiter.isEmpty()) {
             delimiter = argument;
         } else {
-            throw new InputParsingException("Invalid value for one of the arguments.");
+            throw new InputParsingException("Invalid or duplicate value for one of the arguments.");
         }
         currentFlag = null;
     }
@@ -140,7 +140,7 @@ public class InputParser {
                 throw new InputParsingException("To options not allowed here");
             }
             var argumentParts = argument.split(ParserConstants.LONG_ATTR_DELIMITER);
-            if (argumentParts.length == 2 && resolveToOptions(argumentParts[1])) {;
+            if (argumentParts.length == 2 && resolveToOptions(argumentParts[1])) {
                 return true;
             } else {
                 throw new InputParsingException(String.format("Invalid option encountered: %s", argument));
