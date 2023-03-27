@@ -238,6 +238,24 @@ public class InputParserTest {
         String[] input = {"-f", "hex", "-t", "hex", "-t", "hex"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
+
+    @Test
+    public void testDuplicateInputFileArg() {
+        String[] input = {"-f", "hex", "-t", "int", "-i", "my file", "--input=my_file_2"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testDuplicateOutputFileArg() {
+        String[] input = {"-f", "hex", "-t", "int", "-o", "my file", "--output=my_file_2"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    public void testDuplicateDelimiterArg() {
+        String[] input = {"-f", "hex", "-t", "int", "-d", ",", "-d", "#"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
     //endregion
 
     //region swapped position from to args
