@@ -314,7 +314,7 @@ class InputParserTest {
     @Test
     void testCorrectArrayOptionsWithType1Option() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0x"};
-        checkParserResultWithMultipleOptions(input, "bits", "array", new ArrayList<>(), Arrays.asList("0x", null));
+        checkParserResultWithMultipleOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0x", null));
     }
     //endregion
 
@@ -436,8 +436,8 @@ class InputParserTest {
             ParserResult parserResult = new InputParser().parse(input);
             assertEquals(parserResult.getFrom().getText(), from);
             assertEquals(parserResult.getTo().getText(), to);
-            assertEquals(parserResult.getFromOptions().get(0).getText(), fromOpt);
-            assertEquals(parserResult.getToOptions().get(0).getText(), toOpt);
+            assertEquals(parserResult.getFromOptions()[0].getText(), fromOpt);
+            assertEquals(parserResult.getToOptions()[0].getText(), toOpt);
         } catch (InputParsingException e) {
             System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
             assert false;
@@ -450,18 +450,18 @@ class InputParserTest {
             ParserResult parserResult = new InputParser().parse(input);
             assertEquals(parserResult.getFrom().getText(), from);
             assertEquals(parserResult.getTo().getText(), to);
-            for (int i = 0; i < parserResult.getFromOptions().size(); i++) {
+            for (int i = 0; i < parserResult.getFromOptions().length; i++) {
                 if (Objects.isNull(fromOptions.get(i))) {
-                    assertNull(parserResult.getFromOptions().get(i));
+                    assertNull(parserResult.getFromOptions()[i]);
                 } else {
-                    assertEquals(parserResult.getFromOptions().get(i).getText(), fromOptions.get(i));
+                    assertEquals(parserResult.getFromOptions()[i].getText(), fromOptions.get(i));
                 }
             }
-            for (int i = 0; i < parserResult.getToOptions().size(); i++) {
+            for (int i = 0; i < parserResult.getToOptions().length; i++) {
                 if (Objects.isNull(toOptions.get(i))) {
-                    assertNull(parserResult.getToOptions().get(i));
+                    assertNull(parserResult.getToOptions()[i]);
                 } else {
-                    assertEquals(parserResult.getToOptions().get(i).getText(), toOptions.get(i));
+                    assertEquals(parserResult.getToOptions()[i].getText(), toOptions.get(i));
                 }
             }
         } catch (InputParsingException e) {

@@ -19,8 +19,8 @@ public class InputParser {
 
     private Format fromRepresentation;
     private Format toRepresentation;
-    private List<IOption> fromOptions;
-    private List<IOption> toOptions;
+    private IOption[] fromOptions;
+    private IOption[] toOptions;
     private String inputFile;
     private String outputFile;
     private String delimiter;
@@ -32,8 +32,8 @@ public class InputParser {
         this.currentFlag = null;
         this.fromRepresentation = null;
         this.toRepresentation = null;
-        this.fromOptions = new ArrayList<>();
-        this.toOptions = Arrays.asList(null, null);
+        this.fromOptions = new IOption[1];
+        this.toOptions = new IOption[2];
         this.inputFile = "";
         this.outputFile = "";
         this.delimiter = "";
@@ -171,10 +171,10 @@ public class InputParser {
 
     private boolean resolveFromOptions(String option) {
         if (fromRepresentation.equals(Format.INT) && IntOption.contains(option)) {
-            fromOptions.add(IntOption.fromString(option));
+            fromOptions[0] = IntOption.fromString(option);
             return true;
         } else if (fromRepresentation.equals(Format.BITS) && BitsOption.contains(option)) {
-            fromOptions.add(BitsOption.fromString(option));
+            fromOptions[0] = BitsOption.fromString(option);
             return true;
         }
         return false;
@@ -182,17 +182,17 @@ public class InputParser {
 
     private boolean resolveToOptions(String option) {
         if (toRepresentation.equals(Format.INT)) {
-            toOptions.set(0, IntOption.fromString(option));
+            toOptions[0] = IntOption.fromString(option);
             return true;
         } else if (toRepresentation.equals(Format.ARRAY)) {
             var firstSetOption = ArrayOption.getFromFirstSet(option);
             if (Objects.nonNull(firstSetOption)) {
-                toOptions.set(0, firstSetOption);
+                toOptions[0] = firstSetOption;
                 return true;
             }
             var secondSetOption = ArrayOption.getFromSecondSet(option);
             if (Objects.nonNull(secondSetOption)) {
-                toOptions.set(1, secondSetOption);
+                toOptions[1] = secondSetOption;
                 return true;
             }
         }
@@ -214,8 +214,8 @@ public class InputParser {
         currentFlag = null;
         fromRepresentation = null;
         toRepresentation = null;
-        fromOptions = new ArrayList<>();
-        toOptions = new ArrayList<>();
+        fromOptions = new IOption[1];
+        toOptions = new IOption[2];
         inputFile = "";
         outputFile = "";
         delimiter = "";

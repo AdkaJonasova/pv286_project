@@ -9,14 +9,14 @@ public class ParserResult {
 
     private final Format from;
     private final Format to;
-    private final List<IOption> fromOption;
-    private final List<IOption> toOption;
+    private final IOption[] fromOption;
+    private final IOption[] toOption;
     private final String inputFile;
     private final String outputFile;
     private final String delimiter;
     private final boolean shouldPrintHelp;
 
-    public ParserResult(Format from, Format to, List<IOption> fromOption, List<IOption> toOption, String inputFile, String outputFile,
+    public ParserResult(Format from, Format to, IOption[] fromOption, IOption[] toOption, String inputFile, String outputFile,
                         String delimiter, boolean shouldPrintHelp) {
         this.from = from;
         this.to = to;
@@ -37,11 +37,11 @@ public class ParserResult {
         return to;
     }
 
-    public List<IOption> getFromOptions() {
+    public IOption[] getFromOptions() {
         return fromOption;
     }
 
-    public List<IOption> getToOptions() {
+    public IOption[] getToOptions() {
         return toOption;
     }
 

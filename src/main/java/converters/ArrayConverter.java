@@ -16,7 +16,7 @@ import static options.ArrayOption.*;
 
 public class ArrayConverter extends Converter {
 	@Override
-	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
+	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
 		validateInput(bitStr, "^[01 ]+$");
 
 		ArrayOption representation = ArrayOption.getLastRepresentationOption(options);
@@ -32,13 +32,13 @@ public class ArrayConverter extends Converter {
 			String byteString = bitStr.substring(startIndex, endIndex);
 
 			if (representation.equals(ZEROX_PREFIXED_HEX_NUMBER)) {
-				String byteValue = new HexConverter().convertTo(byteString, List.of(HexOption.SHORT));
+				String byteValue = new HexConverter().convertTo(byteString, new IOption[] { HexOption.SHORT });
 				byteArray[i] = "0x" + byteValue;
 			} else if (representation.equals(DECIMAL_NUMBER)) {
 				String byteValue = new IntConverter().convertTo(byteString, null);
 				byteArray[i] = byteValue;
 			} else if (representation.equals(ZEROB_PREFIXED_BINARY_NUMBER)) {
-				String byteValue = new BitsConverter().convertTo(byteString, List.of(BitsOption.SHORT));
+				String byteValue = new BitsConverter().convertTo(byteString, new IOption[] { BitsOption.SHORT });
 				byteArray[i] = "0b" + byteValue;
 			} else {
 				String byteValue = new HexConverter().convertTo(byteString, null);
@@ -58,7 +58,7 @@ public class ArrayConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String input, List<IOption> options) throws ConverterException {
+	public String convertFrom(String input, IOption[] options) throws ConverterException {
 		input = input.substring(1, input.length() - 1);
 		input = input.replace(" ", "");
 

@@ -9,9 +9,9 @@ import java.util.List;
 import static options.BitsOption.LEFT;
 
 public abstract class Converter {
-	public abstract String convertTo(String bitStr, List<IOption> options) throws ConverterException;
+	public abstract String convertTo(String bitStr, IOption[] options) throws ConverterException;
 
-	public abstract String convertFrom(String input, List<IOption> options) throws ConverterException;
+	public abstract String convertFrom(String input, IOption[] options) throws ConverterException;
 
 	protected static String addMissingZerosToBitString(String bitStr) {
 		return addMissingZerosToBitString(bitStr, LEFT);

@@ -11,10 +11,10 @@ import static options.IntOption.LITTLE;
 
 public class IntConverter extends Converter {
 	@Override
-	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
+	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
 		validateInput(bitStr, "^[01 ]+$");
 
-		IntOption endian = options == null || options.isEmpty() || options.get(0) == null ? BIG : (IntOption) options.get(options.size()-1);
+		IntOption endian = options == null || options.length == 0 || options[0] == null ? BIG : (IntOption) options[0];
 
 		if (LITTLE.equals(endian)){
 			StringBuilder builder = new StringBuilder();
@@ -33,10 +33,10 @@ public class IntConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String input, List<IOption> options) throws ConverterException {
+	public String convertFrom(String input, IOption[] options) throws ConverterException {
 		validateInput(input, "^\\d+$");
 
-		IntOption endian = options == null || options.isEmpty() || options.get(0) == null ? BIG : (IntOption) options.get(options.size()-1);
+		IntOption endian = options == null || options.length == 0 || options[0] == null ? BIG : (IntOption) options[0];
 
 		long unsignedInt = Long.parseUnsignedLong(input);
 		String bitStr = Long.toBinaryString(unsignedInt);

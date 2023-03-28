@@ -1,19 +1,22 @@
 package converters;
 
 import exceptions.ConverterException;
+import options.BitsOption;
 import options.HexOption;
 import options.IOption;
 
 import java.util.List;
 
+import static options.BitsOption.LEFT;
+
 
 public class HexConverter extends Converter {
 
 	@Override
-	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
+	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
 		validateInput(bitStr, "^[01 ]+$");
 
-		HexOption version = options == null || options.isEmpty() || options.get(0) == null ? HexOption.LONG : (HexOption) options.get(options.size() - 1);
+		HexOption version = options == null || options.length == 0 || options[0] == null ? HexOption.LONG : (HexOption) options[0];
 
 		bitStr = addMissingZerosToBitString(bitStr);
 
@@ -30,7 +33,7 @@ public class HexConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String input, List<IOption> options) throws ConverterException {
+	public String convertFrom(String input, IOption[] options) throws ConverterException {
 		return this.convertFrom(input);
 	}
 

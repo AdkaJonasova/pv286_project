@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BytesConverter extends Converter {
 	@Override
-	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
+	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
 		return this.convertTo(bitStr);
 	}
 
@@ -27,7 +27,7 @@ public class BytesConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String input, List<IOption> options) {
+	public String convertFrom(String input, IOption[] options) {
 		return this.convertFrom(input);
 	}
 

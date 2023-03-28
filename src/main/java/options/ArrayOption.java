@@ -36,20 +36,20 @@ public enum ArrayOption implements IOption {
 		return description;
 	}
 
-	public static ArrayOption getLastRepresentationOption(List<IOption> options){
+	public static ArrayOption getLastRepresentationOption(IOption[] options){
 		List<IOption> representationOptions = Arrays.asList(
 				ZEROX_PREFIXED_HEX_NUMBER,
 				DECIMAL_NUMBER,
 				CHARACTERS,
 				ZEROB_PREFIXED_BINARY_NUMBER);
 
-		return options == null ? ZEROX_PREFIXED_HEX_NUMBER : (ArrayOption) options.stream()
+		return options == null ? ZEROX_PREFIXED_HEX_NUMBER : (ArrayOption) Arrays.stream(options)
 				.filter(representationOptions::contains)
 				.reduce((first, second) -> second)
 				.orElse(ZEROX_PREFIXED_HEX_NUMBER);
 	}
 
-	public static ArrayOption getLastBracketOption(List<IOption> options){
+	public static ArrayOption getLastBracketOption(IOption[] options){
 		List<IOption> bracketOptions = Arrays.asList(
 				LEFT_CURLY_BRACKETS,
 				RIGHT_CURLY_BRACKETS,
@@ -61,7 +61,7 @@ public enum ArrayOption implements IOption {
 				RIGHT_REGULAR_BRACKETS,
 				REGULAR_BRACKETS);
 
-		return options == null ? CURLY_BRACKETS : (ArrayOption) options.stream()
+		return options == null ? CURLY_BRACKETS : (ArrayOption) Arrays.stream(options)
 				.filter(bracketOptions::contains)
 				.reduce((first, second) -> second)
 				.orElse(CURLY_BRACKETS);	}
