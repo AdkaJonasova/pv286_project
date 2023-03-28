@@ -47,7 +47,7 @@ public enum Format {
 		return null;
 	}
 
-	public static Format getFormatFromReg(String input){
+	public static Format getFormatFromInputValue(String input){
 		for (Format format : Format.values()) {
 			if (input.matches(format.arrayRegex)) {
 				return format;

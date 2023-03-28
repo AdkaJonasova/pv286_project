@@ -67,7 +67,7 @@ public class ArrayConverter extends Converter {
 		StringBuilder builder = new StringBuilder();
 
 		for (String value : values) {
-			Format format = Format.getFormatFromReg(value);
+			Format format = Format.getFormatFromInputValue(value);
 			Pattern regex = Pattern.compile(format.getArrayRegex());
 			Matcher matcher = regex.matcher(value);
 
