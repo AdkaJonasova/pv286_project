@@ -8,20 +8,18 @@ import java.util.List;
 
 import static options.BitsOption.LEFT;
 
-public abstract class Converter<O extends IOption> {
-	public abstract String convertTo(String bitStr, List<O> options) throws ConverterException;
-	public abstract String convertFrom(String input, List<O> options) throws ConverterException;
-
-	protected static String addMissingZerosToBitString(String bitStr){
+public abstract class Converter {
+	protected static String addMissingZerosToBitString(String bitStr) {
 		return addMissingZerosToBitString(bitStr, LEFT);
 	}
+
 	protected static String addMissingZerosToBitString(String bitStr, BitsOption padSide) {
 		int numOfMissingBits = bitStr.length() % 8;
 
-		if (numOfMissingBits != 0){
+		if (numOfMissingBits != 0) {
 			int padding = 8 - (numOfMissingBits);
 			StringBuilder sb = new StringBuilder();
-			if (LEFT.equals(padSide)){
+			if (LEFT.equals(padSide)) {
 				sb.append("0".repeat(padding));
 				sb.append(bitStr);
 				return sb.toString();
@@ -33,7 +31,11 @@ public abstract class Converter<O extends IOption> {
 		return bitStr;
 	}
 
-	protected static boolean validateInput(String input, String regex){
-		return input.matches(regex);
+	protected static boolean isNotValidInput(String input, String regex) {
+		return !input.matches(regex);
 	}
+
+	public abstract String convertTo(String bitStr, List<IOption> options) throws ConverterException;
+
+	public abstract String convertFrom(String input, List<IOption> options) throws ConverterException;
 }

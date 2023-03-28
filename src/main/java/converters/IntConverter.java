@@ -1,6 +1,7 @@
 package converters;
 
 import exceptions.ConverterException;
+import options.IOption;
 import options.IntOption;
 
 import java.util.List;
@@ -8,14 +9,14 @@ import java.util.List;
 import static options.IntOption.BIG;
 import static options.IntOption.LITTLE;
 
-public class IntConverter extends Converter<IntOption> {
+public class IntConverter extends Converter {
 	@Override
-	public String convertTo(String bitStr, List<IntOption> options) throws ConverterException {
-		if(!validateInput(bitStr, "^[0-1 ]+$")){
+	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
+		if(isNotValidInput(bitStr, "^[0-1 ]+$")){
 			throw new ConverterException(String.format("Invalid input format: %s", bitStr));
 		}
 
-		IntOption endian = options == null || options.isEmpty() || options.get(0) == null ? BIG : options.get(options.size()-1);
+		IntOption endian = options == null || options.isEmpty() || options.get(0) == null ? BIG : (IntOption) options.get(options.size()-1);
 
 		if (LITTLE.equals(endian)){
 			StringBuilder builder = new StringBuilder();
@@ -34,12 +35,12 @@ public class IntConverter extends Converter<IntOption> {
 	}
 
 	@Override
-	public String convertFrom(String input, List<IntOption> options) throws ConverterException {
-		if(!validateInput(input, "^\\d+$")){
+	public String convertFrom(String input, List<IOption> options) throws ConverterException {
+		if(isNotValidInput(input, "^\\d+$")){
 			throw new ConverterException(String.format("Invalid input format: %s", input));
 		}
 
-		IntOption endian = options == null || options.isEmpty() || options.get(0) == null ? BIG : options.get(options.size()-1);
+		IntOption endian = options == null || options.isEmpty() || options.get(0) == null ? BIG : (IntOption) options.get(options.size()-1);
 
 		long unsignedInt = Long.parseUnsignedLong(input);
 		String bitStr = Long.toBinaryString(unsignedInt);

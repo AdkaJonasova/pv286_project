@@ -2,19 +2,20 @@ package converters;
 
 import exceptions.ConverterException;
 import options.HexOption;
+import options.IOption;
 
 import java.util.List;
 
 
-public class HexConverter extends Converter<HexOption> {
+public class HexConverter extends Converter {
 
 	@Override
-	public String convertTo(String bitStr, List<HexOption> options) throws ConverterException {
-		if(!validateInput(bitStr, "^[0-1 ]+$")){
+	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
+		if (isNotValidInput(bitStr, "^[0-1 ]+$")) {
 			throw new ConverterException(String.format("Invalid input format: %s", bitStr));
 		}
 
-		HexOption version = options == null || options.isEmpty() || options.get(0) == null ? HexOption.LONG : options.get(options.size() -1 );
+		HexOption version = options == null || options.isEmpty() || options.get(0) == null ? HexOption.LONG : (HexOption) options.get(options.size() - 1);
 
 		bitStr = addMissingZerosToBitString(bitStr);
 
@@ -31,12 +32,12 @@ public class HexConverter extends Converter<HexOption> {
 	}
 
 	@Override
-	public String convertFrom(String input, List<HexOption> options) throws ConverterException {
+	public String convertFrom(String input, List<IOption> options) throws ConverterException {
 		return this.convertFrom(input);
 	}
 
 	public String convertFrom(String input) throws ConverterException {
-		if(!validateInput(input, "^([0-9a-fA-F]{2}\\s?)+$")){
+		if (isNotValidInput(input, "^([0-9a-fA-F]{2}\\s?)+$")) {
 			throw new ConverterException(String.format("Invalid input format: %s", input));
 		}
 

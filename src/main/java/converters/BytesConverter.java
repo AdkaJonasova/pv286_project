@@ -5,14 +5,14 @@ import options.IOption;
 
 import java.util.List;
 
-public class BytesConverter extends Converter<IOption> {
+public class BytesConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
 		return this.convertTo(bitStr);
 	}
 
 	public String convertTo(String bitStr) throws ConverterException {
-		if(!validateInput(bitStr, "^[0-1 ]+$")){
+		if (isNotValidInput(bitStr, "^[0-1 ]+$")) {
 			throw new ConverterException(String.format("Invalid input format: %s", bitStr));
 		}
 
