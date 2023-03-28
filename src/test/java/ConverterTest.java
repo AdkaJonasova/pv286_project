@@ -3,8 +3,6 @@ import exceptions.ConverterException;
 import options.IOption;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static options.ArrayOption.*;
 import static options.BitsOption.LEFT;
 import static options.BitsOption.RIGHT;
@@ -90,7 +88,7 @@ class ConverterTest {
 	@Test
 	void testIntWithBigEndianToHex() {
 		try {
-			String bits = intConverter.convertFrom("1234567890", new IOption[] { BIG });
+			String bits = intConverter.convertFrom("1234567890", new IOption[]{BIG});
 			String actualResult = hexConverter.convertTo(bits, null);
 			String expectedResult = "499602d2";
 
@@ -103,7 +101,7 @@ class ConverterTest {
 	@Test
 	void testIntWithLittleEndianToHex() {
 		try {
-			String bits = intConverter.convertFrom("1234567890", new IOption[] { LITTLE });
+			String bits = intConverter.convertFrom("1234567890", new IOption[]{LITTLE});
 			String actualResult = hexConverter.convertTo(bits, null);
 			String expectedResult = "d2029649";
 
@@ -131,7 +129,7 @@ class ConverterTest {
 	void testHexToIntWithBigEndian() {
 		try {
 			String bits = hexConverter.convertFrom("499602d2");
-			String actualResult = intConverter.convertTo(bits, new IOption[] { BIG });
+			String actualResult = intConverter.convertTo(bits, new IOption[]{BIG});
 			String expectedResult = "1234567890";
 
 			assertEquals(expectedResult, actualResult);
@@ -144,7 +142,7 @@ class ConverterTest {
 	void testHexToIntWithLittleEndian() {
 		try {
 			String bits = hexConverter.convertFrom("d2029649");
-			String actualResult = intConverter.convertTo(bits, new IOption[] { LITTLE });
+			String actualResult = intConverter.convertTo(bits, new IOption[]{LITTLE});
 			String expectedResult = "1234567890";
 
 			assertEquals(expectedResult, actualResult);
@@ -169,7 +167,7 @@ class ConverterTest {
 	@Test
 	void testBitsWithLeftPadToBytes() {
 		try {
-			String bits = bitsConverter.convertFrom("100111101001011", new IOption[] { LEFT });
+			String bits = bitsConverter.convertFrom("100111101001011", new IOption[]{LEFT});
 			String actualResult = byteConverter.convertTo(bits);
 			String expectedResult = "OK";
 
@@ -182,7 +180,7 @@ class ConverterTest {
 	@Test
 	void testBitsWithRightPadToHex() {
 		try {
-			String bits = bitsConverter.convertFrom("100111101001011", new IOption[] { RIGHT });
+			String bits = bitsConverter.convertFrom("100111101001011", new IOption[]{RIGHT});
 			String actualResult = hexConverter.convertTo(bits, null);
 			String expectedResult = "9e96";
 
@@ -222,7 +220,7 @@ class ConverterTest {
 	void testHexToArrayWithDecimal() {
 		try {
 			String bits = hexConverter.convertFrom("01020304", null);
-			String actualResult = arrayConverter.convertTo(bits, new IOption[] { DECIMAL_NUMBER });
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{DECIMAL_NUMBER});
 			String expectedResult = "{1, 2, 3, 4}";
 
 			assertEquals(expectedResult, actualResult);
@@ -235,7 +233,7 @@ class ConverterTest {
 	void testHexToArrayWithChars() {
 		try {
 			String bits = hexConverter.convertFrom("01020304", null);
-			String actualResult = arrayConverter.convertTo(bits, new IOption[] { CHARACTERS });
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{CHARACTERS});
 			String expectedResult = "{'\\x01', '\\x02', '\\x03', '\\x04'}";
 
 			assertEquals(expectedResult, actualResult);
@@ -248,7 +246,7 @@ class ConverterTest {
 	void testHexToArrayWithBinary() {
 		try {
 			String bits = hexConverter.convertFrom("01020304", null);
-			String actualResult = arrayConverter.convertTo(bits, new IOption[] { ZEROB_PREFIXED_BINARY_NUMBER });
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{ZEROB_PREFIXED_BINARY_NUMBER});
 			String expectedResult = "{0b1, 0b10, 0b11, 0b100}";
 
 			assertEquals(expectedResult, actualResult);
@@ -287,7 +285,7 @@ class ConverterTest {
 	void testArrayToArrayWithHex() {
 		try {
 			String bits = arrayConverter.convertFrom("[0x01, 2, 0b11, '\\x04']", null);
-			String actualResult = arrayConverter.convertTo(bits, new IOption[] { ZEROX_PREFIXED_HEX_NUMBER });
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{ZEROX_PREFIXED_HEX_NUMBER});
 			String expectedResult = "{0x1, 0x2, 0x3, 0x4}";
 
 			assertEquals(expectedResult, actualResult);
@@ -300,7 +298,7 @@ class ConverterTest {
 	void testArrayToArrayWithDecimal() {
 		try {
 			String bits = arrayConverter.convertFrom("(0x01, 2, 0b11, '\\x04')", null);
-			String actualResult = arrayConverter.convertTo(bits, new IOption[] { DECIMAL_NUMBER });
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{DECIMAL_NUMBER});
 			String expectedResult = "{1, 2, 3, 4}";
 
 			assertEquals(expectedResult, actualResult);
@@ -313,7 +311,7 @@ class ConverterTest {
 	void testArrayToArrayWithChars() {
 		try {
 			String bits = arrayConverter.convertFrom("{0x01, 2, 0b11, '\\x04'}", null);
-			String actualResult = arrayConverter.convertTo(bits, new IOption[] { CHARACTERS });
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{CHARACTERS});
 			String expectedResult = "{'\\x01', '\\x02', '\\x03', '\\x04'}";
 
 			assertEquals(expectedResult, actualResult);
@@ -326,8 +324,34 @@ class ConverterTest {
 	void testArrayToArrayWithBinary() {
 		try {
 			String bits = arrayConverter.convertFrom("[0x01, 2, 0b11, '\\x04']", null);
-			String actualResult = arrayConverter.convertTo(bits, new IOption[] { ZEROB_PREFIXED_BINARY_NUMBER });
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{ZEROB_PREFIXED_BINARY_NUMBER});
 			String expectedResult = "{0b1, 0b10, 0b11, 0b100}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayWithRegularBracket() {
+		try {
+			String bits = arrayConverter.convertFrom("(0x01, 2, 0b11, '\\x04')", null);
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{LEFT_REGULAR_BRACKETS});
+			String expectedResult = "(0x1, 0x2, 0x3, 0x4)";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayWithDecimalAndSquareBracket() {
+		try {
+			String bits = arrayConverter.convertFrom("[0x01, 2, 0b11, '\\x04']", null);
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{DECIMAL_NUMBER, LEFT_SQUARE_BRACKETS});
+			String expectedResult = "[1, 2, 3, 4]";
 
 			assertEquals(expectedResult, actualResult);
 		} catch (ConverterException e) {
