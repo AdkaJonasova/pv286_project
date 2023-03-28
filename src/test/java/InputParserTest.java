@@ -436,8 +436,8 @@ class InputParserTest {
             ParserResult parserResult = new InputParser().parse(input);
             assertEquals(parserResult.getFrom().getText(), from);
             assertEquals(parserResult.getTo().getText(), to);
-            assertEquals(parserResult.getFromOptions().get(parserResult.getFromOptions().size() -1).getText(), fromOpt);
-            assertEquals(parserResult.getToOptions().get(parserResult.getToOptions().size() - 1).getText(), toOpt);
+            assertEquals(parserResult.getFromOptions().get(0).getText(), fromOpt);
+            assertEquals(parserResult.getToOptions().get(0).getText(), toOpt);
         } catch (InputParsingException e) {
             System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
             assert false;

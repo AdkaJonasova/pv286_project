@@ -182,7 +182,7 @@ public class InputParser {
 
     private boolean resolveToOptions(String option) {
         if (toRepresentation.equals(Format.INT)) {
-            toOptions.add(IntOption.fromString(option));
+            toOptions.set(0, IntOption.fromString(option));
             return true;
         } else if (toRepresentation.equals(Format.ARRAY)) {
             var firstSetOption = ArrayOption.getFromFirstSet(option);
