@@ -322,6 +322,12 @@ class InputParserTest {
         String[] input = {"-f", "bits", "-t", "array", "--to-options={}"};
         checkParserResultWithMultipleOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList(null, "{}"));
     }
+
+    @Test
+    void testCorrectArrayOptionsWithBothOptionTypes() {
+        String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=()"};
+        checkParserResultWithMultipleOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0", "()"));
+    }
     //endregion
 
     //region help arg
