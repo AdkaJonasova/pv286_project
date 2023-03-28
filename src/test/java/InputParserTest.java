@@ -9,9 +9,11 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 class InputParserTest {
 
+    //region Basic tests
     @Test
     void testArgsFromTo() {
         List<List<String>> variationsOfFormats = getFormatsVariations();
@@ -69,6 +71,24 @@ class InputParserTest {
         checkParserResultWithOptions(input, "bits", "int", "right", "big");
     }
 
+    @Test
+    void testCorrectInputFile() {
+        String[] input = {"-f", "bytes", "-t", "int", "-i", "my_file"};
+        checkParserResultWithAllArgs(input, "bytes", "int", "my_file", "", "");
+    }
+
+    @Test
+    void testCorrectOutputFile() {
+        String[] input = {"-f", "bytes", "-t", "int", "-o", "my_file"};
+        checkParserResultWithAllArgs(input, "bytes", "int", "", "my_file", "");
+    }
+
+    @Test
+    void testCorrectDelimiter() {
+        String[] input = {"-f", "bytes", "-t", "int", "-d", ","};
+        checkParserResultWithAllArgs(input, "bytes", "int", "", "", ",");
+    }
+    // endregion
 
     // region missing args and formats tests
     @Test
@@ -292,21 +312,9 @@ class InputParserTest {
     }
 
     @Test
-    void testCorrectInputFile() {
-        String[] input = {"-f", "bytes", "-t", "int", "-i", "my_file"};
-        checkParserResultWithAllArgs(input, "bytes", "int", "my_file", "", "");
-    }
-
-    @Test
-    void testCorrectOutputFile() {
-        String[] input = {"-f", "bytes", "-t", "int", "-o", "my_file"};
-        checkParserResultWithAllArgs(input, "bytes", "int", "", "my_file", "");
-    }
-
-    @Test
-    void testCorrectDelimiter() {
-        String[] input = {"-f", "bytes", "-t", "int", "-d", ","};
-        checkParserResultWithAllArgs(input, "bytes", "int", "", "", ",");
+    void testCorrectArrayOptionsWithType1Option() {
+        String[] input = {"-f", "bits", "-t", "array", "--to-options=0x"};
+        checkParserResultWithMultipleOptions(input, "bits", "array", new ArrayList<>(), Arrays.asList("0x", null));
     }
     //endregion
 
@@ -430,6 +438,32 @@ class InputParserTest {
             assertEquals(parserResult.getTo().getText(), to);
             assertEquals(parserResult.getFromOptions().get(parserResult.getFromOptions().size() -1).getText(), fromOpt);
             assertEquals(parserResult.getToOptions().get(parserResult.getToOptions().size() - 1).getText(), toOpt);
+        } catch (InputParsingException e) {
+            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
+            assert false;
+        }
+    }
+
+    private static void checkParserResultWithMultipleOptions(String[] input, String from, String to,
+                                                             List<String> fromOptions, List<String> toOptions) {
+        try {
+            ParserResult parserResult = new InputParser().parse(input);
+            assertEquals(parserResult.getFrom().getText(), from);
+            assertEquals(parserResult.getTo().getText(), to);
+            for (int i = 0; i < parserResult.getFromOptions().size(); i++) {
+                if (Objects.isNull(fromOptions.get(i))) {
+                    assertNull(parserResult.getFromOptions().get(i));
+                } else {
+                    assertEquals(parserResult.getFromOptions().get(i).getText(), fromOptions.get(i));
+                }
+            }
+            for (int i = 0; i < parserResult.getToOptions().size(); i++) {
+                if (Objects.isNull(toOptions.get(i))) {
+                    assertNull(parserResult.getToOptions().get(i));
+                } else {
+                    assertEquals(parserResult.getToOptions().get(i).getText(), toOptions.get(i));
+                }
+            }
         } catch (InputParsingException e) {
             System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
             assert false;

@@ -33,7 +33,7 @@ public class InputParser {
         this.fromRepresentation = null;
         this.toRepresentation = null;
         this.fromOptions = new ArrayList<>();
-        this.toOptions = new ArrayList<>(2);
+        this.toOptions = Arrays.asList(null, null);
         this.inputFile = "";
         this.outputFile = "";
         this.delimiter = "";
