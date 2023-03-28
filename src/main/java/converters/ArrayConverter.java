@@ -1,19 +1,23 @@
 package converters;
 
 import exceptions.ConverterException;
+import format.Format;
 import options.ArrayOption;
 import options.BitsOption;
 import options.HexOption;
 import options.IOption;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static format.Format.BYTES;
 import static options.ArrayOption.*;
 
 public class ArrayConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
-		validateInput(bitStr, "^[0-1 ]+$");
+		validateInput(bitStr, "^[01 ]+$");
 
 		ArrayOption representation = ArrayOption.getLastRepresentationOption(options);
 		ArrayOption bracket = ArrayOption.getLastBracketOption(options);
@@ -54,8 +58,32 @@ public class ArrayConverter extends Converter {
 	}
 
 	@Override
-	public String convertFrom(String input, List<IOption> options) {
-		return null;
+	public String convertFrom(String input, List<IOption> options) throws ConverterException {
+		input = input.substring(1, input.length() - 1);
+		input = input.replace(" ", "");
+
+		String[] values = input.split(",");
+		
+		StringBuilder builder = new StringBuilder();
+
+		for (String value : values) {
+			Format format = Format.getFormatFromReg(value);
+			Pattern regex = Pattern.compile(format.getArrayRegex());
+			Matcher matcher = regex.matcher(value);
+
+			if (matcher.find()) {
+				String valueToConvert = matcher.group(1);
+
+				if(BYTES.equals(format)){
+					String hexValue = "\\u00" + valueToConvert;
+					valueToConvert = String.format("%c", Integer.parseInt(hexValue.substring(2), 16));
+				}
+
+				builder.append(format.getConverter().convertFrom(valueToConvert, null));
+			}
+		}
+
+		return builder.toString();
 	}
 
 }
