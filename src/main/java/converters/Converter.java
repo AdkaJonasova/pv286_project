@@ -31,8 +31,10 @@ public abstract class Converter {
 		return bitStr;
 	}
 
-	protected static boolean isNotValidInput(String input, String regex) {
-		return !input.matches(regex);
+	protected static void validateInput(String input, String regex) throws ConverterException {
+		if (!input.matches(regex)){
+			throw new ConverterException(String.format("Invalid input format: %s", input));
+		}
 	}
 
 	public abstract String convertTo(String bitStr, List<IOption> options) throws ConverterException;

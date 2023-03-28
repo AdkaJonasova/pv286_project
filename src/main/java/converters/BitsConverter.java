@@ -12,9 +12,7 @@ import static options.BitsOption.SHORT;
 public class BitsConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
-		if (isNotValidInput(bitStr, "^[0-1 ]+$")) {
-			throw new ConverterException(String.format("Invalid input format: %s", bitStr));
-		}
+		validateInput(bitStr, "^[0-1 ]+$");
 
 		BitsOption padSide = options == null || options.isEmpty() || options.get(0) == null ? LEFT : (BitsOption) options.get(options.size() - 1);
 
@@ -32,9 +30,7 @@ public class BitsConverter extends Converter {
 
 	@Override
 	public String convertFrom(String input, List<IOption> options) throws ConverterException {
-		if (isNotValidInput(input, "^[0-1 ]+$")) {
-			throw new ConverterException(String.format("Invalid input format: %s", input));
-		}
+		validateInput(input, "^[0-1 ]+$");
 
 		BitsOption padSide = options == null || options.isEmpty() || options.get(0) == null ? LEFT : (BitsOption) options.get(options.size() - 1);
 

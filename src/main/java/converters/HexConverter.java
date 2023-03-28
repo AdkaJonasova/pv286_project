@@ -11,9 +11,7 @@ public class HexConverter extends Converter {
 
 	@Override
 	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
-		if (isNotValidInput(bitStr, "^[0-1 ]+$")) {
-			throw new ConverterException(String.format("Invalid input format: %s", bitStr));
-		}
+		validateInput(bitStr, "^[0-1 ]+$");
 
 		HexOption version = options == null || options.isEmpty() || options.get(0) == null ? HexOption.LONG : (HexOption) options.get(options.size() - 1);
 
@@ -37,9 +35,7 @@ public class HexConverter extends Converter {
 	}
 
 	public String convertFrom(String input) throws ConverterException {
-		if (isNotValidInput(input, "^([0-9a-fA-F]{2}\\s?)+$")) {
-			throw new ConverterException(String.format("Invalid input format: %s", input));
-		}
+		validateInput(input, "^([0-9a-fA-F]{2}\\s?)+$");
 
 		input = input.replace(" ", "");
 		StringBuilder builder = new StringBuilder();

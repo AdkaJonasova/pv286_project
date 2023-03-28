@@ -13,9 +13,7 @@ import static options.ArrayOption.*;
 public class ArrayConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
-		if (isNotValidInput(bitStr, "^[0-1 ]+$")) {
-			throw new ConverterException(String.format("Invalid input format: %s", bitStr));
-		}
+		validateInput(bitStr, "^[0-1 ]+$");
 
 		ArrayOption representation = ArrayOption.getLastRepresentationOption(options);
 		ArrayOption bracket = ArrayOption.getLastBracketOption(options);
