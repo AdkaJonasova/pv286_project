@@ -3,7 +3,7 @@ package options;
 import java.util.Arrays;
 import java.util.List;
 
-public enum ArrayOption implements IOption{
+public enum ArrayOption implements IOption {
 	ZEROX_PREFIXED_HEX_NUMBER("0x", "0x – Represent bytes as a 0x-prefixed hex number (e.g., 0xff; default)."),
 	DECIMAL_NUMBER("0", "0 – Represent bytes as a decimal number (e.g., 255)."),
 	CHARACTERS("a", "a – Represent bytes as characters (e.g., 'a', '\\x00')"),
@@ -77,5 +77,33 @@ public enum ArrayOption implements IOption{
 
 	public static boolean contains(String value) {
 		return Arrays.stream(values()).anyMatch(option -> option.getText().equals(value));
+	}
+
+	public static ArrayOption getFromFirstSet(String value) {
+		for (ArrayOption arrayOption : ArrayOption.values()) {
+			if (arrayOption.equals(ArrayOption.ZEROX_PREFIXED_HEX_NUMBER) ||
+					arrayOption.equals(ArrayOption.ZEROB_PREFIXED_BINARY_NUMBER) ||
+					arrayOption.equals(ArrayOption.DECIMAL_NUMBER) ||
+					arrayOption.equals(ArrayOption.CHARACTERS)) {
+				if (arrayOption.getText().equalsIgnoreCase(value)) {
+					return arrayOption;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static ArrayOption getFromSecondSet(String value) {
+		for (ArrayOption arrayOption : ArrayOption.values()) {
+			if (!arrayOption.equals(ArrayOption.ZEROX_PREFIXED_HEX_NUMBER) &&
+					!arrayOption.equals(ArrayOption.ZEROB_PREFIXED_BINARY_NUMBER) &&
+					!arrayOption.equals(ArrayOption.DECIMAL_NUMBER) &&
+					!arrayOption.equals(ArrayOption.CHARACTERS)) {
+				if (arrayOption.getText().equalsIgnoreCase(value)) {
+					return arrayOption;
+				}
+			}
+		}
+		return null;
 	}
 }

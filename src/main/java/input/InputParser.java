@@ -1,6 +1,7 @@
 package input;
 
 import exceptions.InputParsingException;
+import options.ArrayOption;
 import options.BitsOption;
 import format.Format;
 import options.IOption;
@@ -8,6 +9,7 @@ import options.IntOption;
 import utils.Flag;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,7 +33,7 @@ public class InputParser {
         this.fromRepresentation = null;
         this.toRepresentation = null;
         this.fromOptions = new ArrayList<>();
-        this.toOptions = new ArrayList<>();
+        this.toOptions = new ArrayList<>(2);
         this.inputFile = "";
         this.outputFile = "";
         this.delimiter = "";
@@ -182,6 +184,17 @@ public class InputParser {
         if (toRepresentation.equals(Format.INT)) {
             toOptions.add(IntOption.fromString(option));
             return true;
+        } else if (toRepresentation.equals(Format.ARRAY)) {
+            var firstSetOption = ArrayOption.getFromFirstSet(option);
+            if (Objects.nonNull(firstSetOption)) {
+                toOptions.set(0, firstSetOption);
+                return true;
+            }
+            var secondSetOption = ArrayOption.getFromSecondSet(option);
+            if (Objects.nonNull(secondSetOption)) {
+                toOptions.set(1, secondSetOption);
+                return true;
+            }
         }
         return false;
     }
