@@ -19,32 +19,32 @@ class InputParserTest {
         List<List<String>> variationsOfFormats = getFormatsVariations();
         for (List<String> formats : variationsOfFormats) {
             String[] input = {"-f", formats.get(0), "-t", formats.get(1)};
-            checkParserResultWithAllArgs(input, formats.get(0), formats.get(1), "", "", "");
+            checkParserResult(input, formats.get(0), formats.get(1), "", "", "");
         }
     }
 
     @Test
     void testCorrectParserResultWhenArgsFromToAsText() {
         String[] input = {"--from=hex", "--to=int"};
-        checkParserResultWithAllArgs(input, "hex", "int", "", "", "");
+        checkParserResult(input, "hex", "int", "", "", "");
     }
 
     @Test
     void testCorrectParserResultWhenFromArgAsText() {
         String[] input = {"--from=hex", "-t", "bytes"};
-        checkParserResultWithAllArgs(input, "hex", "bytes", "", "", "");
+        checkParserResult(input, "hex", "bytes", "", "", "");
     }
 
     @Test
     void testCorrectParserResultWhenToArgAsText() {
         String[] input = {"-f", "bytes", "--to=hex"};
-        checkParserResultWithAllArgs(input, "bytes", "hex", "", "", "");
+        checkParserResult(input, "bytes", "hex", "", "", "");
     }
 
     @Test
     void testCorrectParserResultWhenToArgAsTextAndOptionsGiven() {
         String[] input = {"-f", "bytes", "--to=hex"};
-        checkParserResultWithAllArgs(input, "bytes", "hex", "", "", "");
+        checkParserResult(input, "bytes", "hex", "", "", "");
     }
 
     @Test
@@ -62,31 +62,31 @@ class InputParserTest {
     @Test
     void testCorrectParserResultWhenArgAsTextWithOptions() {
         String[] input = {"--from=bits", "--from-options=right", "--to=int", "--to-options=big"};
-        checkParserResultWithOptions(input, "bits", "int", "right", "big");
+        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
     }
 
     @Test
     void testCorrectParserResultWhenArgAsTextWithOptionsAreSwapped() {
         String[] input = {"--to=int", "--to-options=big", "--from=bits", "--from-options=right"};
-        checkParserResultWithOptions(input, "bits", "int", "right", "big");
+        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
     }
 
     @Test
     void testCorrectInputFile() {
         String[] input = {"-f", "bytes", "-t", "int", "-i", "my_file"};
-        checkParserResultWithAllArgs(input, "bytes", "int", "my_file", "", "");
+        checkParserResult(input, "bytes", "int", "my_file", "", "");
     }
 
     @Test
     void testCorrectOutputFile() {
         String[] input = {"-f", "bytes", "-t", "int", "-o", "my_file"};
-        checkParserResultWithAllArgs(input, "bytes", "int", "", "my_file", "");
+        checkParserResult(input, "bytes", "int", "", "my_file", "");
     }
 
     @Test
     void testCorrectDelimiter() {
         String[] input = {"-f", "bytes", "-t", "int", "-d", ","};
-        checkParserResultWithAllArgs(input, "bytes", "int", "", "", ",");
+        checkParserResult(input, "bytes", "int", "", "", ",");
     }
     // endregion
 
@@ -282,7 +282,7 @@ class InputParserTest {
     @Test
     void testSwappedPositionToThenFromArg() {
         String[] input = {"-t", "hex", "-f", "bytes"};
-        checkParserResultWithAllArgs(input, "bytes", "hex", "", "", "");
+        checkParserResult(input, "bytes", "hex", "", "", "");
     }
     //endregion
 
@@ -290,49 +290,49 @@ class InputParserTest {
     @Test
     void testCorrectFromToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big"};
-        checkParserResultWithOptions(input, "bits", "int", "right", "big");
+        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
     }
 
     @Test
     void testCorrectParseResultWhenPositionsOfArgsWithOptionsAreSwapped() {
         String[] input = {"-t", "int", "--to-options=big", "-f", "bits", "--from-options=right" };
-        checkParserResultWithOptions(input, "bits", "int", "right", "big");
+        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
     }
 
     @Test
     void testCorrectFromToDuplicateFromOptions() {
         String[] input = {"-f", "int", "--from-options=big", "--from-options=little", "-t", "int", "--to-options=little"};
-        checkParserResultWithOptions(input, "int", "int", "little", "little");
+        checkParserResultWithOptions(input, "int", "int", List.of("little"), Arrays.asList("little", null));
     }
 
     @Test
     void testCorrectFromToDuplicateToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big"};
-        checkParserResultWithOptions(input, "bits", "int", "right", "big");
+        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
     }
 
     @Test
     void testCorrectArrayOptionsWithType1Option() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0x"};
-        checkParserResultWithMultipleOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0x", null));
+        checkParserResultWithOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0x", null));
     }
 
     @Test
     void testCorrectArrayOptionsWithType2Option() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options={}"};
-        checkParserResultWithMultipleOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList(null, "{}"));
+        checkParserResultWithOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList(null, "{}"));
     }
 
     @Test
     void testCorrectArrayOptionsWithBothOptionTypes() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=()"};
-        checkParserResultWithMultipleOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0", "()"));
+        checkParserResultWithOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0", "()"));
     }
 
     @Test
     void testCorrectArrayOptionsWithType1OptionsWithDuplicate() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=0x"};
-        checkParserResultWithMultipleOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0x", null));
+        checkParserResultWithOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0x", null));
     }
     //endregion
 
@@ -449,21 +449,8 @@ class InputParserTest {
         return variationsOfFormats;
     }
 
-    private static void checkParserResultWithOptions(String[] input, String from, String to, String fromOpt, String toOpt) {
-        try {
-            ParserResult parserResult = new InputParser().parse(input);
-            assertEquals(parserResult.getFrom().getText(), from);
-            assertEquals(parserResult.getTo().getText(), to);
-            assertEquals(parserResult.getFromOptions()[0].getText(), fromOpt);
-            assertEquals(parserResult.getToOptions()[0].getText(), toOpt);
-        } catch (InputParsingException e) {
-            System.out.printf("Parsing failed on input: %s%n", Arrays.toString(input));
-            assert false;
-        }
-    }
-
-    private static void checkParserResultWithMultipleOptions(String[] input, String from, String to,
-                                                             List<String> fromOptions, List<String> toOptions) {
+    private static void checkParserResultWithOptions(String[] input, String from, String to,
+                                                     List<String> fromOptions, List<String> toOptions) {
         try {
             ParserResult parserResult = new InputParser().parse(input);
             assertEquals(parserResult.getFrom().getText(), from);
@@ -488,8 +475,8 @@ class InputParserTest {
         }
     }
 
-    private static void checkParserResultWithAllArgs(String[] input, String from, String to, String inputFile,
-                                                     String outputFile, String delimiter) {
+    private static void checkParserResult(String[] input, String from, String to, String inputFile,
+                                          String outputFile, String delimiter) {
         try {
             ParserResult parserResult = new InputParser().parse(input);
             assertEquals(parserResult.getFrom().getText(), from);
