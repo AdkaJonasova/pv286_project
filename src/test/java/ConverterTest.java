@@ -255,4 +255,82 @@ class ConverterTest {
 			fail("Exception thrown: " + e.getMessage());
 		}
 	}
+
+	@Test
+	void testArrayToHex() {
+		try {
+			String bits = arrayConverter.convertFrom("{0x01, 2, 0b11, '\\x04'}", null);
+			String actualResult = hexConverter.convertTo(bits, null);
+			String expectedResult = "01020304";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArray() {
+		try {
+			String bits = arrayConverter.convertFrom("{0x01, 2, 0b11, '\\x04'}", null);
+			String actualResult = arrayConverter.convertTo(bits, null);
+			String expectedResult = "{0x1, 0x2, 0x3, 0x4}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayWithHex() {
+		try {
+			String bits = arrayConverter.convertFrom("[0x01, 2, 0b11, '\\x04']", null);
+			String actualResult = arrayConverter.convertTo(bits, List.of(ZEROX_PREFIXED_HEX_NUMBER));
+			String expectedResult = "{0x1, 0x2, 0x3, 0x4}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayWithDecimal() {
+		try {
+			String bits = arrayConverter.convertFrom("(0x01, 2, 0b11, '\\x04')", null);
+			String actualResult = arrayConverter.convertTo(bits, List.of(DECIMAL_NUMBER));
+			String expectedResult = "{1, 2, 3, 4}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayWithChars() {
+		try {
+			String bits = arrayConverter.convertFrom("{0x01, 2, 0b11, '\\x04'}", null);
+			String actualResult = arrayConverter.convertTo(bits, List.of(CHARACTERS));
+			String expectedResult = "{'\\x01', '\\x02', '\\x03', '\\x04'}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayWithBinary() {
+		try {
+			String bits = arrayConverter.convertFrom("[0x01, 2, 0b11, '\\x04']", null);
+			String actualResult = arrayConverter.convertTo(bits, List.of(ZEROB_PREFIXED_BINARY_NUMBER));
+			String expectedResult = "{0b1, 0b10, 0b11, 0b100}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
 }
