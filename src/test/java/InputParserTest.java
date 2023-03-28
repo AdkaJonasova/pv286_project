@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import exceptions.InputParsingException;
 import input.InputParser;
 import input.ParserResult;
+import options.IOption;
 import org.junit.jupiter.api.Test;
 
 
@@ -62,13 +63,13 @@ class InputParserTest {
     @Test
     void testCorrectParserResultWhenArgAsTextWithOptions() {
         String[] input = {"--from=bits", "--from-options=right", "--to=int", "--to-options=big"};
-        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
     }
 
     @Test
     void testCorrectParserResultWhenArgAsTextWithOptionsAreSwapped() {
         String[] input = {"--to=int", "--to-options=big", "--from=bits", "--from-options=right"};
-        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
     }
 
     @Test
@@ -290,49 +291,49 @@ class InputParserTest {
     @Test
     void testCorrectFromToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big"};
-        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
     }
 
     @Test
     void testCorrectParseResultWhenPositionsOfArgsWithOptionsAreSwapped() {
         String[] input = {"-t", "int", "--to-options=big", "-f", "bits", "--from-options=right" };
-        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
     }
 
     @Test
     void testCorrectFromToDuplicateFromOptions() {
         String[] input = {"-f", "int", "--from-options=big", "--from-options=little", "-t", "int", "--to-options=little"};
-        checkParserResultWithOptions(input, "int", "int", List.of("little"), Arrays.asList("little", null));
+        checkParserResultWithOptions(input, "int", "int", new String[] { "little" }, new String[] { "little", null });
     }
 
     @Test
     void testCorrectFromToDuplicateToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big"};
-        checkParserResultWithOptions(input, "bits", "int", List.of("right"), Arrays.asList("big", null));
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
     }
 
     @Test
     void testCorrectArrayOptionsWithType1Option() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0x"};
-        checkParserResultWithOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0x", null));
+        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0x", null });
     }
 
     @Test
     void testCorrectArrayOptionsWithType2Option() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options={}"};
-        checkParserResultWithOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList(null, "{}"));
+        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { null, "{}" });
     }
 
     @Test
     void testCorrectArrayOptionsWithBothOptionTypes() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=()"};
-        checkParserResultWithOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0", "()"));
+        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0", "()" });
     }
 
     @Test
     void testCorrectArrayOptionsWithType1OptionsWithDuplicate() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=0x"};
-        checkParserResultWithOptions(input, "bits", "array", Arrays.asList(null, null), Arrays.asList("0x", null));
+        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0x", null });
     }
     //endregion
 
@@ -450,23 +451,23 @@ class InputParserTest {
     }
 
     private static void checkParserResultWithOptions(String[] input, String from, String to,
-                                                     List<String> fromOptions, List<String> toOptions) {
+                                                     String[] fromOptions, String[] toOptions) {
         try {
             ParserResult parserResult = new InputParser().parse(input);
             assertEquals(parserResult.getFrom().getText(), from);
             assertEquals(parserResult.getTo().getText(), to);
             for (int i = 0; i < parserResult.getFromOptions().length; i++) {
-                if (Objects.isNull(fromOptions.get(i))) {
+                if (Objects.isNull(fromOptions[i])) {
                     assertNull(parserResult.getFromOptions()[i]);
                 } else {
-                    assertEquals(parserResult.getFromOptions()[i].getText(), fromOptions.get(i));
+                    assertEquals(parserResult.getFromOptions()[i].getText(), fromOptions[i]);
                 }
             }
             for (int i = 0; i < parserResult.getToOptions().length; i++) {
-                if (Objects.isNull(toOptions.get(i))) {
+                if (Objects.isNull(toOptions[i])) {
                     assertNull(parserResult.getToOptions()[i]);
                 } else {
-                    assertEquals(parserResult.getToOptions()[i].getText(), toOptions.get(i));
+                    assertEquals(parserResult.getToOptions()[i].getText(), toOptions[i]);
                 }
             }
         } catch (InputParsingException e) {
