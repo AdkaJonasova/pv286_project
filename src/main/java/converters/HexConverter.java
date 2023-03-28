@@ -11,7 +11,7 @@ public class HexConverter extends Converter {
 
 	@Override
 	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
-		validateInput(bitStr, "^[0-1 ]+$");
+		validateInput(bitStr, "^[01 ]+$");
 
 		HexOption version = options == null || options.isEmpty() || options.get(0) == null ? HexOption.LONG : (HexOption) options.get(options.size() - 1);
 

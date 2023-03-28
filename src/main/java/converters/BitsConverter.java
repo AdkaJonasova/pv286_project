@@ -12,7 +12,7 @@ import static options.BitsOption.SHORT;
 public class BitsConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
-		validateInput(bitStr, "^[0-1 ]+$");
+		validateInput(bitStr, "^[01 ]+$");
 
 		BitsOption padSide = options == null || options.isEmpty() || options.get(0) == null ? LEFT : (BitsOption) options.get(options.size() - 1);
 
@@ -30,7 +30,7 @@ public class BitsConverter extends Converter {
 
 	@Override
 	public String convertFrom(String input, List<IOption> options) throws ConverterException {
-		validateInput(input, "^[0-1 ]+$");
+		validateInput(input, "^[01 ]+$");
 
 		BitsOption padSide = options == null || options.isEmpty() || options.get(0) == null ? LEFT : (BitsOption) options.get(options.size() - 1);
 

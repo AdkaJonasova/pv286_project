@@ -12,7 +12,7 @@ import static options.IntOption.LITTLE;
 public class IntConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, List<IOption> options) throws ConverterException {
-		validateInput(bitStr, "^[0-1 ]+$");
+		validateInput(bitStr, "^[01 ]+$");
 
 		IntOption endian = options == null || options.isEmpty() || options.get(0) == null ? BIG : (IntOption) options.get(options.size()-1);
 

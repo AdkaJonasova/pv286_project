@@ -9,6 +9,10 @@ import java.util.List;
 import static options.BitsOption.LEFT;
 
 public abstract class Converter {
+	public abstract String convertTo(String bitStr, List<IOption> options) throws ConverterException;
+
+	public abstract String convertFrom(String input, List<IOption> options) throws ConverterException;
+
 	protected static String addMissingZerosToBitString(String bitStr) {
 		return addMissingZerosToBitString(bitStr, LEFT);
 	}
@@ -36,8 +40,4 @@ public abstract class Converter {
 			throw new ConverterException(String.format("Invalid input format: %s", input));
 		}
 	}
-
-	public abstract String convertTo(String bitStr, List<IOption> options) throws ConverterException;
-
-	public abstract String convertFrom(String input, List<IOption> options) throws ConverterException;
 }

@@ -12,7 +12,7 @@ public class BytesConverter extends Converter {
 	}
 
 	public String convertTo(String bitStr) throws ConverterException {
-		validateInput(bitStr, "^[0-1 ]+$");
+		validateInput(bitStr, "^[01 ]+$");
 
 		bitStr = addMissingZerosToBitString(bitStr);
 
