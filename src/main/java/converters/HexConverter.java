@@ -1,14 +1,8 @@
 package converters;
 
 import exceptions.ConverterException;
-import options.BitsOption;
 import options.HexOption;
 import options.IOption;
-
-import java.util.List;
-
-import static options.BitsOption.LEFT;
-
 
 public class HexConverter extends Converter {
 

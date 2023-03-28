@@ -4,8 +4,6 @@ import exceptions.ConverterException;
 import options.BitsOption;
 import options.IOption;
 
-import java.util.List;
-
 import static options.BitsOption.LEFT;
 
 public abstract class Converter {

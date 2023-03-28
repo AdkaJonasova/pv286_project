@@ -3,8 +3,6 @@ package input;
 import format.Format;
 import options.IOption;
 
-import java.util.List;
-
 public class ParserResult {
 
     private final Format from;

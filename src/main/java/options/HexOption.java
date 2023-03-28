@@ -1,6 +1,5 @@
 package options;
 
-
 public enum HexOption implements IOption{
 	SHORT("short", "Omitted first 0 if presented"),
 	LONG("long", "Beginning 0 is presented if contains");

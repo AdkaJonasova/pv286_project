@@ -3,8 +3,6 @@ package converters;
 import exceptions.ConverterException;
 import options.IOption;
 
-import java.util.List;
-
 public class BytesConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
