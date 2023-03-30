@@ -22,18 +22,11 @@ public class InputParser {
     private String outputFile;
     private String delimiter;
 
-    private boolean shouldLookForFromOptions = false;
-    private boolean shouldLookForToOptions = false;
+    private boolean shouldLookForFromOptions;
+    private boolean shouldLookForToOptions;
 
-    public InputParser(){
-        this.currentFlag = null;
-        this.fromRepresentation = null;
-        this.toRepresentation = null;
-        this.fromOptions = new IOption[1];
-        this.toOptions = new IOption[2];
-        this.inputFile = "";
-        this.outputFile = "";
-        this.delimiter = "";
+    public InputParser() {
+        setAttributesToDefault();
     }
 
     public ParserResult parse(String[] input) throws InputParsingException {
@@ -69,7 +62,7 @@ public class InputParser {
 
         var result = new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, inputFile,
                 outputFile, delimiter, shouldPrintHelp);
-        clearAttributes();
+        setAttributesToDefault();
         return result;
     }
 
@@ -203,7 +196,7 @@ public class InputParser {
         shouldLookForToOptions = false;
     }
 
-    private void clearAttributes() {
+    private void setAttributesToDefault() {
         currentFlag = null;
         fromRepresentation = null;
         toRepresentation = null;
