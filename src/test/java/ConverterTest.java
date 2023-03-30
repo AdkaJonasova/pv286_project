@@ -337,7 +337,7 @@ class ConverterTest {
 	void testArrayToArrayWithRegularBracket() {
 		try {
 			String bits = arrayConverter.convertFrom("(0x01, 2, 0b11, '\\x04')", null);
-			String actualResult = arrayConverter.convertTo(bits, new IOption[]{LEFT_REGULAR_BRACKETS});
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{REGULAR_BRACKETS});
 			String expectedResult = "(0x1, 0x2, 0x3, 0x4)";
 
 			assertEquals(expectedResult, actualResult);
@@ -350,7 +350,7 @@ class ConverterTest {
 	void testArrayToArrayWithDecimalAndSquareBracket() {
 		try {
 			String bits = arrayConverter.convertFrom("[0x01, 2, 0b11, '\\x04']", null);
-			String actualResult = arrayConverter.convertTo(bits, new IOption[]{DECIMAL_NUMBER, LEFT_SQUARE_BRACKETS});
+			String actualResult = arrayConverter.convertTo(bits, new IOption[]{DECIMAL_NUMBER, SQUARE_BRACKETS});
 			String expectedResult = "[1, 2, 3, 4]";
 
 			assertEquals(expectedResult, actualResult);

@@ -182,14 +182,10 @@ public class InputParser {
             toOptions[0] = IntOption.fromString(option);
             return true;
         } else if (toRepresentation.equals(Format.ARRAY)) {
-            var firstSetOption = ArrayOption.getFromFirstSet(option);
-            if (Objects.nonNull(firstSetOption)) {
-                toOptions[0] = firstSetOption;
-                return true;
-            }
-            var secondSetOption = ArrayOption.getFromSecondSet(option);
-            if (Objects.nonNull(secondSetOption)) {
-                toOptions[1] = secondSetOption;
+            var resolvedOption = ArrayOption.fromString(option);
+            if (Objects.nonNull(resolvedOption)) {
+                var optionIndex = ArrayOption.isFromFirstSet(resolvedOption) ? 0 : 1;
+                toOptions[optionIndex] = resolvedOption;
                 return true;
             }
         }

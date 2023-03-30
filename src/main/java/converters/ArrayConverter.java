@@ -7,6 +7,7 @@ import options.BitsOption;
 import options.HexOption;
 import options.IOption;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,8 +19,8 @@ public class ArrayConverter extends Converter {
 	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
 		validateInput(bitStr, "^[01 ]+$");
 
-		ArrayOption representation = ArrayOption.getLastRepresentationOption(options);
-		ArrayOption bracket = ArrayOption.getLastBracketOption(options);
+		ArrayOption representation = getRepresentationOption(options);
+		ArrayOption bracket = getBracketOption(options);
 
 		bitStr = addMissingZerosToBitString(bitStr);
 
@@ -47,13 +48,7 @@ public class ArrayConverter extends Converter {
 
 		String result = String.join(", ", byteArray);
 
-		if (LEFT_CURLY_BRACKETS.equals(bracket) || RIGHT_CURLY_BRACKETS.equals(bracket) || CURLY_BRACKETS.equals(bracket)) {
-			return "{" + result + "}";
-		} else if (LEFT_SQUARE_BRACKETS.equals(bracket) || RIGHT_SQUARE_BRACKETS.equals(bracket) || SQUARE_BRACKETS.equals(bracket)) {
-			return "[" + result + "]";
-		}
-
-		return "(" + result + ")";
+		return bracket.getOpen() + result + bracket.getClose();
 	}
 
 	@Override
@@ -83,6 +78,29 @@ public class ArrayConverter extends Converter {
 		}
 
 		return builder.toString();
+	}
+
+	private ArrayOption getRepresentationOption(IOption[] options) {
+		if (Objects.isNull(options))
+			return ZEROX_PREFIXED_HEX_NUMBER;
+		for (var option : options) {
+			if (Objects.nonNull(option) && ArrayOption.isFromFirstSet((ArrayOption) option)) {
+				return (ArrayOption) option;
+			}
+		}
+		return ZEROX_PREFIXED_HEX_NUMBER;
+	}
+
+	private ArrayOption getBracketOption(IOption[] options) {
+		if (Objects.isNull(options))
+			return CURLY_BRACKETS;
+
+		for (var option : options) {
+			if (Objects.nonNull(option) && ArrayOption.isFromSecondSet((ArrayOption) option)) {
+				return (ArrayOption) option;
+			}
+		}
+		return CURLY_BRACKETS;
 	}
 
 }
