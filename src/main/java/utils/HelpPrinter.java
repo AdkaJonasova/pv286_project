@@ -18,51 +18,69 @@ public class HelpPrinter {
     }
 
     private static void printAllowedFlags(StringBuilder builder) {
-        builder.append("Allowed flags are: \n");
+        builder.append("Allowed flags are: ")
+                .append(System.lineSeparator());
         for (Flag flag : Flag.values()) {
             builder.append("- ")
                     .append(flag.getDescription())
-                    .append("\n");
+                    .append(System.lineSeparator());
         }
-        builder.append("\n");
+        builder.append(System.lineSeparator());
     }
 
     private static void printAllowedOptions(StringBuilder builder) {
-        builder.append("Allowed options for int format are: \n")
-                .append("-> For input and output options \n");
-        for (IntOption intOption : IntOption.values()) {
-            builder.append("    - ")
-                    .append(intOption.getDescription())
-                    .append("\n");
-        }
-        builder.append("\n");
+        printIntOptions(builder);
+        printBitsOptions(builder);
+        printArraysOptions(builder);
+    }
 
-        builder.append("Allowed options for bits format are: \n")
-                .append("-> For input options \n");
-        for (BitsOption bitOption : BitsOption.values()) {
-            builder.append("    - ")
-                    .append(bitOption.getDescription())
-                    .append("\n");
-        }
-        builder.append("\n");
-
-        builder.append("Allowed options for arrays format are: \n")
-                .append("-> For output options \n");
+    private static void printArraysOptions(StringBuilder builder) {
+        builder.append("Allowed options for arrays format are: ")
+                .append(System.lineSeparator())
+                .append("-> For output options ")
+                .append(System.lineSeparator());
         for (ArrayOption arrayOption : ArrayOption.values()) {
             builder.append("    - ")
                     .append(arrayOption.getDescription())
-                    .append("\n");
+                    .append(System.lineSeparator());
         }
-        builder.append("\n");
+        builder.append(System.lineSeparator());
+    }
+
+    private static void printBitsOptions(StringBuilder builder) {
+        builder.append("Allowed options for bits format are: ")
+                .append(System.lineSeparator())
+                .append("-> For input options ")
+                .append(System.lineSeparator());
+        for (BitsOption bitOption : BitsOption.values()) {
+            builder.append("    - ")
+                    .append(bitOption.getDescription())
+                    .append(System.lineSeparator());
+        }
+        builder.append(System.lineSeparator());
+    }
+
+    private static void printIntOptions(StringBuilder builder) {
+        builder.append("Allowed options for int format are: ")
+                .append(System.lineSeparator())
+                .append("-> For input and output options ")
+                .append(System.lineSeparator());
+        for (IntOption intOption : IntOption.values()) {
+            builder.append("    - ")
+                    .append(intOption.getDescription())
+                    .append(System.lineSeparator());
+        }
+        builder.append(System.lineSeparator());
     }
 
     private static void printAllowedFormats(StringBuilder builder) {
-        builder.append("Allowed formats are: \n");
+        builder.append("Allowed formats are: ")
+                .append(System.lineSeparator());
         for (Format format : Format.values()) {
             builder.append("- ")
                     .append(format.getDescription())
-                    .append("\n");
+                    .append(System.lineSeparator());
         }
-        builder.append("\n");
+        builder.append(System.lineSeparator());
     }
 }
