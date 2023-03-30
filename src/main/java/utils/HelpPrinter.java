@@ -1,6 +1,7 @@
 package utils;
 
 import format.Format;
+import options.ArrayOption;
 import options.BitsOption;
 import options.IntOption;
 
@@ -44,6 +45,15 @@ public class HelpPrinter {
                     .append("\n");
         }
         builder.append("\n");
+
+        builder.append("Allowed options for arrays format are: \n")
+                .append("-> For output options \n");
+        for (ArrayOption arrayOption : ArrayOption.values()) {
+            builder.append("    - ")
+                    .append(arrayOption.getDescription())
+                    .append("\n");
+        }
+        builder.append("\n");
     }
 
     private static void printAllowedFormats(StringBuilder builder) {
@@ -56,4 +66,3 @@ public class HelpPrinter {
         builder.append("\n");
     }
 }
-
