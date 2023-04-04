@@ -131,7 +131,7 @@ public class ArrayConverter extends Converter {
             }
         }
         if (!stack.empty()) {
-            throw new ConverterException(String.format("Missing closing bracket: %s", input));
+            throw new ConverterException(String.format("Missing closing bracket in input: %s", input));
         }
     }
 
