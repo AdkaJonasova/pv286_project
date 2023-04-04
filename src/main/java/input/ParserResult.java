@@ -59,14 +59,4 @@ public class ParserResult {
         return delimiter;
     }
     //endregion
-
-    @Override
-    public String toString() {
-        var formatString = "From = %s, From options = %s \n " +
-                "To = %s, To options = %s \n" +
-                "Input file = %s, Output file = %s \n" +
-                "Delimiter = %s, Print help = %s";
-        return String
-                .format(formatString, from, fromOption, to, toOption, inputFile, outputFile, delimiter, shouldPrintHelp);
-    }
 }
