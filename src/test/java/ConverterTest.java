@@ -9,6 +9,7 @@ import static options.BitsOption.RIGHT;
 import static options.IntOption.BIG;
 import static options.IntOption.LITTLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class ConverterTest {
@@ -17,6 +18,32 @@ class ConverterTest {
 	IntConverter intConverter = new IntConverter();
 	BitsConverter bitsConverter = new BitsConverter();
 	ArrayConverter arrayConverter = new ArrayConverter();
+
+	@Test
+	void testFromIntInvalid() {
+		String input = "test";
+		String input2 = "12t";
+		assertThrows(ConverterException.class, () -> intConverter.convertFrom(input, null));
+		assertThrows(ConverterException.class, () -> intConverter.convertFrom(input2, null));
+	}
+
+	@Test
+	void testFromHexInvalid() {
+		String input = "12G";
+		String input2 = "test";
+		String input3 = "35FH";
+		assertThrows(ConverterException.class, () -> hexConverter.convertFrom(input, null));
+		assertThrows(ConverterException.class, () -> hexConverter.convertFrom(input2, null));
+		assertThrows(ConverterException.class, () -> hexConverter.convertFrom(input3, null));
+	}
+
+	@Test
+	void testFromBitsInvalid() {
+		String input = "012";
+		String input2 = "test";
+		assertThrows(ConverterException.class, () -> bitsConverter.convertFrom(input, null));
+		assertThrows(ConverterException.class, () -> bitsConverter.convertFrom(input2, null));
+	}
 
 	@Test
 	void testBytesToBytes() {
