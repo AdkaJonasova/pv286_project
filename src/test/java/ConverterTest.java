@@ -358,4 +358,69 @@ class ConverterTest {
 			fail("Exception thrown: " + e.getMessage());
 		}
 	}
+
+	@Test
+	void testArrayToArrayEmpty() {
+		try {
+			String bits = arrayConverter.convertFrom("()", null);
+			String actualResult = arrayConverter.convertTo(bits, null);
+			String expectedResult = "{}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayNestedEmptyWithSquareBracket() {
+		try {
+			String bits = arrayConverter.convertFrom("([],{})", null);
+			String actualResult = arrayConverter.convertTo(bits, new IOption[] {SQUARE_BRACKETS});
+			String expectedResult = "[[], []]";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayNestedWithInts() {
+		try {
+			String bits = arrayConverter.convertFrom("[[1, 2], [3, 4], [5, 6]]", null);
+			String actualResult = arrayConverter.convertTo(bits, null);
+			String expectedResult = "{{0x1, 0x2}, {0x3, 0x4}, {0x5, 0x6}}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayNestedWithIntsWithDecimal() {
+		try {
+			String bits = arrayConverter.convertFrom("[[1, 2], [3, 4], [5, 6]]", null);
+			String actualResult = arrayConverter.convertTo(bits, new IOption[] {DECIMAL_NUMBER});
+			String expectedResult = "{{1, 2}, {3, 4}, {5, 6}}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToArrayNestedWithHexAndIntsWithDecimalAndSquareBrackets() {
+		try {
+			String bits = arrayConverter.convertFrom("{{0x01, (2), [3, 0b100, 0x05], '\\x06'}}", null);
+			String actualResult = arrayConverter.convertTo(bits, new IOption[] {DECIMAL_NUMBER, SQUARE_BRACKETS});
+			String expectedResult = "[[1, [2], [3, 4, 5], 6]]";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
 }
