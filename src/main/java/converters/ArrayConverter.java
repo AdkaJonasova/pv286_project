@@ -9,6 +9,7 @@ import options.IOption;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +17,7 @@ import static format.Format.BYTES;
 import static options.ArrayOption.*;
 
 public class ArrayConverter extends Converter {
+
     @Override
     public String convertTo(String bitStr, IOption[] options) throws ConverterException {
         validateInput(bitStr, "^[01 ]+$");
@@ -89,19 +91,48 @@ public class ArrayConverter extends Converter {
         if (Objects.isNull(input) || input.length() < 2) {
             throw new ConverterException(String.format("Invalid input: %s", input));
         }
-        checkInputBrackets(input.charAt(0), input.charAt(input.length() - 1));
+        checkBrackets(String.valueOf(input.charAt(0)), String.valueOf(input.charAt(input.length() - 1)));
     }
 
-    private void checkInputBrackets(char beginClosure, char closeClosure) throws ConverterException {
-        String closures = String.valueOf(beginClosure) + closeClosure;
-        List<String> arrayOptions = List.of(CURLY_BRACKETS.getText(), SQUARE_BRACKETS.getText(), REGULAR_BRACKETS.getText());
-        if (!arrayOptions.contains(closures)){
-            throw new ConverterException(String.format("Non-equal brackets: %s", closeClosure));
+    private void checkBrackets(String openingBracket, String closingBracket) throws ConverterException {
+        String closures = openingBracket + closingBracket;
+        List<String> correctBracketsOptions = List.of(CURLY_BRACKETS.getText(), SQUARE_BRACKETS.getText(), REGULAR_BRACKETS.getText());
+        if (!correctBracketsOptions.contains(closures)) {
+            throw new ConverterException(String.format("Non-equal brackets: %s", closingBracket));
         }
     }
 
     private void parseNestedArrays(String input, ArrayOption bracketOption) {
         String unitedClosureInput = uniteClosures(input, bracketOption);
+    }
+
+    private void validateInputBrackets(String input) throws ConverterException {
+        List<String> openingBrackets = List.of(
+                CURLY_BRACKETS.getOpen(),
+                SQUARE_BRACKETS.getOpen(),
+                REGULAR_BRACKETS.getOpen()
+        );
+        List<String> closingBrackets = List.of(
+                CURLY_BRACKETS.getClose(),
+                SQUARE_BRACKETS.getClose(),
+                REGULAR_BRACKETS.getClose()
+        );
+
+        Stack<String> stack = new Stack<>();
+        for (char c : input.toCharArray()) {
+            String cStringValue = String.valueOf(c);
+            if (openingBrackets.contains(cStringValue)) {
+                stack.push(cStringValue);
+            } else if (closingBrackets.contains(cStringValue)) {
+                if (stack.empty()) {
+                    throw new ConverterException(String.format("Missing opening bracket in input: %s", input));
+                }
+                checkBrackets(stack.pop(), cStringValue);
+            }
+        }
+        if (!stack.empty()) {
+            throw new ConverterException(String.format("Missing closing bracket: %s", input));
+        }
     }
 
     private String uniteClosures(String input, ArrayOption bracketOption) {
