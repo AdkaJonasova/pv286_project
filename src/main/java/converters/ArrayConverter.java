@@ -7,7 +7,6 @@ import options.BitsOption;
 import options.HexOption;
 import options.IOption;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -55,7 +54,7 @@ public class ArrayConverter extends Converter {
 
     @Override
     public String convertFrom(String input, IOption[] options) throws ConverterException {
-        checkInputStartingBrackets(input.charAt(0), input.charAt(input.length() - 1));
+        validateArrayInput(input);
         input = input.substring(1, input.length() - 1);
         input = input.replace(" ", "");
 
@@ -86,7 +85,14 @@ public class ArrayConverter extends Converter {
         return builder.toString();
     }
 
-    private void checkInputStartingBrackets(char beginClosure, char closeClosure) throws ConverterException {
+    private void validateArrayInput(String input) throws ConverterException {
+        if (Objects.isNull(input) || input.length() < 2) {
+            throw new ConverterException(String.format("Invalid input: %s", input));
+        }
+        checkInputBrackets(input.charAt(0), input.charAt(input.length() - 1));
+    }
+
+    private void checkInputBrackets(char beginClosure, char closeClosure) throws ConverterException {
         String closures = String.valueOf(beginClosure) + closeClosure;
         List<String> arrayOptions = List.of(CURLY_BRACKETS.getText(), SQUARE_BRACKETS.getText(), REGULAR_BRACKETS.getText());
         if (!arrayOptions.contains(closures)){
