@@ -141,24 +141,32 @@ public class ArrayConverter extends Converter {
         return result;
     }
 
-    private ArrayOption getRepresentationOption(IOption[] options) {
+    private ArrayOption getRepresentationOption(IOption[] options) throws ConverterException {
         if (Objects.isNull(options))
             return ZEROX_PREFIXED_HEX_NUMBER;
         for (var option : options) {
-            if (Objects.nonNull(option) && ArrayOption.isFromFirstSet((ArrayOption) option)) {
-                return (ArrayOption) option;
+            try{
+                if (Objects.nonNull(option) && ArrayOption.isFromFirstSet((ArrayOption) option)) {
+                    return (ArrayOption) option;
+                }
+            } catch (ClassCastException e) {
+                throw new ConverterException(String.format("ArrayConverter doesn't support option: %s", option));
             }
         }
         return ZEROX_PREFIXED_HEX_NUMBER;
     }
 
-    private ArrayOption getBracketOption(IOption[] options) {
+    private ArrayOption getBracketOption(IOption[] options) throws ConverterException {
         if (Objects.isNull(options))
             return CURLY_BRACKETS;
 
         for (var option : options) {
-            if (Objects.nonNull(option) && ArrayOption.isFromSecondSet((ArrayOption) option)) {
-                return (ArrayOption) option;
+            try{
+                if (Objects.nonNull(option) && ArrayOption.isFromSecondSet((ArrayOption) option)) {
+                    return (ArrayOption) option;
+                }
+            } catch (ClassCastException e) {
+                throw new ConverterException(String.format("ArrayConverter doesn't support option: %s", option));
             }
         }
         return CURLY_BRACKETS;

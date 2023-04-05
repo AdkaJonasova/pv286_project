@@ -3,16 +3,19 @@ package converters;
 import exceptions.ConverterException;
 import options.BitsOption;
 import options.IOption;
+import options.IntOption;
+
+import java.util.Objects;
 
 import static options.BitsOption.LEFT;
 import static options.BitsOption.SHORT;
+import static options.IntOption.BIG;
 
 public class BitsConverter extends Converter {
 	@Override
 	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
 		validateInput(bitStr, "^[01 ]+$");
-
-		BitsOption padSide = options == null || options.length == 0 || options[0] == null ? LEFT : (BitsOption) options[0];
+		BitsOption padSide = getPadSideFromOptions(options);
 
 		if (padSide.equals(SHORT)) {
 			int index = bitStr.indexOf("1");
@@ -29,10 +32,18 @@ public class BitsConverter extends Converter {
 	@Override
 	public String convertFrom(String input, IOption[] options) throws ConverterException {
 		validateInput(input, "^[01 ]+$");
-
-		BitsOption padSide = options == null || options.length == 0 || options[0] == null ? LEFT : (BitsOption) options[0];
+		BitsOption padSide = getPadSideFromOptions(options);
 
 		input = input.replace(" ", "");
 		return addMissingZerosToBitString(input, padSide);
 	}
+
+	private BitsOption getPadSideFromOptions(IOption[] options) throws ConverterException {
+		try {
+			return Objects.isNull(options) || options.length == 0 || options[0] == null ? LEFT : (BitsOption) options[0];
+		} catch (ClassCastException e) {
+			throw new ConverterException(String.format("BitsConverter doesn't support option: %s", options[0]));
+		}
+	}
+
 }

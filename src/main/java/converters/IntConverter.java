@@ -54,7 +54,7 @@ public class IntConverter extends Converter {
 	private IntOption getEndianFromOptions(IOption[] options) throws ConverterException {
 		try {
 			return Objects.isNull(options) || options.length == 0 || options[0] == null ? BIG : (IntOption) options[0];
-		} catch (Exception e) {
+		} catch (ClassCastException e) {
 			throw new ConverterException(String.format("IntConverter doesn't support option: %s", options[0]));
 		}
 	}

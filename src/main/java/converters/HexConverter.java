@@ -3,14 +3,20 @@ package converters;
 import exceptions.ConverterException;
 import options.HexOption;
 import options.IOption;
+import options.IntOption;
+
+import java.util.Objects;
+
+import static options.HexOption.LONG;
+import static options.HexOption.SHORT;
+import static options.IntOption.BIG;
 
 public class HexConverter extends Converter {
 
 	@Override
 	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
 		validateInput(bitStr, "^[01 ]+$");
-
-		HexOption version = options == null || options.length == 0 || options[0] == null ? HexOption.LONG : (HexOption) options[0];
+		HexOption version = getVersionFromOptions(options);
 
 		bitStr = addMissingZerosToBitString(bitStr);
 
@@ -23,7 +29,7 @@ public class HexConverter extends Converter {
 		}
 
 		String result = builder.toString();
-		return HexOption.SHORT.equals(version) && result.startsWith("0") ? result.substring(1) : result;
+		return SHORT.equals(version) && result.startsWith("0") ? result.substring(1) : result;
 	}
 
 	@Override
@@ -42,5 +48,13 @@ public class HexConverter extends Converter {
 			builder.append(binaryString);
 		}
 		return builder.toString();
+	}
+
+	private HexOption getVersionFromOptions(IOption[] options) throws ConverterException {
+		try {
+			return Objects.isNull(options) || options.length == 0 || options[0] == null ? LONG : (HexOption) options[0];
+		} catch (ClassCastException e) {
+			throw new ConverterException(String.format("HexConverter doesn't support option: %s", options[0]));
+		}
 	}
 }
