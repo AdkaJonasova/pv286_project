@@ -125,6 +125,131 @@ public class PanbyteTest {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    @Test
+    public void testFromHexToArray() {
+        String echo = "01020304";
+        String[] args = {"-f", "hex", "-t", "array"};
+        String expectedOutput = "{0x1, 0x2, 0x3, 0x4}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromArrayToHex() {
+        String echo = "{0x01, 2, 0b11, '\\x04'}";
+        String[] args = {"-f", "array", "-t", "hex"};
+        String expectedOutput = "01020304";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromArrayToArray() {
+        String echo = "{0x01,2,0b11 ,'\\x04' }";
+        String[] args = {"-f", "array", "-t", "array"};
+        String expectedOutput = "{0x1, 0x2, 0x3, 0x4}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromArrayToArrayOptionsHexRepresentation() {
+        String echo = "[0x01, 2, 0b11, '\\x04']";
+        String[] args = {"-f", "array", "-t", "array", "--to-options=0x"};
+        String expectedOutput = "{0x1, 0x2, 0x3, 0x4}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromArrayToArrayOptionsDecimalRepresentation() {
+        String echo = "(0x01, 2, 0b11, '\\x04')";
+        String[] args = {"-f", "array", "-t", "array", "--to-options=0"};
+        String expectedOutput = "{1, 2, 3, 4}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromArrayToArrayOptionsCharRepresentation() {
+        String echo = "{0x01, 2, 0b11, '\\x04'}";
+        String[] args = {"-f", "array", "-t", "array", "--to-options=a"};
+        String expectedOutput = "{'\\x01', '\\x02', '\\x03', '\\x04'}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromArrayToArrayOptionsBinaryRepresentation() {
+        String echo = "[0x01, 2, 0b11, '\\x04']";
+        String[] args = {"-f", "array", "-t", "array", "--to-options=0b"};
+        String expectedOutput = "{0b1, 0b10, 0b11, 0b100}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromArrayToArrayOptionsRegularBrackets() {
+        String echo = "(0x01, 2, 0b11, '\\x04')";
+        String[] args = {"-f", "array", "-t", "array", "--to-options=\"(\""};
+        String expectedOutput = "(0x1, 0x2, 0x3, 0x4)";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testFromArrayToArrayOptionsDecRepSquareBracket() {
+        String echo = "{0x01, 2, 0b11, '\\x04'}";
+        String[] args = {"-f", "array", "-t", "array", "--to-options=0", "\\", "--to-options=\"[\""};
+        String expectedOutput = "[1, 2, 3, 4]";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testNestedFromArrayToArray() {
+        String echo = "[[1, 2], [3, 4], [5, 6]]";
+        String[] args = {"-f", "array", "-t", "array"};
+        String expectedOutput = "{{0x1, 0x2}, {0x3, 0x4}, {0x5, 0x6}}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testNestedFromArrayToArrayOptionsCurlyBracketsDecimalRepresentation() {
+        String echo = "[[1, 2], [3, 4], [5, 6]]";
+        String[] args = {"-f", "array", "-t", "array", "\\", "--to-options=\"{\"", "--to-options=0"};
+        String expectedOutput = "{{1, 2}, {3, 4}, {5, 6}}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testNestedFromArrayToArrayOptionsDecimalRepresentationSquareBrackets() {
+        String echo = "{{0x01, (2), [3, 0b100, 0x05], '\\x06'}}";
+        String[] args = {"-f", "array", "-t", "array", "\\", "--to-options=0", "--to-options==\"[\""};
+        String expectedOutput = "[[1, [2], [3, 4, 5], 6]]";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testNestedFromArrayToArrayEmptyBrackets() {
+        String echo = "()";
+        String[] args = {"-f", "array", "-t", "array"};
+        String expectedOutput = "{}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testNestedFromArrayToArrayOptionsSquareBrackets() {
+        String echo =  "([],{})";
+        String[] args = {"-f", "array", "-t", "array", "--to-options=\"[\""};
+        String expectedOutput = "[[], []]";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
 
     private String getOutputOfProgramCall(String echo, String[] args) {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes());
