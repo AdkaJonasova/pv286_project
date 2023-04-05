@@ -36,12 +36,12 @@ public class IntConverter extends Converter {
 	private String processBitString(String bitStr, IntOption endian) {
 		bitStr = addMissingZerosToBitString(bitStr);
 		if (LITTLE.equals(endian)) {
-			bitStr = changeToLittleEndian(bitStr);
+			bitStr = changeEndian(bitStr);
 		}
 		return bitStr;
 	}
 
-	private String changeToLittleEndian(String bitStr) {
+	private String changeEndian(String bitStr) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = bitStr.length() - 1; i >= 0; i -= 8) {
 			int startIndex = Math.max(i - 7, 0);
