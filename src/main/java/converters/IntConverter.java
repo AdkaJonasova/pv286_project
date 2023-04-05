@@ -4,8 +4,6 @@ import exceptions.ConverterException;
 import options.IOption;
 import options.IntOption;
 
-import java.util.List;
-
 import static options.IntOption.BIG;
 import static options.IntOption.LITTLE;
 

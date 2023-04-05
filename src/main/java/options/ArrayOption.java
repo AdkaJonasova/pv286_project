@@ -59,10 +59,6 @@ public enum ArrayOption implements IOption {
 		return null;
 	}
 
-	public static boolean contains(String value) {
-		return Arrays.stream(values()).anyMatch(option -> option.getText().equals(value));
-	}
-
 	public static boolean isFromFirstSet(ArrayOption option) {
 		return option.equals(DECIMAL_NUMBER) ||
 				option.equals(ZEROB_PREFIXED_BINARY_NUMBER) ||
