@@ -50,9 +50,9 @@ public enum ArrayOption implements IOption {
 
 	public static ArrayOption fromString(String text) {
 		for (ArrayOption arrayOption : ArrayOption.values()) {
-			if (arrayOption.textV1.equalsIgnoreCase(text) ||
-					arrayOption.textV2.equalsIgnoreCase(text) ||
-					arrayOption.textV3.equalsIgnoreCase(text)) {
+			if (String.format("\"%s\"", arrayOption.textV1).equalsIgnoreCase(text) ||
+					String.format("\"%s\"", arrayOption.textV2).equalsIgnoreCase(text) ||
+					String.format("\"%s\"", arrayOption.textV3).equalsIgnoreCase(text)){
 				return arrayOption;
 			}
 		}
