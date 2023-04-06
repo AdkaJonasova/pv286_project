@@ -112,8 +112,11 @@ public class ArrayConverter extends Converter {
         }
     }
 
-    private String parseNestedArrays(String input, ArrayOption bracketOption, IOption[] options) throws ConverterException {
+    public String parseNestedArrays(String input, IOption[] options) throws ConverterException {
         validateNestedArrayInput(input);
+
+        ArrayOption bracketOption = getBracketOption(options);
+        input = input.replace(" ", "");
         String unitedClosureInput = uniteClosures(input, bracketOption);
         return convertNestedInput(unitedClosureInput, bracketOption.getOpen(), bracketOption.getClose(), options);
     }
