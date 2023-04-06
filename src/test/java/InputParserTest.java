@@ -320,13 +320,13 @@ class InputParserTest {
 
     @Test
     void testCorrectArrayOptionsWithType2Option() {
-        String[] input = {"-f", "bits", "-t", "array", "--to-options={}"};
+        String[] input = {"-f", "bits", "-t", "array", "--to-options=\"{}\""};
         checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { null, "{}" });
     }
 
     @Test
     void testCorrectArrayOptionsWithBothOptionTypes() {
-        String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=()"};
+        String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=\"()\""};
         checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0", "()" });
     }
 
