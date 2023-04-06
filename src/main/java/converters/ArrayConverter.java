@@ -16,6 +16,17 @@ import static options.ArrayOption.*;
 
 public class ArrayConverter extends Converter {
 
+    private static class Pair {
+
+        Pair(int index, String value) {
+            this.index = index;
+            this.value = value;
+        }
+
+        int index;
+        String value;
+    }
+
     @Override
     public String convertTo(String bitStr, IOption[] options) throws ConverterException {
         String result = convertToWithoutBrackets(bitStr, options);
@@ -62,6 +73,15 @@ public class ArrayConverter extends Converter {
         input = input.replace(" ", "");
 
         return convertFromWithoutBrackets(input);
+    }
+
+    public String convertFromArrayToArray(String input, IOption[] options) throws ConverterException {
+        validateArrayToArrayInput(input);
+
+        ArrayOption bracketOption = getBracketOption(options);
+        input = input.replace(" ", "");
+        String unitedClosureInput = uniteClosures(input, bracketOption);
+        return convertArrayToArray(unitedClosureInput, 0, bracketOption.getOpen(), bracketOption.getClose(), options).value;
     }
 
     private static String convertFromWithoutBrackets(String input) throws ConverterException {
@@ -112,43 +132,51 @@ public class ArrayConverter extends Converter {
         }
     }
 
-    public String parseNestedArrays(String input, IOption[] options) throws ConverterException {
-        validateNestedArrayInput(input);
 
-        ArrayOption bracketOption = getBracketOption(options);
-        input = input.replace(" ", "");
-        String unitedClosureInput = uniteClosures(input, bracketOption);
-        return convertNestedInput(unitedClosureInput, bracketOption.getOpen(), bracketOption.getClose(), options);
-    }
+    private Pair convertArrayToArray(String input, int index, String openBrackets, String closingBracket, IOption[] options) throws ConverterException {
+        List<String> values = new ArrayList<>();
 
-    private String convertNestedInput(String input, String openBrackets, String closingBracket, IOption[] options) throws ConverterException {
-        StringBuilder result = new StringBuilder("");
-        StringBuilder valueToParse = new StringBuilder("");
-
-        for (char c : input.toCharArray()) {
-            String cStringValue = String.valueOf(c);
-            if (cStringValue.equals(openBrackets)) {
-                result.append(cStringValue);
-            } else if (cStringValue.equals(closingBracket)) {
-                String bitValue = convertFromValue(valueToParse.toString());
-                result.append(convertToWithoutBrackets(bitValue, options))
-                        .append(closingBracket)
-                        .append(", ");
-                valueToParse = new StringBuilder("");
-            } else if (cStringValue.equals(",") && !valueToParse.isEmpty()){
-                String bitValue = convertFromValue(valueToParse.toString());
-                result.append(convertToWithoutBrackets(bitValue, options))
-                        .append(", ");
-                valueToParse = new StringBuilder("");
+        StringBuilder valueToConvert = new StringBuilder();
+        String stringValue;
+        while (index < input.length()) {
+            String character = String.valueOf(input.charAt(index));
+            if (character.equals(openBrackets)) {
+                Pair semiValues = convertArrayToArray(input, index + 1, openBrackets, closingBracket, options);
+                index = semiValues.index;
+                values.add(semiValues.value);
+            } else if (character.equals(closingBracket)) {
+                if (!valueToConvert.isEmpty()) {
+                    String resultChar = getResultChar(options, valueToConvert.toString());
+                    values.add(resultChar);
+                }
+                stringValue = String.format("%s%s%s", openBrackets, String.join(", ", values), closingBracket);
+                return new Pair(index, stringValue);
+            } else if (character.equals(",")) {
+                if (!valueToConvert.isEmpty()) {
+                    String resultChar = getResultChar(options, valueToConvert.toString());
+                    values.add(resultChar);
+                    valueToConvert = new StringBuilder();
+                }
             } else {
-                valueToParse.append(cStringValue);
+                valueToConvert.append(character);
             }
+            index++;
         }
 
-        return result.toString();
+        stringValue = values.isEmpty() ? "" : values.get(0);
+        return new Pair(index, stringValue);
     }
 
-    private void validateNestedArrayInput(String input) throws ConverterException {
+    private String getResultChar(IOption[] options, String valueToParse) throws ConverterException {
+        if (valueToParse.equals("")) return "";
+        String bitValue = convertFromValue(valueToParse);
+        return convertToWithoutBrackets(bitValue, options);
+    }
+
+    private void validateArrayToArrayInput(String input) throws ConverterException {
+        if (Objects.isNull(input) || input.length() < 2) {
+            throw new ConverterException(String.format("Invalid input: %s", input));
+        }
         List<String> openingBrackets = List.of(
                 CURLY_BRACKETS.getOpen(),
                 SQUARE_BRACKETS.getOpen(),

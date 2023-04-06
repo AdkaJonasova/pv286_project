@@ -9,7 +9,6 @@ import utils.HelpPrinter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static format.Format.ARRAY;
 
@@ -43,7 +42,7 @@ public class Program {
                 String convertedValue;
 
                 if (ARRAY.equals(from) && ARRAY.equals(to)){
-                    convertedValue = new ArrayConverter().parseNestedArrays(val, userArgs.getFromOptions());
+                    convertedValue = new ArrayConverter().convertFromArrayToArray(val, userArgs.getFromOptions());
                 } else {
                     var convertedFromVal = from.getConverter().convertFrom(val, userArgs.getFromOptions());
                     convertedValue = to.getConverter().convertTo(convertedFromVal, userArgs.getToOptions());

@@ -298,7 +298,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArray() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("{0x01, 2, 0b11, '\\x04'}", null);
+			String actualResult = arrayConverter.convertFromArrayToArray("{0x01, 2, 0b11, '\\x04'}", null);
 			String expectedResult = "{0x1, 0x2, 0x3, 0x4}";
 
 			assertEquals(expectedResult, actualResult);
@@ -310,7 +310,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayWithHex() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("[0x01, 2, 0b11, '\\x04']", new IOption[]{ZEROX_PREFIXED_HEX_NUMBER});
+			String actualResult = arrayConverter.convertFromArrayToArray("[0x01, 2, 0b11, '\\x04']", new IOption[]{ZEROX_PREFIXED_HEX_NUMBER});
 			String expectedResult = "{0x1, 0x2, 0x3, 0x4}";
 
 			assertEquals(expectedResult, actualResult);
@@ -322,7 +322,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayWithDecimal() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("(0x01, 2, 0b11, '\\x04')", new IOption[]{DECIMAL_NUMBER});
+			String actualResult = arrayConverter.convertFromArrayToArray("(0x01, 2, 0b11, '\\x04')", new IOption[]{DECIMAL_NUMBER});
 			String expectedResult = "{1, 2, 3, 4}";
 
 			assertEquals(expectedResult, actualResult);
@@ -334,7 +334,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayWithChars() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("{0x01, 2, 0b11, '\\x04'}", new IOption[]{CHARACTERS});
+			String actualResult = arrayConverter.convertFromArrayToArray("{0x01, 2, 0b11, '\\x04'}", new IOption[]{CHARACTERS});
 			String expectedResult = "{'\\x01', '\\x02', '\\x03', '\\x04'}";
 
 			assertEquals(expectedResult, actualResult);
@@ -346,7 +346,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayWithBinary() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("[0x01, 2, 0b11, '\\x04']", new IOption[]{ZEROB_PREFIXED_BINARY_NUMBER});
+			String actualResult = arrayConverter.convertFromArrayToArray("[0x01, 2, 0b11, '\\x04']", new IOption[]{ZEROB_PREFIXED_BINARY_NUMBER});
 			String expectedResult = "{0b1, 0b10, 0b11, 0b100}";
 
 			assertEquals(expectedResult, actualResult);
@@ -358,7 +358,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayWithRegularBracket() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("(0x01, 2, 0b11, '\\x04')", new IOption[]{REGULAR_BRACKETS});
+			String actualResult = arrayConverter.convertFromArrayToArray("(0x01, 2, 0b11, '\\x04')", new IOption[]{REGULAR_BRACKETS});
 			String expectedResult = "(0x1, 0x2, 0x3, 0x4)";
 
 			assertEquals(expectedResult, actualResult);
@@ -370,7 +370,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayWithDecimalAndSquareBracket() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("[0x01, 2, 0b11, '\\x04']", new IOption[]{DECIMAL_NUMBER, SQUARE_BRACKETS});
+			String actualResult = arrayConverter.convertFromArrayToArray("[0x01, 2, 0b11, '\\x04']", new IOption[]{DECIMAL_NUMBER, SQUARE_BRACKETS});
 			String expectedResult = "[1, 2, 3, 4]";
 
 			assertEquals(expectedResult, actualResult);
@@ -382,7 +382,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayEmpty() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("()", null);
+			String actualResult = arrayConverter.convertFromArrayToArray("()", null);
 			String expectedResult = "{}";
 
 			assertEquals(expectedResult, actualResult);
@@ -394,7 +394,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayNestedEmptyWithSquareBracket() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("([],{})", new IOption[] {SQUARE_BRACKETS});
+			String actualResult = arrayConverter.convertFromArrayToArray("([],{})", new IOption[] {SQUARE_BRACKETS});
 			String expectedResult = "[[], []]";
 
 			assertEquals(expectedResult, actualResult);
@@ -406,7 +406,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayNestedWithInts() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("[[1, 2], [3, 4], [5, 6]]", null);
+			String actualResult = arrayConverter.convertFromArrayToArray("[[1, 2], [3, 4], [5, 6]]", null);
 			String expectedResult = "{{0x1, 0x2}, {0x3, 0x4}, {0x5, 0x6}}";
 
 			assertEquals(expectedResult, actualResult);
@@ -418,7 +418,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayNestedWithIntsWithDecimal() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("[[1, 2], [3, 4], [5, 6]]", new IOption[] {DECIMAL_NUMBER});
+			String actualResult = arrayConverter.convertFromArrayToArray("[[1, 2], [3, 4], [5, 6]]", new IOption[] {DECIMAL_NUMBER});
 			String expectedResult = "{{1, 2}, {3, 4}, {5, 6}}";
 
 			assertEquals(expectedResult, actualResult);
@@ -430,7 +430,7 @@ class ConverterTest {
 	@Test
 	void testArrayToArrayNestedWithHexAndIntsWithDecimalAndSquareBrackets() {
 		try {
-			String actualResult = arrayConverter.parseNestedArrays("{{0x01, (2), [3, 0b100, 0x05], '\\x06'}}", new IOption[] {DECIMAL_NUMBER, SQUARE_BRACKETS});
+			String actualResult = arrayConverter.convertFromArrayToArray("{{0x01, (2), [3, 0b100, 0x05], '\\x06'}}", new IOption[] {DECIMAL_NUMBER, SQUARE_BRACKETS});
 			String expectedResult = "[[1, [2], [3, 4, 5], 6]]";
 
 			assertEquals(expectedResult, actualResult);
