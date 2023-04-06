@@ -61,6 +61,10 @@ public class ArrayConverter extends Converter {
         input = input.substring(1, input.length() - 1);
         input = input.replace(" ", "");
 
+        return convertFromWithoutBrackets(input);
+    }
+
+    private static String convertFromWithoutBrackets(String input) throws ConverterException {
         String[] values = input.split(",");
 
         StringBuilder builder = new StringBuilder();
