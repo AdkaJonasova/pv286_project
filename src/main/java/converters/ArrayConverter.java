@@ -70,26 +70,31 @@ public class ArrayConverter extends Converter {
         StringBuilder builder = new StringBuilder();
 
         for (String value : values) {
-            Format format = Format.getFormatFromInputValue(value);
-            if (format == null) {
-                throw new ConverterException(String.format("Invalid value: %s", value));
-            }
-            Pattern regex = Pattern.compile(format.getArrayRegex());
-            Matcher matcher = regex.matcher(value);
-
-            if (matcher.find()) {
-                String valueToConvert = matcher.group(1);
-
-                if (BYTES.equals(format)) {
-                    String hexValue = "\\u00" + valueToConvert;
-                    valueToConvert = String.format("%c", Integer.parseInt(hexValue.substring(2), 16));
-                }
-
-                builder.append(format.getConverter().convertFrom(valueToConvert, null));
-            }
+            builder.append(convertValue(value));
         }
 
         return builder.toString();
+    }
+
+    private static String convertValue(String value) throws ConverterException {
+        Format format = Format.getFormatFromInputValue(value);
+        if (format == null) {
+            throw new ConverterException(String.format("Invalid value: %s", value));
+        }
+        Pattern regex = Pattern.compile(format.getArrayRegex());
+        Matcher matcher = regex.matcher(value);
+
+        if (matcher.find()) {
+            String valueToConvert = matcher.group(1);
+
+            if (BYTES.equals(format)) {
+                String hexValue = "\\u00" + valueToConvert;
+                valueToConvert = String.format("%c", Integer.parseInt(hexValue.substring(2), 16));
+            }
+
+            return format.getConverter().convertFrom(valueToConvert, null);
+        }
+        return value;
     }
 
     private void validateArrayInput(String input) throws ConverterException {
@@ -110,6 +115,18 @@ public class ArrayConverter extends Converter {
     private void parseNestedArrays(String input, ArrayOption bracketOption) throws ConverterException {
         validateNestedArrayInput(input);
         String unitedClosureInput = uniteClosures(input, bracketOption);
+        String result = convertInput(input, bracketOption.getOpen(), bracketOption.getClose());
+    }
+
+    private String convertInput(String input, String openBracket, String closeBracket) {
+        StringBuilder result = new StringBuilder("");
+
+        for (char c: input.toCharArray()) {
+            String cStringValue = String.valueOf(c);
+
+        }
+
+        return result.toString();
     }
 
     private void validateNestedArrayInput(String input) throws ConverterException {
