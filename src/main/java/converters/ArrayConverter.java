@@ -115,20 +115,27 @@ public class ArrayConverter extends Converter {
     private String parseNestedArrays(String input, ArrayOption bracketOption, IOption[] options) throws ConverterException {
         validateNestedArrayInput(input);
         String unitedClosureInput = uniteClosures(input, bracketOption);
-        return convertNestedInput(unitedClosureInput, Arrays.asList(bracketOption.getOpen(), bracketOption.getClose()), options);
+        return convertNestedInput(unitedClosureInput, bracketOption.getOpen(), bracketOption.getClose(), options);
     }
 
-    private String convertNestedInput(String input, List<String> brackets, IOption[] options) throws ConverterException {
+    private String convertNestedInput(String input, String openBrackets, String closingBracket, IOption[] options) throws ConverterException {
         StringBuilder result = new StringBuilder("");
         StringBuilder valueToParse = new StringBuilder("");
 
         for (char c : input.toCharArray()) {
             String cStringValue = String.valueOf(c);
-            if (brackets.contains(cStringValue)) {
+            if (cStringValue.equals(openBrackets)) {
                 result.append(cStringValue);
-            } else if (cStringValue.equals(",")){
+            } else if (cStringValue.equals(closingBracket)) {
                 String bitValue = convertFromValue(valueToParse.toString());
-                result.append(convertToWithoutBrackets(bitValue, options));
+                result.append(convertToWithoutBrackets(bitValue, options))
+                        .append(closingBracket)
+                        .append(", ");
+                valueToParse = new StringBuilder("");
+            } else if (cStringValue.equals(",") && !valueToParse.isEmpty()){
+                String bitValue = convertFromValue(valueToParse.toString());
+                result.append(convertToWithoutBrackets(bitValue, options))
+                        .append(", ");
                 valueToParse = new StringBuilder("");
             } else {
                 valueToParse.append(cStringValue);
