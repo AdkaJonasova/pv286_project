@@ -1,5 +1,7 @@
+import converters.ArrayConverter;
 import exceptions.ConverterException;
 import exceptions.InputParsingException;
+import format.Format;
 import input.InputParser;
 import utils.IOHelper;
 import utils.HelpPrinter;
@@ -7,6 +9,9 @@ import utils.HelpPrinter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static format.Format.ARRAY;
 
 public class Program {
 
@@ -32,8 +37,18 @@ public class Program {
             // convert values
             var result = new ArrayList<String>();
             for (var val : userInput) {
-                var convertedFromVal = userArgs.getFrom().getConverter().convertFrom(val, userArgs.getFromOptions());
-                var convertedValue = userArgs.getTo().getConverter().convertTo(convertedFromVal, userArgs.getToOptions());
+                Format from = userArgs.getFrom();
+                Format to = userArgs.getTo();
+
+                String convertedValue;
+
+                if (ARRAY.equals(from) && ARRAY.equals(to)){
+                    convertedValue = new ArrayConverter().parseNestedArrays(val, userArgs.getFromOptions());
+                } else {
+                    var convertedFromVal = from.getConverter().convertFrom(val, userArgs.getFromOptions());
+                    convertedValue = to.getConverter().convertTo(convertedFromVal, userArgs.getToOptions());
+                }
+                
                 result.add(convertedValue);
             }
 
