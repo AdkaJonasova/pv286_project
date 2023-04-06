@@ -70,13 +70,13 @@ public class ArrayConverter extends Converter {
         StringBuilder builder = new StringBuilder();
 
         for (String value : values) {
-            builder.append(convertValue(value));
+            builder.append(convertFromValue(value));
         }
 
         return builder.toString();
     }
 
-    private static String convertValue(String value) throws ConverterException {
+    private static String convertFromValue(String value) throws ConverterException {
         Format format = Format.getFormatFromInputValue(value);
         if (format == null) {
             throw new ConverterException(String.format("Invalid value: %s", value));
@@ -112,18 +112,27 @@ public class ArrayConverter extends Converter {
         }
     }
 
-    private void parseNestedArrays(String input, ArrayOption bracketOption) throws ConverterException {
+    private String parseNestedArrays(String input, ArrayOption bracketOption, IOption[] options) throws ConverterException {
         validateNestedArrayInput(input);
         String unitedClosureInput = uniteClosures(input, bracketOption);
-        String result = convertInput(input, bracketOption.getOpen(), bracketOption.getClose());
+        return convertNestedInput(unitedClosureInput, Arrays.asList(bracketOption.getOpen(), bracketOption.getClose()), options);
     }
 
-    private String convertInput(String input, String openBracket, String closeBracket) {
+    private String convertNestedInput(String input, List<String> brackets, IOption[] options) throws ConverterException {
         StringBuilder result = new StringBuilder("");
+        StringBuilder valueToParse = new StringBuilder("");
 
-        for (char c: input.toCharArray()) {
+        for (char c : input.toCharArray()) {
             String cStringValue = String.valueOf(c);
-
+            if (brackets.contains(cStringValue)) {
+                result.append(cStringValue);
+            } else if (cStringValue.equals(",")){
+                String bitValue = convertFromValue(valueToParse.toString());
+                result.append(convertToWithoutBrackets(bitValue, options));
+                valueToParse = new StringBuilder("");
+            } else {
+                valueToParse.append(cStringValue);
+            }
         }
 
         return result.toString();
@@ -168,7 +177,7 @@ public class ArrayConverter extends Converter {
         if (Objects.isNull(options))
             return ZEROX_PREFIXED_HEX_NUMBER;
         for (var option : options) {
-            try{
+            try {
                 if (Objects.nonNull(option) && ArrayOption.isFromFirstSet((ArrayOption) option)) {
                     return (ArrayOption) option;
                 }
@@ -184,7 +193,7 @@ public class ArrayConverter extends Converter {
             return CURLY_BRACKETS;
 
         for (var option : options) {
-            try{
+            try {
                 if (Objects.nonNull(option) && ArrayOption.isFromSecondSet((ArrayOption) option)) {
                     return (ArrayOption) option;
                 }
