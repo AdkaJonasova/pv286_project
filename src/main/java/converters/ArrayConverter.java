@@ -18,10 +18,16 @@ public class ArrayConverter extends Converter {
 
     @Override
     public String convertTo(String bitStr, IOption[] options) throws ConverterException {
+        String result = convertToWithoutBrackets(bitStr, options);
+
+        ArrayOption bracket = getBracketOption(options);
+        return bracket.getOpen() + result + bracket.getClose();
+    }
+
+    private String convertToWithoutBrackets(String bitStr, IOption[] options) throws ConverterException {
         validateInput(bitStr, "^[01 ]+$");
 
         ArrayOption representation = getRepresentationOption(options);
-        ArrayOption bracket = getBracketOption(options);
 
         bitStr = addMissingZerosToBitString(bitStr);
 
@@ -46,10 +52,7 @@ public class ArrayConverter extends Converter {
                 byteArray[i] = "'\\x" + byteValue + "'";
             }
         }
-
-        String result = String.join(", ", byteArray);
-
-        return bracket.getOpen() + result + bracket.getClose();
+        return String.join(", ", byteArray);
     }
 
     @Override
@@ -100,11 +103,12 @@ public class ArrayConverter extends Converter {
         }
     }
 
-    private void parseNestedArrays(String input, ArrayOption bracketOption) {
+    private void parseNestedArrays(String input, ArrayOption bracketOption) throws ConverterException {
+        validateNestedArrayInput(input);
         String unitedClosureInput = uniteClosures(input, bracketOption);
     }
 
-    private void validateInputBrackets(String input) throws ConverterException {
+    private void validateNestedArrayInput(String input) throws ConverterException {
         List<String> openingBrackets = List.of(
                 CURLY_BRACKETS.getOpen(),
                 SQUARE_BRACKETS.getOpen(),
