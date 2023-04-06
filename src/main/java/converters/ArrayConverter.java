@@ -7,9 +7,7 @@ import options.BitsOption;
 import options.HexOption;
 import options.IOption;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Stack;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -118,19 +116,19 @@ public class ArrayConverter extends Converter {
                 REGULAR_BRACKETS.getClose()
         );
 
-        Stack<String> stack = new Stack<>();
+        Deque<String> stack = new ArrayDeque<>();
         for (char c : input.toCharArray()) {
             String cStringValue = String.valueOf(c);
             if (openingBrackets.contains(cStringValue)) {
                 stack.push(cStringValue);
             } else if (closingBrackets.contains(cStringValue)) {
-                if (stack.empty()) {
+                if (stack.isEmpty()) {
                     throw new ConverterException(String.format("Missing opening bracket in input: %s", input));
                 }
                 checkBrackets(stack.pop(), cStringValue);
             }
         }
-        if (!stack.empty()) {
+        if (!stack.isEmpty()) {
             throw new ConverterException(String.format("Missing closing bracket in input: %s", input));
         }
     }
