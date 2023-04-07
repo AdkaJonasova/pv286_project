@@ -1,7 +1,5 @@
 package options;
 
-import java.util.Arrays;
-
 public enum ArrayOption implements IOption {
 	ZEROX_PREFIXED_HEX_NUMBER("0x", "0x – Represent bytes as a 0x-prefixed hex number (e.g., 0xff; default)."),
 	DECIMAL_NUMBER("0", "0 – Represent bytes as a decimal number (e.g., 255)."),
@@ -50,10 +48,16 @@ public enum ArrayOption implements IOption {
 
 	public static ArrayOption fromString(String text) {
 		for (ArrayOption arrayOption : ArrayOption.values()) {
-			if (String.format("\"%s\"", arrayOption.textV1).equalsIgnoreCase(text) ||
-					String.format("\"%s\"", arrayOption.textV2).equalsIgnoreCase(text) ||
-					String.format("\"%s\"", arrayOption.textV3).equalsIgnoreCase(text)){
-				return arrayOption;
+			if (isFromFirstSet(arrayOption)) {
+				if (arrayOption.textV1.equalsIgnoreCase(text)) {
+					return arrayOption;
+				}
+			} else {
+				if (String.format("\"%s\"", arrayOption.textV1).equalsIgnoreCase(text) ||
+						String.format("\"%s\"", arrayOption.textV2).equalsIgnoreCase(text) ||
+						String.format("\"%s\"", arrayOption.textV3).equalsIgnoreCase(text)){
+					return arrayOption;
+				}
 			}
 		}
 		return null;
@@ -71,6 +75,4 @@ public enum ArrayOption implements IOption {
 				option.equals(SQUARE_BRACKETS) ||
 				option.equals(REGULAR_BRACKETS);
 	}
-
-
 }

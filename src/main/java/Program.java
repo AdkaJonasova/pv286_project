@@ -42,7 +42,7 @@ public class Program {
                 String convertedValue;
 
                 if (ARRAY.equals(from) && ARRAY.equals(to)){
-                    convertedValue = new ArrayConverter().convertFromArrayToArray(val, userArgs.getFromOptions());
+                    convertedValue = new ArrayConverter().convertFromArrayToArray(val, userArgs.getToOptions());
                 } else {
                     var convertedFromVal = from.getConverter().convertFrom(val, userArgs.getFromOptions());
                     convertedValue = to.getConverter().convertTo(convertedFromVal, userArgs.getToOptions());
