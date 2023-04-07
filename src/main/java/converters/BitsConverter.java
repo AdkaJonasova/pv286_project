@@ -29,7 +29,8 @@ public class BitsConverter extends Converter {
 	 * Converts a binary string to a binary string.
 	 *
 	 * @param bitStr   the binary string to convert
-	 * @param options  an array of {@link BitsOption} options (first is taken, if none is provided, {@link BitsOption#LEFT} is used)
+	 * @param options  an array of {@link BitsOption} options (first is taken,
+	 *                    if none is provided, {@link BitsOption#LEFT} is used)
 	 * @return the binary string
 	 * @throws ConverterException if the input binary string is invalid
 	 */
@@ -54,7 +55,8 @@ public class BitsConverter extends Converter {
 	 * Converts a binary string to a binary string.
 	 *
 	 * @param input    the binary string to convert
-	 * @param options  an array of {@link BitsOption} options (first is taken, if none is provided, {@link BitsOption#LEFT} is used)
+	 * @param options  an array of {@link BitsOption} options (first is taken,
+	 *                    if none is provided, {@link BitsOption#LEFT} is used)
 	 * @return the binary string
 	 * @throws ConverterException if the input binary string is invalid
 	 */
@@ -63,15 +65,16 @@ public class BitsConverter extends Converter {
 		validateInput(input, "^[01 ]+$");
 		BitsOption padSide = getPadSideFromOptions(options);
 
-		input = input.replace(" ", "");
-		return addMissingZerosToBitString(input, padSide);
+		String updatedInput = input.replace(" ", "");
+		return addMissingZerosToBitString(updatedInput, padSide);
 	}
 
 	private BitsOption getPadSideFromOptions(IOption[] options) throws ConverterException {
 		try {
 			return Objects.isNull(options) || options.length == 0 || options[0] == null ? LEFT : (BitsOption) options[0];
 		} catch (ClassCastException e) {
-			throw new ConverterException(String.format("BitsConverter doesn't support option: %s", options[0]));
+			throw new ConverterException(
+					String.format("BitsConverter doesn't support option: %s", options[0]));
 		}
 	}
 

@@ -14,7 +14,8 @@ import static options.IntOption.LITTLE;
  * It extends the abstract Converter class.
  * <p>
  * To convert an unsigned integer string to a binary string, use the {@link #convertTo(String, IOption[])} method.
- * To convert a binary string to an unsigned integer value string, use the {@link #convertFrom(String, IOption[])} method.
+ * To convert a binary string to an unsigned integer value string, use the
+ * {@link #convertFrom(String, IOption[])} method.
  * <p>
  * The IntConverter supports the following options:
  * <ul>
@@ -28,7 +29,8 @@ public class IntConverter extends Converter {
 	 * Converts a binary string to an unsigned integer value string.
 	 *
 	 * @param bitStr   the binary string to convert
-	 * @param options  an array of {@link IntOption} options (first is taken, if none is provided, {@link IntOption#BIG} is used)
+	 * @param options  an array of {@link IntOption} options (first is taken,
+	 *                    if none is provided, {@link IntOption#BIG} is used)
 	 * @return the unsigned integer value string
 	 * @throws ConverterException if the input binary string is invalid
 	 */
@@ -37,8 +39,8 @@ public class IntConverter extends Converter {
 		validateInput(bitStr, "^[01 ]+$");
 		IntOption endian = getEndianFromOptions(options);
 
-		bitStr = processBitString(bitStr, endian);
-		long unsignedInt = Long.parseUnsignedLong(bitStr, 2);
+		String updatedBitStr = processBitString(bitStr, endian);
+		long unsignedInt = Long.parseUnsignedLong(updatedBitStr, 2);
 
 		return Long.toUnsignedString(unsignedInt);
 	}
@@ -47,7 +49,8 @@ public class IntConverter extends Converter {
 	 * Converts an unsigned integer value string to a binary string.
 	 *
 	 * @param input    the unsigned integer value string to convert
-	 * @param options  an array of {@link IntOption} options (first is taken, if none is provided, {@link IntOption#BIG} is used)
+	 * @param options  an array of {@link IntOption} options (first is taken,
+	 *                    if none is provided, {@link IntOption#BIG} is used)
 	 * @return the binary string
 	 * @throws ConverterException if the input unsigned integer value string is invalid
 	 */
@@ -64,11 +67,11 @@ public class IntConverter extends Converter {
 	}
 
 	private String processBitString(String bitStr, IntOption endian) {
-		bitStr = addMissingZerosToBitString(bitStr);
+		String result = addMissingZerosToBitString(bitStr);
 		if (LITTLE.equals(endian)) {
-			bitStr = changeEndian(bitStr);
+			result = changeEndian(result);
 		}
-		return bitStr;
+		return result;
 	}
 
 	private String changeEndian(String bitStr) {

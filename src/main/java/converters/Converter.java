@@ -8,7 +8,8 @@ import static options.BitsOption.LEFT;
 
 /**
  * The Converter abstract class provides a template for converting between binary data and other formats.
- * Subclasses of Converter must implement the {@link #convertTo(String, IOption[])} and {@link #convertFrom(String, IOption[])} methods to provide specific
+ * Subclasses of Converter must implement the {@link #convertTo(String, IOption[])}
+ * and {@link #convertFrom(String, IOption[])} methods to provide specific
  * conversion functionality.
  */
 public abstract class Converter {

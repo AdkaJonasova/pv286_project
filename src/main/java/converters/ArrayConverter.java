@@ -59,7 +59,8 @@ public class ArrayConverter extends Converter {
      * Converts a binary string to a byte array string.
      *
      * @param bitStr   the binary string to convert
-     * @param options  an array of {@link ArrayOption} options (first two are taken, if none is provided, {@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER} and {@link ArrayOption#CURLY_BRACKETS} is used)
+     * @param options  an array of {@link ArrayOption} options (first two are taken, if none is provided,
+     * {@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER} and {@link ArrayOption#CURLY_BRACKETS} is used)
      * @return the byte array string
      * @throws ConverterException if the input binary string is invalid
      */
@@ -113,10 +114,10 @@ public class ArrayConverter extends Converter {
     @Override
     public String convertFrom(String input, IOption[] options) throws ConverterException {
         validateArrayInput(input);
-        input = input.substring(1, input.length() - 1);
-        input = input.replace(" ", "");
+        String result = input.substring(1, input.length() - 1);
+        result = result.replace(" ", "");
 
-        return convertFromWithoutBrackets(input);
+        return convertFromWithoutBrackets(result);
     }
 
     /**
@@ -132,8 +133,8 @@ public class ArrayConverter extends Converter {
         validateArrayToArrayInput(input);
 
         ArrayOption bracketOption = getBracketOption(options);
-        input = input.replace(" ", "");
-        String unitedClosureInput = uniteClosures(input, bracketOption);
+        String result = input.replace(" ", "");
+        String unitedClosureInput = uniteClosures(result, bracketOption);
         return convertArrayToArray(unitedClosureInput, 0,
                 bracketOption.getOpen(), bracketOption.getClose(), options).value;
     }
@@ -225,7 +226,10 @@ public class ArrayConverter extends Converter {
     }
 
     private String getResultChar(IOption[] options, String valueToParse) throws ConverterException {
-        if (valueToParse.equals("")) return "";
+        if (valueToParse.equals("")){
+            return "";
+        }
+
         String bitValue = convertFromValue(valueToParse);
         return convertToWithoutBrackets(bitValue, options);
     }
@@ -269,8 +273,10 @@ public class ArrayConverter extends Converter {
     }
 
     private ArrayOption getRepresentationOption(IOption[] options) throws ConverterException {
-        if (Objects.isNull(options))
+        if (Objects.isNull(options)){
             return ZEROX_PREFIXED_HEX_NUMBER;
+        }
+
         for (var option : options) {
             try {
                 if (Objects.nonNull(option) && ArrayOption.isFromFirstSet((ArrayOption) option)) {
@@ -284,8 +290,9 @@ public class ArrayConverter extends Converter {
     }
 
     private ArrayOption getBracketOption(IOption[] options) throws ConverterException {
-        if (Objects.isNull(options))
+        if (Objects.isNull(options)) {
             return CURLY_BRACKETS;
+        }
 
         for (var option : options) {
             try {

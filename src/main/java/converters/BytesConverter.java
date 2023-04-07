@@ -38,11 +38,11 @@ public class BytesConverter extends Converter {
 	public String convertTo(String bitStr) throws ConverterException {
 		validateInput(bitStr, "^[01 ]+$");
 
-		bitStr = addMissingZerosToBitString(bitStr);
+		String updatedBitStr = addMissingZerosToBitString(bitStr);
 
 		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < bitStr.length(); i += BYTE_LENGTH) {
-			String byteString = bitStr.substring(i, Math.min(i + BYTE_LENGTH, bitStr.length()));
+		for (int i = 0; i < updatedBitStr.length(); i += BYTE_LENGTH) {
+			String byteString = updatedBitStr.substring(i, Math.min(i + BYTE_LENGTH, updatedBitStr.length()));
 			int byteValue = Integer.parseInt(byteString, 2);
 
 			builder.append((char) byteValue);

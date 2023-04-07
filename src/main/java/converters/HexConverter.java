@@ -28,7 +28,8 @@ public class HexConverter extends Converter {
 	 * Converts a binary string to a hex value string.
 	 *
 	 * @param bitStr   the binary string to convert
-	 * @param options  an array of {@link HexOption} options (first is taken, if none is provided, {@link HexOption#LONG} is used)
+	 * @param options  an array of {@link HexOption} options (first is taken,
+	 *                    if none is provided, {@link HexOption#LONG} is used)
 	 * @return the hex value string
 	 * @throws ConverterException if the input binary string is invalid
 	 */
@@ -37,12 +38,12 @@ public class HexConverter extends Converter {
 		validateInput(bitStr, "^[01 ]+$");
 		HexOption version = getVersionFromOptions(options);
 
-		bitStr = addMissingZerosToBitString(bitStr);
+		String updatedBitStr = addMissingZerosToBitString(bitStr);
 
 		StringBuilder builder = new StringBuilder();
 
-		for (int i = 0; i < bitStr.length(); i += 4) {
-			String nibble = bitStr.substring(i, i + 4);
+		for (int i = 0; i < updatedBitStr.length(); i += 4) {
+			String nibble = updatedBitStr.substring(i, i + 4);
 			int value = Integer.parseInt(nibble, 2);
 			builder.append(Integer.toHexString(value));
 		}
@@ -74,10 +75,11 @@ public class HexConverter extends Converter {
 	public String convertFrom(String input) throws ConverterException {
 		validateInput(input, "^([0-9a-fA-F]{2}\\s?)+$");
 
-		input = input.replace(" ", "");
+		String updatedInput = input.replace(" ", "");
 		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < input.length(); i++) {
-			String binaryString = String.format("%4s", Integer.toBinaryString(Character.digit(input.charAt(i), 16)))
+		for (int i = 0; i < updatedInput.length(); i++) {
+			String binaryString = String.format("%4s",
+							Integer.toBinaryString(Character.digit(updatedInput.charAt(i), 16)))
 					.replace(' ', '0');
 			builder.append(binaryString);
 		}
