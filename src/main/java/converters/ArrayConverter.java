@@ -190,8 +190,9 @@ public class ArrayConverter extends Converter {
     }
 
 
-    private Pair convertArrayToArray(String input, int index, String openBrackets,
+    private Pair convertArrayToArray(String input, int inputActualPosition, String openBrackets,
                                      String closingBracket, IOption[] options) throws ConverterException {
+        int index = inputActualPosition;
         List<String> values = new ArrayList<>();
 
         StringBuilder valueToConvert = new StringBuilder();
@@ -222,7 +223,7 @@ public class ArrayConverter extends Converter {
         }
 
         stringValue = values.isEmpty() ? "" : values.get(0);
-        return new Pair(index, stringValue);
+        return new Pair(inputActualPosition, stringValue);
     }
 
     private String getResultChar(IOption[] options, String valueToParse) throws ConverterException {

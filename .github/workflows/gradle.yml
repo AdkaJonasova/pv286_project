@@ -40,5 +40,3 @@ jobs:
           distribution: 'temurin'
       - name: Run tests
         run: ./gradlew test --console=plain --tests "*"
-      - name: Code Coverage Summary
-        uses: irongut/CodeCoverageSummary@v1.3.0
