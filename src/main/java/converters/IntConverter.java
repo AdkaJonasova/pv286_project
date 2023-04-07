@@ -40,9 +40,67 @@ public class IntConverter extends Converter {
 		IntOption endian = getEndianFromOptions(options);
 
 		String updatedBitStr = processBitString(bitStr, endian);
-		long unsignedInt = Long.parseUnsignedLong(updatedBitStr, 2);
 
-		return Long.toUnsignedString(unsignedInt);
+		String decimalNumber = "0";
+		String powerOfTwo = "1";
+		for (int i = updatedBitStr.length() - 1; i >= 0; i--) {
+			int digit = updatedBitStr.charAt(i) - '0';
+			if (digit == 0) {
+				powerOfTwo = multiplyStrings(powerOfTwo, "2");
+				continue;
+			}
+
+			String product = multiplyStrings(String.valueOf(digit), powerOfTwo);
+			decimalNumber = addStrings(decimalNumber, product);
+			powerOfTwo = multiplyStrings(powerOfTwo, "2");
+		}
+		return decimalNumber;
+	}
+
+	private static String addStrings(String firstStrValue, String secondStrValue) {
+		StringBuilder sb = new StringBuilder();
+		int carry = 0;
+		int i = firstStrValue.length() - 1;
+		int j = secondStrValue.length() - 1;
+		while (i >= 0 || j >= 0 || carry > 0) {
+			int sum = carry;
+			if (i >= 0) {
+				sum += firstStrValue.charAt(i--) - '0';
+			}
+			if (j >= 0) {
+				sum += secondStrValue.charAt(j--) - '0';
+			}
+			carry = sum / 10;
+			sb.append(sum % 10);
+		}
+		return sb.reverse().toString();
+	}
+
+	private static String multiplyStrings(String firstStrValue, String secondStrValue) {
+		if (firstStrValue.equals("0") || secondStrValue.equals("0")) {
+			return "0";
+		}
+		int firstValueLen = firstStrValue.length();
+		int secondValueLen = secondStrValue.length();
+		int[] result = new int[firstValueLen + secondValueLen];
+		for (int i = firstValueLen - 1; i >= 0; i--) {
+			for (int j = secondValueLen - 1; j >= 0; j--) {
+				int p1 = i + j;
+				int p2 = p1 + 1;
+				int product = (firstStrValue.charAt(i) - '0') * (secondStrValue.charAt(j) - '0');
+				int sum = product + result[p2];
+				result[p2] = sum % 10;
+				result[p1] += sum / 10;
+			}
+		}
+		StringBuilder sb = new StringBuilder();
+		for (int digit : result) {
+			if (digit == 0 && sb.length() == 0) {
+				continue;
+			}
+			sb.append(digit);
+		}
+		return sb.length() > 0 ? sb.toString() : "0";
 	}
 
 	/**
@@ -59,8 +117,31 @@ public class IntConverter extends Converter {
 		validateInput(input, "^\\d+$");
 		IntOption endian = getEndianFromOptions(options);
 
-		long unsignedInt = Long.parseUnsignedLong(input);
-		String bitStr = Long.toBinaryString(unsignedInt);
+		StringBuilder binary = new StringBuilder();
+		StringBuilder updatedInput = new StringBuilder(input);
+
+		while (updatedInput.length() > 0) {
+			StringBuilder semiResult = new StringBuilder();
+			boolean foundNoneZero = false;
+			int remainder = 0;
+
+			for (int i = 0; i < updatedInput.length(); i++) {
+				int digit = Character.getNumericValue(updatedInput.charAt(i));
+				int dividend = remainder * 10 + digit;
+				char charDigit = (char) ('0' + (dividend / 2));
+				remainder = dividend % 2;
+
+				if(!foundNoneZero && charDigit == '0'){
+					continue;
+				}
+				foundNoneZero = true;
+				semiResult.append(charDigit);
+			}
+			binary.append(remainder);
+			updatedInput = semiResult;
+		}
+
+		String bitStr = binary.reverse().toString();
 		bitStr = processBitString(bitStr, endian);
 
 		return bitStr;
