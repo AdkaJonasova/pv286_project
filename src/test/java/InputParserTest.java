@@ -327,7 +327,7 @@ class InputParserTest {
     @Test
     void testSwappedPositionToThenFromArg() {
         String[] input = {"-t", "hex", "-f", "bytes"};
-        checkParserResult(input, "bytes", "hex", "", "", "\n");
+        checkParserResult(input, "bytes", "hex", "", "", "");
     }
     //endregion
 
