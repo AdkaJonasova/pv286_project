@@ -46,9 +46,6 @@
         <module name="OneStatementPerLine">
             <property name="treatTryResourcesAsStatement" value="true"/>
         </module>
-        <module name="ReturnCount">
-            <property name="max" value="3"/>
-        </module>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="StringLiteralEquality"/>
