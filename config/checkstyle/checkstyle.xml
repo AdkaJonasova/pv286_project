@@ -23,13 +23,6 @@
             <property name="tokens" value="PACKAGE_DEF, IMPORT, STATIC_IMPORT"/>
         </module>
 
-        <!--Javadocs-->
-        <module name="MissingJavadocMethod">
-            <property name="scope" value="public"/>
-            <property name="minLineCount" value="2"/>
-            <property name="allowedAnnotations" value="Override, Test"/>
-        </module>
-
         <!--Coding-->
         <module name="AvoidDoubleBraceInitialization"/>
         <module name="MagicNumber"/>
