@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Objects;
 
 class InputParserTest {
-
     //region Basic tests
     @Test
     void testArgsFromTo() {
@@ -63,13 +62,13 @@ class InputParserTest {
     @Test
     void testCorrectParserResultWhenArgAsTextWithOptions() {
         String[] input = {"--from=bits", "--from-options=right", "--to=int", "--to-options=big"};
-        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null }, "");
     }
 
     @Test
     void testCorrectParserResultWhenArgAsTextWithOptionsAreSwapped() {
         String[] input = {"--to=int", "--to-options=big", "--from=bits", "--from-options=right"};
-        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null }, "");
     }
 
     @Test
@@ -88,6 +87,24 @@ class InputParserTest {
     void testCorrectDelimiter() {
         String[] input = {"-f", "bytes", "-t", "int", "-d", ","};
         checkParserResult(input, "bytes", "int", "", "", ",");
+    }
+
+    @Test
+    void testCorrectDelimiterLongFormat() {
+        String[] input = {"-f", "bytes", "-t", "int", "--delimeter=;'!?"};
+        checkParserResult(input, "bytes", "int", "", "", ";'!?");
+    }
+
+    @Test
+    void testCorrectDelimiterTwoChars() {
+        String[] input = {"-f", "bytes", "-t", "int", "-d", ",,"};
+        checkParserResult(input, "bytes", "int", "", "", ",,");
+    }
+
+    @Test
+    void testCorrectLongerDelimiterTenChars() {
+        String[] input = {"-f", "bytes", "-t", "int", "-d", ",.,78;8*-!"};
+        checkParserResult(input, "bytes", "int", "", "", ",.,78;8*-!");
     }
     // endregion
 
@@ -247,6 +264,33 @@ class InputParserTest {
     }
     //endregion o
 
+    //region invalid delimeter
+
+    @Test
+    void testMissingToAndFromWithDelimeter() {
+        String[] input = {"-d"};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    void testMissingToAndFromWithDelimeterAndRecord() {
+        String[] input = {"-d", ","};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    void testFromArgMissingDelimeter() {
+        String[] input = {"hex", "-t", "array", ","};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+
+    @Test
+    void testMissingDelimeter() {
+        String[] input = {"-f", "hex", "-t", "int", ",."};
+        assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
+    }
+    //endregion
+
     //region duplicate args and formats tests
     @Test
     void testDuplicateFromArg() {
@@ -283,7 +327,7 @@ class InputParserTest {
     @Test
     void testSwappedPositionToThenFromArg() {
         String[] input = {"-t", "hex", "-f", "bytes"};
-        checkParserResult(input, "bytes", "hex", "", "", "");
+        checkParserResult(input, "bytes", "hex", "", "", "\n");
     }
     //endregion
 
@@ -291,49 +335,55 @@ class InputParserTest {
     @Test
     void testCorrectFromToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big"};
-        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null }, "");
+    }
+
+    @Test
+    void testCorrectFromToOptionsAndDelimeter() {
+        String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big", "-d", ","};
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null }, ",");
     }
 
     @Test
     void testCorrectParseResultWhenPositionsOfArgsWithOptionsAreSwapped() {
         String[] input = {"-t", "int", "--to-options=big", "-f", "bits", "--from-options=right" };
-        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null }, "");
     }
 
     @Test
     void testCorrectFromToDuplicateFromOptions() {
         String[] input = {"-f", "int", "--from-options=big", "--from-options=little", "-t", "int", "--to-options=little"};
-        checkParserResultWithOptions(input, "int", "int", new String[] { "little" }, new String[] { "little", null });
+        checkParserResultWithOptions(input, "int", "int", new String[] { "little" }, new String[] { "little", null }, "");
     }
 
     @Test
-    void testCorrectFromToDuplicateToOptions() {
-        String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big"};
-        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null });
+    void testCorrectFromToDuplicateToOptionsAndLongDelimeter() {
+        String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big", "--delimeter=;'!?"};
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null }, ";'!?");
     }
 
     @Test
     void testCorrectArrayOptionsWithType1Option() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0x"};
-        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0x", null });
+        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0x", null }, "");
     }
 
     @Test
     void testCorrectArrayOptionsWithType2Option() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=\"{}\""};
-        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { null, "{}" });
+        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { null, "{}" }, "");
     }
 
     @Test
     void testCorrectArrayOptionsWithBothOptionTypes() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=\"()\""};
-        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0", "()" });
+        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0", "()" }, "");
     }
 
     @Test
     void testCorrectArrayOptionsWithType1OptionsWithDuplicate() {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=0x"};
-        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0x", null });
+        checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0x", null }, "");
     }
     //endregion
 
@@ -450,12 +500,13 @@ class InputParserTest {
         return variationsOfFormats;
     }
 
-    private static void checkParserResultWithOptions(String[] input, String from, String to,
-                                                     String[] fromOptions, String[] toOptions) {
+    private static void checkParserResultWithOptions(String[] input, String from, String to, String[] fromOptions,
+                                                     String[] toOptions, String delimeter) {
         try {
             ParserResult parserResult = new InputParser().parse(input);
             assertEquals(parserResult.getFrom().getText(), from);
             assertEquals(parserResult.getTo().getText(), to);
+            assertEquals(parserResult.getDelimiter(), delimeter);
             for (int i = 0; i < parserResult.getFromOptions().length; i++) {
                 if (Objects.isNull(fromOptions[i])) {
                     assertNull(parserResult.getFromOptions()[i]);
