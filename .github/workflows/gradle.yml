@@ -13,7 +13,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Run checkstyle
-        run: ./gradlew checkstyleMain
+        run: ./gradlew checkstyleMain --console=PLAIN --quiet | tee checkstyle.log
+          if [[ $(cat checkstyle.log | wc -l) -gt 0 ]]; then
+          echo "Checkstyle warnings found"
+          exit 1
+          fi
 
   build:
     runs-on: ubuntu-latest
@@ -25,7 +29,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Run build
-        run: ./gradlew build --exclude-task test
+        run: ./gradlew build --exclude-task test --exclude-task checkstyleMain --exclude-task checkstyleTest
 
   test:
     runs-on: ubuntu-latest
