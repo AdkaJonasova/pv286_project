@@ -1,6 +1,11 @@
 package format;
 
-import converters.*;
+import converters.IntConverter;
+import converters.HexConverter;
+import converters.BitsConverter;
+import converters.BytesConverter;
+import converters.ArrayConverter;
+import converters.Converter;
 
 import java.util.Arrays;
 
@@ -36,7 +41,8 @@ public enum Format {
 		return description;
 	}
 
-	public String getArrayRegex() { return arrayRegex; }
+	public String getArrayRegex() {
+		return arrayRegex; }
 
 	public static Format fromString(String text) {
 		for (Format format : Format.values()) {

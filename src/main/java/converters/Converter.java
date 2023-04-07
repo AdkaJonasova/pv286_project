@@ -13,7 +13,8 @@ import static options.BitsOption.LEFT;
  * conversion functionality.
  */
 public abstract class Converter {
-	public static final int BYTE_LENGTH = 8;
+	protected static final int BYTE_LENGTH = 8;
+	protected static final int HEXADECIMAL = 16;
 	/**
 	 * Converts a binary string to another string format using the specified options.
 	 *

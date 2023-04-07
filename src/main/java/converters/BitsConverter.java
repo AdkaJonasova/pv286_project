@@ -71,10 +71,11 @@ public class BitsConverter extends Converter {
 
 	private BitsOption getPadSideFromOptions(IOption[] options) throws ConverterException {
 		try {
-			return Objects.isNull(options) || options.length == 0 || options[0] == null ? LEFT : (BitsOption) options[0];
+			return Objects.isNull(options) ||
+					options.length == 0 ||
+					options[0] == null ? LEFT : (BitsOption) options[0];
 		} catch (ClassCastException e) {
-			throw new ConverterException(
-					String.format("BitsConverter doesn't support option: %s", options[0]));
+			throw new ConverterException(String.format("BitsConverter doesn't support option: %s", options[0]));
 		}
 	}
 

@@ -23,7 +23,7 @@ import static options.HexOption.SHORT;
  * </ul>
  */
 public class HexConverter extends Converter {
-
+    private static final int NUM_OF_BITS_TO_ONE_HEX = 4;
 	/**
 	 * Converts a binary string to a hex value string.
 	 *
@@ -42,8 +42,8 @@ public class HexConverter extends Converter {
 
 		StringBuilder builder = new StringBuilder();
 
-		for (int i = 0; i < updatedBitStr.length(); i += 4) {
-			String nibble = updatedBitStr.substring(i, i + 4);
+		for (int i = 0; i < updatedBitStr.length(); i += NUM_OF_BITS_TO_ONE_HEX) {
+			String nibble = updatedBitStr.substring(i, i + NUM_OF_BITS_TO_ONE_HEX);
 			int value = Integer.parseInt(nibble, 2);
 			builder.append(Integer.toHexString(value));
 		}
@@ -78,9 +78,8 @@ public class HexConverter extends Converter {
 		String updatedInput = input.replace(" ", "");
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < updatedInput.length(); i++) {
-			String binaryString = String.format("%4s",
-							Integer.toBinaryString(Character.digit(updatedInput.charAt(i), 16)))
-					.replace(' ', '0');
+			String bitStr = Integer.toBinaryString(Character.digit(updatedInput.charAt(i), HEXADECIMAL));
+			String binaryString = String.format("%4s", bitStr).replace(' ', '0');
 			builder.append(binaryString);
 		}
 		return builder.toString();
@@ -88,7 +87,9 @@ public class HexConverter extends Converter {
 
 	private HexOption getVersionFromOptions(IOption[] options) throws ConverterException {
 		try {
-			return Objects.isNull(options) || options.length == 0 || options[0] == null ? LONG : (HexOption) options[0];
+			return Objects.isNull(options) ||
+					options.length == 0 ||
+					options[0] == null ? LONG : (HexOption) options[0];
 		} catch (ClassCastException e) {
 			throw new ConverterException(String.format("HexConverter doesn't support option: %s", options[0]));
 		}

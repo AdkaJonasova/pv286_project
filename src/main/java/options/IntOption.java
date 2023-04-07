@@ -4,9 +4,11 @@ import java.util.Arrays;
 
 public enum IntOption implements IOption {
 	BIG("big",
-			"Store the integer in big-endian representation (most significant byte at the lowest address) -> default"),
+			"Store the integer in big-endian representation " +
+					"(most significant byte at the lowest address) -> default"),
 	LITTLE("little",
-			"Store the integer in little-endian representation (least significant byte at the lowest address)");
+			"Store the integer in little-endian representation " +
+					"(least significant byte at the lowest address)");
 
 	private final String text;
 	private final String description;

@@ -43,7 +43,6 @@ import static options.ArrayOption.REGULAR_BRACKETS;
  * </ul>
  */
 public class ArrayConverter extends Converter {
-
     private static class Pair {
 
         Pair(int index, String value) {
@@ -124,8 +123,9 @@ public class ArrayConverter extends Converter {
      * Converts a nested byte array string to a nested byte array string.
      *
      * @param input    the nested byte array string to convert
-     * @param options  an array of {@link ArrayOption} options (first two are taken, if none is provided,
-     * {@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER} and {@link ArrayOption#CURLY_BRACKETS} is used)
+     * @param options  an array of {@link ArrayOption} options (first two are taken,
+     *                 if none is provided, {@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER}
+     *                 and {@link ArrayOption#CURLY_BRACKETS} is used)
      * @return the nested byte array string
      * @throws ConverterException if the input nested byte array string is invalid
      */
@@ -164,7 +164,7 @@ public class ArrayConverter extends Converter {
 
             if (BYTES.equals(format)) {
                 String hexValue = "\\u00" + valueToConvert;
-                valueToConvert = String.format("%c", Integer.parseInt(hexValue.substring(2), 16));
+                valueToConvert = String.format("%c", Integer.parseInt(hexValue.substring(2), HEXADECIMAL));
             }
 
             return format.getConverter().convertFrom(valueToConvert, null);
@@ -251,14 +251,14 @@ public class ArrayConverter extends Converter {
 
         Deque<String> stack = new ArrayDeque<>();
         for (char c : input.toCharArray()) {
-            String cStringValue = String.valueOf(c);
-            if (openingBrackets.contains(cStringValue)) {
-                stack.push(cStringValue);
-            } else if (closingBrackets.contains(cStringValue)) {
+            String charStringValue = String.valueOf(c);
+            if (openingBrackets.contains(charStringValue)) {
+                stack.push(charStringValue);
+            } else if (closingBrackets.contains(charStringValue)) {
                 if (stack.isEmpty()) {
                     throw new ConverterException(String.format("Missing opening bracket in input: %s", input));
                 }
-                checkBrackets(stack.pop(), cStringValue);
+                checkBrackets(stack.pop(), charStringValue);
             }
         }
         if (!stack.isEmpty()) {

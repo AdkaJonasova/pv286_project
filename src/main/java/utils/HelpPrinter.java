@@ -6,7 +6,7 @@ import options.BitsOption;
 import options.IntOption;
 
 public final class HelpPrinter {
-
+    private static final String OFFSET = "    - ";
     private HelpPrinter() {}
 
     public static void printHelp() {
@@ -42,7 +42,7 @@ public final class HelpPrinter {
                 .append("-> For output options ")
                 .append(System.lineSeparator());
         for (ArrayOption arrayOption : ArrayOption.values()) {
-            builder.append("    - ")
+            builder.append(OFFSET)
                     .append(arrayOption.getDescription())
                     .append(System.lineSeparator());
         }
@@ -55,7 +55,7 @@ public final class HelpPrinter {
                 .append("-> For input options ")
                 .append(System.lineSeparator());
         for (BitsOption bitOption : BitsOption.values()) {
-            builder.append("    - ")
+            builder.append(OFFSET)
                     .append(bitOption.getDescription())
                     .append(System.lineSeparator());
         }
@@ -68,7 +68,7 @@ public final class HelpPrinter {
                 .append("-> For input and output options ")
                 .append(System.lineSeparator());
         for (IntOption intOption : IntOption.values()) {
-            builder.append("    - ")
+            builder.append(OFFSET)
                     .append(intOption.getDescription())
                     .append(System.lineSeparator());
         }

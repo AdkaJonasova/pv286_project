@@ -77,7 +77,7 @@ public class IntConverter extends Converter {
 	private String changeEndian(String bitStr) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = bitStr.length() - 1; i >= 0; i -= BYTE_LENGTH) {
-			int startIndex = Math.max(i - 7, 0);
+			int startIndex = Math.max(i - (BYTE_LENGTH - 1), 0);
 			String byteStr = bitStr.substring(startIndex, i + 1);
 			builder.append(byteStr);
 		}
@@ -86,7 +86,9 @@ public class IntConverter extends Converter {
 
 	private IntOption getEndianFromOptions(IOption[] options) throws ConverterException {
 		try {
-			return Objects.isNull(options) || options.length == 0 || options[0] == null ? BIG : (IntOption) options[0];
+			return Objects.isNull(options) ||
+					options.length == 0 ||
+					options[0] == null ? BIG : (IntOption) options[0];
 		} catch (ClassCastException e) {
 			throw new ConverterException(String.format("IntConverter doesn't support option: %s", options[0]));
 		}

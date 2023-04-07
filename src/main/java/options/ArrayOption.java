@@ -53,14 +53,18 @@ public enum ArrayOption implements IOption {
 					return arrayOption;
 				}
 			} else {
-				if (String.format("\"%s\"", arrayOption.textV1).equalsIgnoreCase(text) ||
-						String.format("\"%s\"", arrayOption.textV2).equalsIgnoreCase(text) ||
-						String.format("\"%s\"", arrayOption.textV3).equalsIgnoreCase(text)){
+				if (addQuotationMark(arrayOption.textV1).equalsIgnoreCase(text) ||
+						addQuotationMark(arrayOption.textV2).equalsIgnoreCase(text) ||
+						addQuotationMark(arrayOption.textV3).equalsIgnoreCase(text)){
 					return arrayOption;
 				}
 			}
 		}
 		return null;
+	}
+
+	private static String addQuotationMark(String text){
+		return String.format("\"%s\"", text);
 	}
 
 	public static boolean isFromFirstSet(ArrayOption option) {

@@ -42,8 +42,9 @@ public final class IOHelper {
     public static void writeToStandardOutput(List<String> text, String delimiter) {
         for (int i = 0; i < text.size(); i++) {
             System.out.print(text.get(i));
-            if (i != text.size() - 1)
+            if (i != text.size() - 1){
                 System.out.print(resolveDelimiter(delimiter));
+            }
         }
     }
 
@@ -51,8 +52,9 @@ public final class IOHelper {
         try (FileWriter writer = new FileWriter(filePath, false)) {
             for (int i = 0; i < text.size(); i++) {
                 writer.write(text.get(i));
-                if (i != text.size() - 1)
+                if (i != text.size() - 1){
                     writer.write(resolveDelimiter(delimiter));
+                }
             }
             writer.flush();
         } catch (IOException e) {
