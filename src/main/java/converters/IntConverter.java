@@ -73,7 +73,7 @@ public class IntConverter extends Converter {
 
 	private String changeEndian(String bitStr) {
 		StringBuilder builder = new StringBuilder();
-		for (int i = bitStr.length() - 1; i >= 0; i -= 8) {
+		for (int i = bitStr.length() - 1; i >= 0; i -= BYTE_LENGTH) {
 			int startIndex = Math.max(i - 7, 0);
 			String byteStr = bitStr.substring(startIndex, i + 1);
 			builder.append(byteStr);

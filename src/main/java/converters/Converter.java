@@ -12,6 +12,7 @@ import static options.BitsOption.LEFT;
  * conversion functionality.
  */
 public abstract class Converter {
+	public static final int BYTE_LENGTH = 8;
 	/**
 	 * Converts a binary string to another string format using the specified options.
 	 *
@@ -51,10 +52,10 @@ public abstract class Converter {
 	 * @return the padded binary string
 	 */
 	protected static String addMissingZerosToBitString(String bitStr, BitsOption padSide) {
-		int numOfMissingBits = bitStr.length() % 8;
+		int numOfMissingBits = bitStr.length() % BYTE_LENGTH;
 
 		if (numOfMissingBits != 0) {
-			int padding = 8 - (numOfMissingBits);
+			int padding = BYTE_LENGTH - (numOfMissingBits);
 			StringBuilder sb = new StringBuilder();
 			if (LEFT.equals(padSide)) {
 				sb.append("0".repeat(padding));

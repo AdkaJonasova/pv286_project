@@ -2,14 +2,27 @@ package converters;
 
 import exceptions.ConverterException;
 import format.Format;
-import options.*;
+import options.BitsOption;
+import options.HexOption;
+import options.IOption;
+import options.ArrayOption;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 import static format.Format.BYTES;
-import static options.ArrayOption.*;
+import static options.ArrayOption.ZEROX_PREFIXED_HEX_NUMBER;
+import static options.ArrayOption.DECIMAL_NUMBER;
+import static options.ArrayOption.SQUARE_BRACKETS;
+import static options.ArrayOption.ZEROB_PREFIXED_BINARY_NUMBER;
+import static options.ArrayOption.CURLY_BRACKETS;
+import static options.ArrayOption.REGULAR_BRACKETS;
+
 
 /**
  * This class provides methods for converting between byte array strings and binary strings.
@@ -63,14 +76,14 @@ public class ArrayConverter extends Converter {
 
         ArrayOption representation = getRepresentationOption(options);
 
-        bitStr = addMissingZerosToBitString(bitStr);
+        String input = addMissingZerosToBitString(bitStr);
 
-        int byteArrayLength = bitStr.length() / 8;
+        int byteArrayLength = input.length() / BYTE_LENGTH;
         String[] byteArray = new String[byteArrayLength];
         for (int i = 0; i < byteArrayLength; i++) {
-            int startIndex = i * 8;
-            int endIndex = startIndex + 8;
-            String byteString = bitStr.substring(startIndex, endIndex);
+            int startIndex = i * BYTE_LENGTH;
+            int endIndex = startIndex + BYTE_LENGTH;
+            String byteString = input.substring(startIndex, endIndex);
 
             if (representation.equals(ZEROX_PREFIXED_HEX_NUMBER)) {
                 String byteValue = new HexConverter().convertTo(byteString, new IOption[]{HexOption.SHORT});
@@ -110,7 +123,8 @@ public class ArrayConverter extends Converter {
      * Converts a nested byte array string to a nested byte array string.
      *
      * @param input    the nested byte array string to convert
-     * @param options  an array of {@link ArrayOption} options (first two are taken, if none is provided, {@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER} and {@link ArrayOption#CURLY_BRACKETS} is used)
+     * @param options  an array of {@link ArrayOption} options (first two are taken, if none is provided,
+     * {@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER} and {@link ArrayOption#CURLY_BRACKETS} is used)
      * @return the nested byte array string
      * @throws ConverterException if the input nested byte array string is invalid
      */
@@ -120,7 +134,8 @@ public class ArrayConverter extends Converter {
         ArrayOption bracketOption = getBracketOption(options);
         input = input.replace(" ", "");
         String unitedClosureInput = uniteClosures(input, bracketOption);
-        return convertArrayToArray(unitedClosureInput, 0, bracketOption.getOpen(), bracketOption.getClose(), options).value;
+        return convertArrayToArray(unitedClosureInput, 0,
+                bracketOption.getOpen(), bracketOption.getClose(), options).value;
     }
 
     private static String convertFromWithoutBrackets(String input) throws ConverterException {
@@ -165,14 +180,17 @@ public class ArrayConverter extends Converter {
 
     private void checkBrackets(String openingBracket, String closingBracket) throws ConverterException {
         String closures = openingBracket + closingBracket;
-        List<String> correctBracketsOptions = List.of(CURLY_BRACKETS.getText(), SQUARE_BRACKETS.getText(), REGULAR_BRACKETS.getText());
+        List<String> correctBracketsOptions = List.of(CURLY_BRACKETS.getText(),
+                SQUARE_BRACKETS.getText(),
+                REGULAR_BRACKETS.getText());
         if (!correctBracketsOptions.contains(closures)) {
             throw new ConverterException(String.format("Non-equal brackets: %s", closingBracket));
         }
     }
 
 
-    private Pair convertArrayToArray(String input, int index, String openBrackets, String closingBracket, IOption[] options) throws ConverterException {
+    private Pair convertArrayToArray(String input, int index, String openBrackets,
+                                     String closingBracket, IOption[] options) throws ConverterException {
         List<String> values = new ArrayList<>();
 
         StringBuilder valueToConvert = new StringBuilder();

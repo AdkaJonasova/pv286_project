@@ -41,8 +41,8 @@ public class BytesConverter extends Converter {
 		bitStr = addMissingZerosToBitString(bitStr);
 
 		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < bitStr.length(); i += 8) {
-			String byteString = bitStr.substring(i, Math.min(i + 8, bitStr.length()));
+		for (int i = 0; i < bitStr.length(); i += BYTE_LENGTH) {
+			String byteString = bitStr.substring(i, Math.min(i + BYTE_LENGTH, bitStr.length()));
 			int byteValue = Integer.parseInt(byteString, 2);
 
 			builder.append((char) byteValue);
@@ -77,7 +77,7 @@ public class BytesConverter extends Converter {
 				binaryBuilder.append(charValue % 2);
 				charValue /= 2;
 			}
-			while (binaryBuilder.length() < 8) {
+			while (binaryBuilder.length() < BYTE_LENGTH) {
 				binaryBuilder.append(0);
 			}
 			builder.append(binaryBuilder.reverse());
