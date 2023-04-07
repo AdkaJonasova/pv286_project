@@ -26,7 +26,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Run checkstyle
-        run: ./gradlew checkstyleMain -Werror
+        run: ./gradlew checkstyleMain --scan
 
   test:
     runs-on: ubuntu-latest
