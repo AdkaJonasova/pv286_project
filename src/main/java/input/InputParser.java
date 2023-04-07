@@ -32,31 +32,16 @@ public class InputParser implements IInputParser {
     public ParserResult parse(String[] input) throws InputParsingException {
         assertInputNonEmpty(input);
 
-        var optionsFound = false;
         for (var argument : input) {
-            if (shouldLookForFromOptions || shouldLookForToOptions) {
-                optionsFound = parseOptions(argument);
+            parseArgument(argument);
+            if (checkHelpFlag(input)) {
+                break;
             }
-            if (!optionsFound) {
-                resetLookForOptionsFlags();
-                if (Objects.isNull(currentFlag) &&
-                        (argument.startsWith(ParserConstants.SHORT_FLAG_START) || argument.startsWith(ParserConstants.LONG_FLAG_START))) {
-                    parseFlag(argument);
-                    if (checkHelpFlag(input)) {
-                        break;
-                    }
-                } else if (Objects.nonNull(currentFlag)) {
-                    parseValue(argument);
-                } else {
-                    throw new InputParsingException(String.format("Argument %s not allowed here", argument));
-                }
-            }
-            optionsFound = false;
         }
 
         var shouldPrintHelp = Objects.nonNull(currentFlag) && currentFlag.equals(Flag.HELP);
         if (!shouldPrintHelp &&
-                (Objects.nonNull(currentFlag) || Objects.isNull(fromRepresentation) || Objects.isNull(toRepresentation))) {
+           (Objects.nonNull(currentFlag) || Objects.isNull(fromRepresentation) || Objects.isNull(toRepresentation))) {
             throw new InputParsingException("Missing value for one of the switches.");
         }
 
@@ -64,6 +49,23 @@ public class InputParser implements IInputParser {
                 outputFile, delimiter, shouldPrintHelp);
         setAttributesToDefault();
         return result;
+    }
+
+    private void parseArgument(String argument) throws InputParsingException {
+        var optionsFound = false;
+        if (shouldLookForFromOptions || shouldLookForToOptions) {
+            optionsFound = parseOptions(argument);
+        }
+        if (!optionsFound) {
+            resetLookForOptionsFlags();
+            if (shouldLookForFlag(argument)) {
+                parseFlag(argument);
+            } else if (Objects.nonNull(currentFlag)) {
+                parseValue(argument);
+            } else {
+                throw new InputParsingException(String.format("Argument %s not allowed here", argument));
+            }
+        }
     }
 
     private void parseFlag(String argument) throws InputParsingException {
@@ -139,6 +141,12 @@ public class InputParser implements IInputParser {
             }
         }
         return false;
+    }
+
+    private boolean shouldLookForFlag(String argument) {
+        return Objects.isNull(currentFlag) &&
+            (argument.startsWith(ParserConstants.SHORT_FLAG_START) ||
+                    argument.startsWith(ParserConstants.LONG_FLAG_START));
     }
 
     private boolean checkFormat(String format) {
