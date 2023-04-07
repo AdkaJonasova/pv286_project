@@ -3,6 +3,19 @@ package input;
 import format.Format;
 import options.IOption;
 
+/**
+ * This class provides storage for result from {@link InputParser#parse(String[])}} method.
+ * It contains following fields:
+ * <ul>
+ *     <li>from - specifies from {@link Format}</li>
+ *     <li>to - specifies to {@link Format}</li>
+ *     <li>fromOptions - specifies options to use when converting from {@link #from} Format </li>
+ *     <li>toOptions - specifies options to use when converting to {@link #to} Format </li>
+ *     <li>input file - specifies path of file from which input should be read</li>
+ *     <li>output file - specifies path of file to which output should be written</li>
+ *     <li>delimiter - specifies delimiter which separates inputs and outputs</li>
+ * </ul>
+ */
 public class ParserResult {
 
     private final Format from;

@@ -5,10 +5,17 @@ import options.ArrayOption;
 import options.BitsOption;
 import options.IntOption;
 
+/**
+ * This utility class provides methods for printing of help information about program's functionality.
+ */
 public final class HelpPrinter {
     private static final String OFFSET = "    - ";
     private HelpPrinter() {}
 
+    /**
+     * Prints help information about allowed formats, allowed options and allowed flags
+     * to help user use the program correctly.
+     */
     public static void printHelp() {
         StringBuilder builder = new StringBuilder();
 

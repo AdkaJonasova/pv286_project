@@ -10,6 +10,9 @@ import utils.Flag;
 
 import java.util.Objects;
 
+/**
+ * Provides basic implementation of {@link IInputParser} interface.
+ */
 public class InputParser implements IInputParser {
 
     private Flag currentFlag;
@@ -29,6 +32,11 @@ public class InputParser implements IInputParser {
         setAttributesToDefault();
     }
 
+    /**
+     * This method is the implementation of {@link IInputParser#parse(String[])} method.
+     * In this implementation allowed flags in input are:
+     * -f, --from, -t, --to, --from-option, --to-options, -i, --input, -o, --output, -d, --delimiter
+     */
     public ParserResult parse(String[] input) throws InputParsingException {
         assertInputNonEmpty(input);
 
