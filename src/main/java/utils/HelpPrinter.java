@@ -5,7 +5,9 @@ import options.ArrayOption;
 import options.BitsOption;
 import options.IntOption;
 
-public class HelpPrinter {
+public final class HelpPrinter {
+
+    private HelpPrinter() {}
 
     public static void printHelp() {
         StringBuilder builder = new StringBuilder();

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class IOHelper {
+public final class IOHelper {
 
     private static final String DEFAULT_DELIMITER = System.lineSeparator();
 

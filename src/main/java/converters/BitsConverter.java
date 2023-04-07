@@ -3,13 +3,11 @@ package converters;
 import exceptions.ConverterException;
 import options.BitsOption;
 import options.IOption;
-import options.IntOption;
 
 import java.util.Objects;
 
 import static options.BitsOption.LEFT;
 import static options.BitsOption.SHORT;
-import static options.IntOption.BIG;
 
 public class BitsConverter extends Converter {
 	@Override

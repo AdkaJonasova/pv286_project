@@ -3,13 +3,11 @@ package converters;
 import exceptions.ConverterException;
 import options.HexOption;
 import options.IOption;
-import options.IntOption;
 
 import java.util.Objects;
 
 import static options.HexOption.LONG;
 import static options.HexOption.SHORT;
-import static options.IntOption.BIG;
 
 public class HexConverter extends Converter {
 

@@ -1,9 +1,11 @@
 package input;
 
-public class ParserConstants {
+public final class ParserConstants {
 
-    public static String LONG_ATTR_DELIMITER = "=";
-    public static String LONG_FLAG_START = "--";
-    public static String SHORT_FLAG_START = "-";
+    private ParserConstants() {}
+
+    public static final String LONG_ATTR_DELIMITER = "=";
+    public static final String LONG_FLAG_START = "--";
+    public static final String SHORT_FLAG_START = "-";
 
 }
