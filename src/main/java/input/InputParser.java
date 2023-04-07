@@ -35,7 +35,7 @@ public class InputParser implements IInputParser {
     /**
      * This method is the implementation of {@link IInputParser#parse(String[])} method.
      * In this implementation allowed flags in input are:
-     * -f, --from, -t, --to, --from-option, --to-options, -i, --input, -o, --output, -d, --delimiter
+     * -f, --from, -t, --to, --from-option, --to-options, -i, --input, -o, --output, -d, --delimiter, -h, --help
      */
     public ParserResult parse(String[] input) throws InputParsingException {
         assertInputNonEmpty(input);

@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -252,13 +253,13 @@ class PanbyteTest {
     }
 
     private String getOutputOfProgramCall(String echo, String[] args) {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes());
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes(StandardCharsets.UTF_8));
         System.setIn(byteArrayInputStream);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(byteArrayOutputStream);
+        PrintStream printStream = new PrintStream(byteArrayOutputStream, true, StandardCharsets.UTF_8);
         System.setOut(printStream);
         Program.main(args);
-        String[] outputLines = byteArrayOutputStream.toString().split(System.lineSeparator());
+        String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
         return outputLines[outputLines.length - 1];
     }
 }

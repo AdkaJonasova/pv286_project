@@ -3,6 +3,8 @@ package input;
 import format.Format;
 import options.IOption;
 
+import java.util.Arrays;
+
 /**
  * This class provides storage for result from {@link InputParser#parse(String[])}} method.
  * It contains following fields:
@@ -31,8 +33,8 @@ public class ParserResult {
                         String delimiter, boolean shouldPrintHelp) {
         this.from = from;
         this.to = to;
-        this.fromOption = fromOption;
-        this.toOption = toOption;
+        this.fromOption = Arrays.copyOf(fromOption, fromOption.length);
+        this.toOption = Arrays.copyOf(toOption, toOption.length);
         this.inputFile = inputFile;
         this.outputFile = outputFile;
         this.delimiter = delimiter;
@@ -49,11 +51,11 @@ public class ParserResult {
     }
 
     public IOption[] getFromOptions() {
-        return fromOption;
+        return Arrays.copyOf(fromOption, fromOption.length);
     }
 
     public IOption[] getToOptions() {
-        return toOption;
+        return Arrays.copyOf(toOption, toOption.length);
     }
 
     public boolean getShouldPrintHelp() {
