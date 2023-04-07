@@ -91,7 +91,7 @@ class InputParserTest {
 
     @Test
     void testCorrectDelimiterLongFormat() {
-        String[] input = {"-f", "bytes", "-t", "int", "--delimeter=;'!?"};
+        String[] input = {"-f", "bytes", "-t", "int", "--delimiter=;'!?"};
         checkParserResult(input, "bytes", "int", "", "", ";'!?");
     }
 
@@ -358,7 +358,7 @@ class InputParserTest {
 
     @Test
     void testCorrectFromToDuplicateToOptionsAndLongDelimeter() {
-        String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big", "--delimeter=;'!?"};
+        String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big", "--delimiter=;'!?"};
         checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null }, ";'!?");
     }
 
