@@ -227,7 +227,7 @@ public class PanbyteTest {
     @Test
     public void testNestedFromArrayToArrayOptionsDecimalRepresentationSquareBrackets() {
         String echo = "{{0x01, (2), [3, 0b100, 0x05], '\\x06'}}";
-        String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options==\"[\""};
+        String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options=\"[\""};
         String expectedOutput = "[[1, [2], [3, 4, 5], 6]]";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
