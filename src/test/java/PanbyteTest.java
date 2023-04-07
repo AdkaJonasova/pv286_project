@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
@@ -253,13 +254,18 @@ class PanbyteTest {
     }
 
     private String getOutputOfProgramCall(String echo, String[] args) {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes(StandardCharsets.UTF_8));
-        System.setIn(byteArrayInputStream);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(byteArrayOutputStream, true, StandardCharsets.UTF_8);
-        System.setOut(printStream);
-        Program.main(args);
-        String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
-        return outputLines[outputLines.length - 1];
+        try (
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes(StandardCharsets.UTF_8));
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                PrintStream printStream = new PrintStream(byteArrayOutputStream, true, StandardCharsets.UTF_8)
+        ) {
+            System.setIn(byteArrayInputStream);
+            System.setOut(printStream);
+            Program.main(args);
+            String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
+            return outputLines[outputLines.length - 1];
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
