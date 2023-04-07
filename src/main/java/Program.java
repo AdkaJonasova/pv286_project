@@ -2,6 +2,7 @@ import converters.ArrayConverter;
 import exceptions.ConverterException;
 import exceptions.InputParsingException;
 import format.Format;
+import input.IInputParser;
 import input.InputParser;
 import utils.IOHelper;
 import utils.HelpPrinter;
@@ -15,7 +16,7 @@ import static format.Format.ARRAY;
 public class Program {
 
     public static void main(String[] args) {
-        InputParser inputParser = new InputParser();
+        IInputParser inputParser = new InputParser();
         try {
             var userArgs = inputParser.parse(args);
 

@@ -10,7 +10,7 @@ import utils.Flag;
 
 import java.util.Objects;
 
-public class InputParser {
+public class InputParser implements IInputParser {
 
     private Flag currentFlag;
 
