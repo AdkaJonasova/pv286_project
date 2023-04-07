@@ -9,6 +9,11 @@ import converters.Converter;
 
 import java.util.Arrays;
 
+/**
+ * Enumeration of supported formats for conversion.
+ * Each format holds a text form of format ,corresponding converter that can be used to conversion,
+ * descriptions for help and regex for resoling format based on input value
+ */
 public enum Format {
 	INT("int", new IntConverter(), "int = Integer", "^(\\d)$"),
 	HEX("hex", new HexConverter(), "hex = Hex-encoded string", "^0x([0-9a-fA-F]{2})$"),
@@ -44,6 +49,12 @@ public enum Format {
 	public String getArrayRegex() {
 		return arrayRegex; }
 
+	/**
+	 * Gets the Format enum value corresponding to the given text representation.
+	 *
+	 * @param text the text representation of the format
+	 * @return the Format enum value
+	 */
 	public static Format fromString(String text) {
 		for (Format format : Format.values()) {
 			if (format.getText().equalsIgnoreCase(text)) {
@@ -53,6 +64,12 @@ public enum Format {
 		return null;
 	}
 
+	/**
+	 * Gets the Format enum value based on input value that matches corresponding arrayRegex.
+	 *
+	 * @param input the input value to check for matching arrayRegex
+	 * @return the Format enum value
+	 */
 	public static Format getFormatFromInputValue(String input){
 		for (Format format : Format.values()) {
 			if (input.matches(format.arrayRegex)) {
@@ -62,6 +79,12 @@ public enum Format {
 		return null;
 	}
 
+	/**
+	 * Checks whether the given text value is a supported Format.
+	 *
+	 * @param value the text value to check for support
+	 * @return true if the given value is a supported Format, false otherwise
+	 */
 	public static boolean contains(String value) {
 		return Arrays.stream(values()).anyMatch(option -> option.getText().equals(value));
 	}

@@ -1,5 +1,9 @@
 package options;
 
+/**
+ * Enumeration of supported options for {@link converters.HexConverter} class.
+ * It implements the {@link IOption} interface.
+ */
 public enum HexOption implements IOption{
 	SHORT("short", "Omitted first 0 if presented"),
 	LONG("long", "Beginning 0 is presented if contains");

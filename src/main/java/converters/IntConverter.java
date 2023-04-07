@@ -11,7 +11,7 @@ import static options.IntOption.LITTLE;
 
 /**
  * This class provides methods for converting between unsigned integer value strings and binary strings.
- * It extends the abstract Converter class.
+ * It extends the abstract {@link Converter} class.
  * <p>
  * To convert an unsigned integer string to a binary string, use the {@link #convertTo(String, IOption[])} method.
  * To convert a binary string to an unsigned integer value string, use the

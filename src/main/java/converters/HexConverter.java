@@ -11,7 +11,7 @@ import static options.HexOption.SHORT;
 
 /**
  * This class provides methods for converting between hex value strings and binary strings.
- * It extends the abstract Converter class.
+ * It extends the abstract {@link Converter} class.
  * <p>
  * To convert a hex value string to a binary string, use the {@link #convertTo(String, IOption[])} method.
  * To convert a binary string to a hex value string, use the {@link #convertFrom(String, IOption[])} method.
