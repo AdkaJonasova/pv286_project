@@ -2,6 +2,7 @@ package converters;
 
 import exceptions.ConverterException;
 import options.BitsOption;
+import options.HexOption;
 import options.IOption;
 
 import java.util.Objects;
@@ -9,7 +10,30 @@ import java.util.Objects;
 import static options.BitsOption.LEFT;
 import static options.BitsOption.SHORT;
 
+
+/**
+ * This class provides methods for converting between binary strings and binary strings.
+ * It extends the abstract Converter class.
+ * <p>
+ * To convert a binary string to a binary string, use the {@link #convertTo(String, IOption[])} method.
+ * To convert a binary string to a binary string, use the {@link #convertFrom(String, IOption[])} method.
+ * <p>
+ * The BitsConverter supports the following options:
+ * <ul>
+ *     <li>{@link BitsOption#LEFT}: pad binary string from left(default)</li>
+ *     <li>{@link BitsOption#RIGHT}: pad binary string from right</li>
+ *     <li>{@link BitsOption#SHORT}: omitted 0 from left</li>
+ * </ul>
+ */
 public class BitsConverter extends Converter {
+	/**
+	 * Converts a binary string to a binary string.
+	 *
+	 * @param bitStr   the binary string to convert
+	 * @param options  an array of {@link BitsOption} options (first is taken, if none is provided, {@link BitsOption#LEFT} is used)
+	 * @return the binary string
+	 * @throws ConverterException if the input binary string is invalid
+	 */
 	@Override
 	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
 		validateInput(bitStr, "^[01 ]+$");
@@ -27,6 +51,14 @@ public class BitsConverter extends Converter {
 		return addMissingZerosToBitString(bitStr, padSide);
 	}
 
+	/**
+	 * Converts a binary string to a binary string.
+	 *
+	 * @param input    the binary string to convert
+	 * @param options  an array of {@link BitsOption} options (first is taken, if none is provided, {@link BitsOption#LEFT} is used)
+	 * @return the binary string
+	 * @throws ConverterException if the input binary string is invalid
+	 */
 	@Override
 	public String convertFrom(String input, IOption[] options) throws ConverterException {
 		validateInput(input, "^[01 ]+$");

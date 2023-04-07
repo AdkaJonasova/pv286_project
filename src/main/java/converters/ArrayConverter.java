@@ -2,10 +2,7 @@ package converters;
 
 import exceptions.ConverterException;
 import format.Format;
-import options.ArrayOption;
-import options.BitsOption;
-import options.HexOption;
-import options.IOption;
+import options.*;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -14,6 +11,24 @@ import java.util.regex.Pattern;
 import static format.Format.BYTES;
 import static options.ArrayOption.*;
 
+/**
+ * This class provides methods for converting between byte array strings and binary strings.
+ * It extends the abstract Converter class.
+ * <p>
+ * To convert a byte array string to a binary string, use the {@link #convertTo(String, IOption[])} method.
+ * To convert a binary string to a byte array string, use the {@link #convertFrom(String, IOption[])} method.
+ * <p>
+ * The ArrayConverter supports the following options:
+ * <ul>
+ *     <li>{@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER}: represent bytes as a 0x-prefixed hex number (default)</li>
+ *     <li>{@link ArrayOption#DECIMAL_NUMBER}: represent bytes as a decimal number</li>
+ *     <li>{@link ArrayOption#CHARACTERS}: represent bytes as characters</li>
+ *     <li>{@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER}: represent bytes as 0b-prefixed binary number</li>
+ *     <li>{@link ArrayOption#CURLY_BRACKETS}: use curly brackets in output (default)</li>
+ *     <li>{@link ArrayOption#SQUARE_BRACKETS}: use square brackets in output</li>
+ *     <li>{@link ArrayOption#REGULAR_BRACKETS}: use regular brackets in output</li>
+ * </ul>
+ */
 public class ArrayConverter extends Converter {
 
     private static class Pair {
@@ -27,6 +42,14 @@ public class ArrayConverter extends Converter {
         String value;
     }
 
+    /**
+     * Converts a binary string to a byte array string.
+     *
+     * @param bitStr   the binary string to convert
+     * @param options  an array of {@link ArrayOption} options (first two are taken, if none is provided, {@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER} and {@link ArrayOption#CURLY_BRACKETS} is used)
+     * @return the byte array string
+     * @throws ConverterException if the input binary string is invalid
+     */
     @Override
     public String convertTo(String bitStr, IOption[] options) throws ConverterException {
         String result = convertToWithoutBrackets(bitStr, options);
@@ -66,6 +89,14 @@ public class ArrayConverter extends Converter {
         return String.join(", ", byteArray);
     }
 
+    /**
+     * Converts a byte array string to a binary string.
+     *
+     * @param input    the byte array string to convert
+     * @param options  an array of {@link ArrayOption} options (options are ignored)
+     * @return the binary string
+     * @throws ConverterException if the input byte array string is invalid
+     */
     @Override
     public String convertFrom(String input, IOption[] options) throws ConverterException {
         validateArrayInput(input);
@@ -75,6 +106,14 @@ public class ArrayConverter extends Converter {
         return convertFromWithoutBrackets(input);
     }
 
+    /**
+     * Converts a nested byte array string to a nested byte array string.
+     *
+     * @param input    the nested byte array string to convert
+     * @param options  an array of {@link ArrayOption} options (first two are taken, if none is provided, {@link ArrayOption#ZEROB_PREFIXED_BINARY_NUMBER} and {@link ArrayOption#CURLY_BRACKETS} is used)
+     * @return the nested byte array string
+     * @throws ConverterException if the input nested byte array string is invalid
+     */
     public String convertFromArrayToArray(String input, IOption[] options) throws ConverterException {
         validateArrayToArrayInput(input);
 
