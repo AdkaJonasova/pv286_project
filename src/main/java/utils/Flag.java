@@ -1,5 +1,13 @@
 package utils;
 
+/**
+ * This enum contains values of different flags. Each value consists of:
+ * <ul>
+ *     <li>short version (starting with -), if the value does not have short version it contains empty string</li>
+ *     <li>long version (starting with --), if the value does not have long version it contains empty string</li>
+ *     <li>description of the value</li>
+ * </ul>
+ */
 public enum Flag {
 
     FROM("-f", "--from", "-> -f FORMAT or --from=FORMAT -> Set input data format"),
@@ -21,6 +29,7 @@ public enum Flag {
     private final String longVersion;
     private final String description;
 
+    // region Getters
     public String getShortVersion() {
         return shortVersion;
     }
@@ -32,7 +41,14 @@ public enum Flag {
     public String getDescription() {
         return description;
     }
+    // endregion
 
+    /**
+     * Finds value by short version string representation.
+     *
+     * @param shortFlag Short version string representation.
+     * @return Value corresponding to shortFlag or <code>null</code> if no such a value found.
+     */
     public static Flag getByShort(String shortFlag) {
         for (var flag : Flag.values()) {
             if (flag.shortVersion.equals(shortFlag)) {
@@ -42,9 +58,15 @@ public enum Flag {
         return null;
     }
 
-    public static Flag getByLong(String shortFlag) {
+    /**
+     * Finds value by long version string representation.
+     *
+     * @param longFlag Long version string representation.
+     * @return Value corresponding to longFlag or <code>null</code> if no such a value found.
+     */
+    public static Flag getByLong(String longFlag) {
         for (var flag : Flag.values()) {
-            if (flag.longVersion.equals(shortFlag)) {
+            if (flag.longVersion.equals(longFlag)) {
                 return flag;
             }
         }
