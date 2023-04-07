@@ -49,7 +49,7 @@ public class HexConverter extends Converter {
 		}
 
 		String result = builder.toString();
-		return SHORT.equals(version) && result.startsWith("0") ? result.substring(1) : result;
+		return SHORT.equals(version) && result.startsWith(STRING_WITH_ZERO) ? result.substring(1) : result;
 	}
 
 	/**

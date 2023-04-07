@@ -24,7 +24,7 @@ import static options.IntOption.LITTLE;
  * </ul>
  */
 public class IntConverter extends Converter {
-
+	private static final int TEN = 10;
 	/**
 	 * Converts a binary string to an unsigned integer value string.
 	 *
@@ -41,7 +41,7 @@ public class IntConverter extends Converter {
 
 		String updatedBitStr = processBitString(bitStr, endian);
 
-		String decimalNumber = "0";
+		String decimalNumber = STRING_WITH_ZERO;
 		String powerOfTwo = "1";
 		for (int i = updatedBitStr.length() - 1; i >= 0; i--) {
 			int digit = updatedBitStr.charAt(i) - '0';
@@ -70,15 +70,15 @@ public class IntConverter extends Converter {
 			if (j >= 0) {
 				sum += secondStrValue.charAt(j--) - '0';
 			}
-			carry = sum / 10;
-			sb.append(sum % 10);
+			carry = sum / TEN;
+			sb.append(sum % TEN);
 		}
 		return sb.reverse().toString();
 	}
 
 	private static String multiplyStrings(String firstStrValue, String secondStrValue) {
-		if (firstStrValue.equals("0") || secondStrValue.equals("0")) {
-			return "0";
+		if (firstStrValue.equals(STRING_WITH_ZERO) || secondStrValue.equals(STRING_WITH_ZERO)) {
+			return STRING_WITH_ZERO;
 		}
 		int firstValueLen = firstStrValue.length();
 		int secondValueLen = secondStrValue.length();
@@ -89,8 +89,8 @@ public class IntConverter extends Converter {
 				int p2 = p1 + 1;
 				int product = (firstStrValue.charAt(i) - '0') * (secondStrValue.charAt(j) - '0');
 				int sum = product + result[p2];
-				result[p2] = sum % 10;
-				result[p1] += sum / 10;
+				result[p2] = sum % TEN;
+				result[p1] += sum / TEN;
 			}
 		}
 		StringBuilder sb = new StringBuilder();
@@ -100,7 +100,7 @@ public class IntConverter extends Converter {
 			}
 			sb.append(digit);
 		}
-		return sb.length() > 0 ? sb.toString() : "0";
+		return sb.length() > 0 ? sb.toString() : STRING_WITH_ZERO;
 	}
 
 	/**
@@ -127,11 +127,11 @@ public class IntConverter extends Converter {
 
 			for (int i = 0; i < updatedInput.length(); i++) {
 				int digit = Character.getNumericValue(updatedInput.charAt(i));
-				int dividend = remainder * 10 + digit;
+				int dividend = remainder * TEN + digit;
 				char charDigit = (char) ('0' + (dividend / 2));
 				remainder = dividend % 2;
 
-				if(!foundNoneZero && charDigit == '0'){
+				if (!foundNoneZero && charDigit == '0'){
 					continue;
 				}
 				foundNoneZero = true;

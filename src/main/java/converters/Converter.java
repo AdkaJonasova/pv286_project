@@ -13,6 +13,7 @@ import static options.BitsOption.LEFT;
  * conversion functionality.
  */
 public abstract class Converter {
+	protected static final String STRING_WITH_ZERO = "0";
 	protected static final int BYTE_LENGTH = 8;
 	protected static final int HEXADECIMAL = 16;
 	/**
@@ -60,12 +61,12 @@ public abstract class Converter {
 			int padding = BYTE_LENGTH - (numOfMissingBits);
 			StringBuilder sb = new StringBuilder();
 			if (LEFT.equals(padSide)) {
-				sb.append("0".repeat(padding));
+				sb.append(STRING_WITH_ZERO.repeat(padding));
 				sb.append(bitStr);
 				return sb.toString();
 			}
 			sb.append(bitStr);
-			sb.append("0".repeat(padding));
+			sb.append(STRING_WITH_ZERO.repeat(padding));
 			return sb.toString();
 		}
 		return bitStr;
