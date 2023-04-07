@@ -23,8 +23,10 @@ class ConverterTest {
 	void testFromIntInvalid() {
 		String input = "test";
 		String input2 = "12t";
+		String input3 = "-12";
 		assertThrows(ConverterException.class, () -> intConverter.convertFrom(input, null));
 		assertThrows(ConverterException.class, () -> intConverter.convertFrom(input2, null));
+		assertThrows(ConverterException.class, () -> intConverter.convertFrom(input3, null));
 	}
 
 	@Test
