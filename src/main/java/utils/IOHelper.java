@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,7 +48,7 @@ public final class IOHelper {
     private static List<String> readData(InputStream inputStream, String delimiter) {
         var result = new ArrayList<String>();
 
-        Scanner scanner = new Scanner(inputStream);
+        Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
         scanner.useDelimiter(resolveDelimiter(delimiter));
         while (scanner.hasNext()) {
             result.add(scanner.next());
@@ -81,7 +82,7 @@ public final class IOHelper {
      * @throws IOException If the given file does not exist or if any problems during writing to this file occur.
      */
     public static void writeToFile(List<String> text, String filePath, String delimiter) throws IOException {
-        try (FileWriter writer = new FileWriter(filePath, false)) {
+        try (FileWriter writer = new FileWriter(filePath, StandardCharsets.UTF_8, false)) {
             for (int i = 0; i < text.size(); i++) {
                 writer.write(text.get(i));
                 if (i != text.size() - 1){
