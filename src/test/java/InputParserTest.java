@@ -3,7 +3,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import exceptions.InputParsingException;
 import input.InputParser;
 import input.ParserResult;
-import options.IOption;
 import org.junit.jupiter.api.Test;
 
 
@@ -264,28 +263,27 @@ class InputParserTest {
     }
     //endregion o
 
-    //region invalid delimeter
-
+    //region invalid delimiter
     @Test
-    void testMissingToAndFromWithDelimeter() {
+    void testMissingToAndFromWithDelimiter() {
         String[] input = {"-d"};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    void testMissingToAndFromWithDelimeterAndRecord() {
+    void testMissingToAndFromWithDelimiterAndRecord() {
         String[] input = {"-d", ","};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    void testFromArgMissingDelimeter() {
+    void testFromArgMissingDelimiter() {
         String[] input = {"hex", "-t", "array", ","};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
 
     @Test
-    void testMissingDelimeter() {
+    void testMissingDelimiter() {
         String[] input = {"-f", "hex", "-t", "int", ",."};
         assertThrows(InputParsingException.class, () -> new InputParser().parse(input));
     }
@@ -339,7 +337,7 @@ class InputParserTest {
     }
 
     @Test
-    void testCorrectFromToOptionsAndDelimeter() {
+    void testCorrectFromToOptionsAndDelimiter() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big", "-d", ","};
         checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null }, ",");
     }
@@ -357,7 +355,7 @@ class InputParserTest {
     }
 
     @Test
-    void testCorrectFromToDuplicateToOptionsAndLongDelimeter() {
+    void testCorrectFromToDuplicateToOptionsAndLongDelimiter() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=little", "--to-options=big", "--delimiter=;'!?"};
         checkParserResultWithOptions(input, "bits", "int", new String[] { "right" }, new String[] { "big", null }, ";'!?");
     }
@@ -501,12 +499,12 @@ class InputParserTest {
     }
 
     private static void checkParserResultWithOptions(String[] input, String from, String to, String[] fromOptions,
-                                                     String[] toOptions, String delimeter) {
+                                                     String[] toOptions, String delimiter) {
         try {
             ParserResult parserResult = new InputParser().parse(input);
             assertEquals(parserResult.getFrom().getText(), from);
             assertEquals(parserResult.getTo().getText(), to);
-            assertEquals(parserResult.getDelimiter(), delimeter);
+            assertEquals(parserResult.getDelimiter(), delimiter);
             for (int i = 0; i < parserResult.getFromOptions().length; i++) {
                 if (Objects.isNull(fromOptions[i])) {
                     assertNull(parserResult.getFromOptions()[i]);

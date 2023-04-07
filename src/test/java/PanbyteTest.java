@@ -6,10 +6,10 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PanbyteTest {
+class PanbyteTest {
 
     @Test
-    public void testFromHexToBytes() {
+    void testFromHexToBytes() {
         String echo = "74657374";
         String[] args = {"-f", "hex", "-t", "bytes"};
         String expectedOutput = "test";
@@ -18,7 +18,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromBytesToHex() {
+    void testFromBytesToHex() {
         String echo = "test";
         String[] args = {"-f", "bytes", "-t", "hex"};
         String expectedOutput = "74657374";
@@ -27,7 +27,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromSpacedHexToBytes() {
+    void testFromSpacedHexToBytes() {
         String echo = "74 65 73 74";
         String[] args = {"-f", "hex", "-t", "bytes"};
         String expectedOutput = "test";
@@ -36,7 +36,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromIntToHex() {
+    void testFromIntToHex() {
         String echo = "1234567890";
         String[] args = {"-f", "int", "-t", "hex"};
         String expectedOutput = "499602d2";
@@ -45,7 +45,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromIntOptionsBigToHex() {
+    void testFromIntOptionsBigToHex() {
         String echo = "1234567890";
         String[] args = {"-f", "int", "--from-options=big" ,"-t", "hex"};
         String expectedOutput = "499602d2";
@@ -54,7 +54,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromIntOptionsLittleToHex() {
+    void testFromIntOptionsLittleToHex() {
         String echo = "1234567890";
         String[] args = {"-f", "int", "--from-options=little" ,"-t", "hex"};
         String expectedOutput = "d2029649";
@@ -63,7 +63,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromHexToInt() {
+    void testFromHexToInt() {
         String echo = "499602d2";
         String[] args = {"-f", "hex","-t", "int"};
         String expectedOutput = "1234567890";
@@ -72,7 +72,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromHexToIntOptionsBig() {
+    void testFromHexToIntOptionsBig() {
         String echo = "499602d2";
         String[] args = {"-f", "hex","-t", "int" ,"--to-options=big"};
         String expectedOutput = "1234567890";
@@ -81,7 +81,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromHexToIntOptionsLittle() {
+    void testFromHexToIntOptionsLittle() {
         String echo = "d2029649";
         String[] args = {"-f", "hex","-t", "int" ,"--to-options=little"};
         String expectedOutput = "1234567890";
@@ -90,7 +90,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromBitsToBytes() {
+    void testFromBitsToBytes() {
         String echo = "100 1111 0100 1011";
         String[] args = {"-f", "bits","-t", "bytes"};
         String expectedOutput = "OK";
@@ -99,7 +99,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromBitsOptionsLeftToBytes() {
+    void testFromBitsOptionsLeftToBytes() {
         String echo = "100111101001011";
         String[] args = {"-f", "bits", "--from-options=left", "-t", "bytes"};
         String expectedOutput = "OK";
@@ -108,7 +108,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromBitsOptionsRightToHex() {
+    void testFromBitsOptionsRightToHex() {
         String echo = "100111101001011";
         String[] args = {"-f", "bits", "--from-options=right", "-t", "hex"};
         String expectedOutput = "9e96";
@@ -117,7 +117,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromBytesToBits() {
+    void testFromBytesToBits() {
         String echo = "OK";
         String[] args = {"-f", "bytes", "-t", "bits"};
         String expectedOutput = "0100111101001011";
@@ -126,7 +126,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromHexToArray() {
+    void testFromHexToArray() {
         String echo = "01020304";
         String[] args = {"-f", "hex", "-t", "array"};
         String expectedOutput = "{0x1, 0x2, 0x3, 0x4}";
@@ -135,7 +135,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromArrayToHex() {
+    void testFromArrayToHex() {
         String echo = "{0x01, 2, 0b11, '\\x04'}";
         String[] args = {"-f", "array", "-t", "hex"};
         String expectedOutput = "01020304";
@@ -144,7 +144,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromArrayToArray() {
+    void testFromArrayToArray() {
         String echo = "{0x01,2,0b11 ,'\\x04' }";
         String[] args = {"-f", "array", "-t", "array"};
         String expectedOutput = "{0x1, 0x2, 0x3, 0x4}";
@@ -153,7 +153,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromArrayToArrayOptionsHexRepresentation() {
+    void testFromArrayToArrayOptionsHexRepresentation() {
         String echo = "[0x01, 2, 0b11, '\\x04']";
         String[] args = {"-f", "array", "-t", "array", "--to-options=0x"};
         String expectedOutput = "{0x1, 0x2, 0x3, 0x4}";
@@ -162,7 +162,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromArrayToArrayOptionsDecimalRepresentation() {
+    void testFromArrayToArrayOptionsDecimalRepresentation() {
         String echo = "(0x01, 2, 0b11, '\\x04')";
         String[] args = {"-f", "array", "-t", "array", "--to-options=0"};
         String expectedOutput = "{1, 2, 3, 4}";
@@ -171,7 +171,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromArrayToArrayOptionsCharRepresentation() {
+    void testFromArrayToArrayOptionsCharRepresentation() {
         String echo = "{0x01, 2, 0b11, '\\x04'}";
         String[] args = {"-f", "array", "-t", "array", "--to-options=a"};
         String expectedOutput = "{'\\x01', '\\x02', '\\x03', '\\x04'}";
@@ -180,7 +180,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromArrayToArrayOptionsBinaryRepresentation() {
+    void testFromArrayToArrayOptionsBinaryRepresentation() {
         String echo = "[0x01, 2, 0b11, '\\x04']";
         String[] args = {"-f", "array", "-t", "array", "--to-options=0b"};
         String expectedOutput = "{0b1, 0b10, 0b11, 0b100}";
@@ -189,7 +189,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromArrayToArrayOptionsRegularBrackets() {
+    void testFromArrayToArrayOptionsRegularBrackets() {
         String echo = "(0x01, 2, 0b11, '\\x04')";
         String[] args = {"-f", "array", "-t", "array", "--to-options=\"(\""};
         String expectedOutput = "(0x1, 0x2, 0x3, 0x4)";
@@ -198,7 +198,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testFromArrayToArrayOptionsDecRepSquareBracket() {
+    void testFromArrayToArrayOptionsDecRepSquareBracket() {
         String echo = "{0x01, 2, 0b11, '\\x04'}";
         String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options=\"[\""};
         String expectedOutput = "[1, 2, 3, 4]";
@@ -207,7 +207,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testNestedFromArrayToArray() {
+    void testNestedFromArrayToArray() {
         String echo = "[[1, 2], [3, 4], [5, 6]]";
         String[] args = {"-f", "array", "-t", "array"};
         String expectedOutput = "{{0x1, 0x2}, {0x3, 0x4}, {0x5, 0x6}}";
@@ -216,7 +216,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testNestedFromArrayToArrayOptionsCurlyBracketsDecimalRepresentation() {
+    void testNestedFromArrayToArrayOptionsCurlyBracketsDecimalRepresentation() {
         String echo = "[[1, 2], [3, 4], [5, 6]]";
         String[] args = {"-f", "array", "-t", "array", "--to-options=\"{\"", "--to-options=0"};
         String expectedOutput = "{{1, 2}, {3, 4}, {5, 6}}";
@@ -225,7 +225,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testNestedFromArrayToArrayOptionsDecimalRepresentationSquareBrackets() {
+    void testNestedFromArrayToArrayOptionsDecimalRepresentationSquareBrackets() {
         String echo = "{{0x01, (2), [3, 0b100, 0x05], '\\x06'}}";
         String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options=\"[\""};
         String expectedOutput = "[[1, [2], [3, 4, 5], 6]]";
@@ -234,7 +234,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testNestedFromArrayToArrayEmptyBrackets() {
+    void testNestedFromArrayToArrayEmptyBrackets() {
         String echo = "()";
         String[] args = {"-f", "array", "-t", "array"};
         String expectedOutput = "{}";
@@ -243,7 +243,7 @@ public class PanbyteTest {
     }
 
     @Test
-    public void testNestedFromArrayToArrayOptionsSquareBrackets() {
+    void testNestedFromArrayToArrayOptionsSquareBrackets() {
         String echo =  "([],{})";
         String[] args = {"-f", "array", "-t", "array", "--to-options=\"[\""};
         String expectedOutput = "[[], []]";
