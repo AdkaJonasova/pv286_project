@@ -294,7 +294,7 @@ class ConverterTest {
 		try {
 			String bits = arrayConverter.convertFrom("(85, 75, 45 ,55)", null);
 			String actualResult = intConverter.convertTo(bits, null);
-			String expectedResult = "85754555";
+			String expectedResult = "1430990135";
 
 			assertEquals(expectedResult, actualResult);
 		} catch (ConverterException e) {
@@ -307,7 +307,7 @@ class ConverterTest {
 		try {
 			String bits = intConverter.convertFrom("85754555", null);
 			String actualResult = arrayConverter.convertTo(bits, null);
-			String expectedResult = "{0x55, 0x4b, 0x2d, 0x37}";
+			String expectedResult = "{0x5, 0x1c, 0x82, 0xbb}";
 
 			assertEquals(expectedResult, actualResult);
 		} catch (ConverterException e) {
