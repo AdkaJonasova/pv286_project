@@ -2,6 +2,8 @@ import converters.*;
 import exceptions.ConverterException;
 import options.IOption;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static options.ArrayOption.*;
 import static options.BitsOption.LEFT;
@@ -19,32 +21,22 @@ class ConverterTest {
 	BitsConverter bitsConverter = new BitsConverter();
 	ArrayConverter arrayConverter = new ArrayConverter();
 
-	@Test
-	void testFromIntInvalid() {
-		String input = "test";
-		String input2 = "12t";
-		String input3 = "-12";
+	@ParameterizedTest
+	@ValueSource(strings = {"test", "12t", "-12"})
+	void testFromIntInvalid(String input) {
 		assertThrows(ConverterException.class, () -> intConverter.convertFrom(input, null));
-		assertThrows(ConverterException.class, () -> intConverter.convertFrom(input2, null));
-		assertThrows(ConverterException.class, () -> intConverter.convertFrom(input3, null));
 	}
 
-	@Test
-	void testFromHexInvalid() {
-		String input = "12G";
-		String input2 = "test";
-		String input3 = "35FH";
+	@ParameterizedTest
+	@ValueSource(strings = {"12G", "test", "35FH"})
+	void testFromHexInvalid(String input) {
 		assertThrows(ConverterException.class, () -> hexConverter.convertFrom(input, null));
-		assertThrows(ConverterException.class, () -> hexConverter.convertFrom(input2, null));
-		assertThrows(ConverterException.class, () -> hexConverter.convertFrom(input3, null));
 	}
 
-	@Test
-	void testFromBitsInvalid() {
-		String input = "012";
-		String input2 = "test";
+	@ParameterizedTest
+	@ValueSource(strings = {"012", "test"})
+	void testFromBitsInvalid(String input) {
 		assertThrows(ConverterException.class, () -> bitsConverter.convertFrom(input, null));
-		assertThrows(ConverterException.class, () -> bitsConverter.convertFrom(input2, null));
 	}
 
 	@Test
@@ -476,31 +468,12 @@ class ConverterTest {
 		}
 	}
 
-	@Test
-	void testInvalidArrayClosingBracketMissing() {
-		String invalidArray = "[{1, 2}, {";
-		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
-	}
-
-	@Test
-	void testInvalidArrayOpeningBracketMissing() {
-		String invalidArray = "]{1, 2}]";
-		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
-		assertThrows(ConverterException.class, () -> arrayConverter.convertFrom(invalidArray, null));
-	}
-
-	@Test
-	void testInvalidArrayBracketsMismatch() {
-		String invalidArray = "[{1, 2}, {3, 4}}";
-		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
-		assertThrows(ConverterException.class, () -> arrayConverter.convertFrom(invalidArray, null));
-	}
-
-	@Test
-	void testInvalidArrayTrailingBracket() {
-		String invalidArray = "[{1, 2}, {3, 4}](";
-		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
-		assertThrows(ConverterException.class, () -> arrayConverter.convertFrom(invalidArray, null));
+	//region Invalid arrays tests
+	@ParameterizedTest
+	@ValueSource(strings = {"[{1, 2}, {", "]{1, 2}]", "[{1, 2}, {3, 4}}", "[{1, 2}, {3, 4}]("})
+	void testInvalidArrayIncorrectBrackets(String input) {
+		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(input, null));
+		assertThrows(ConverterException.class, () -> arrayConverter.convertFrom(input, null));
 	}
 
 	@Test
@@ -516,4 +489,5 @@ class ConverterTest {
 		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
 		assertThrows(ConverterException.class, () -> arrayConverter.convertFrom(invalidArray, null));
 	}
+	//endregion
 }
