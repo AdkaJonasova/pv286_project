@@ -45,14 +45,13 @@ import static options.ArrayOption.REGULAR_BRACKETS;
  */
 public class ArrayConverter extends Converter {
     private static class Pair {
+        int index;
+        String value;
 
         Pair(int index, String value) {
             this.index = index;
             this.value = value;
         }
-
-        int index;
-        String value;
     }
 
     /**

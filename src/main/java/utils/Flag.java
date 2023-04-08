@@ -19,21 +19,17 @@ public enum Flag {
     DELIMITER("-d", "--delimiter", "-> -d DELIMITER or --delimiter=DELIMITER -> Record delimiter (default is newline)"),
     HELP("-h", "--help", "-> -h or --help -> Print help");
 
+    private final String shortVersion;
+    private final String longVersion;
+    private final String description;
+
     Flag(String shortVersion, String longVersion, String description) {
         this.shortVersion = shortVersion;
         this.longVersion = longVersion;
         this.description = description;
     }
 
-    private final String shortVersion;
-    private final String longVersion;
-    private final String description;
-
     // region Getters
-    public String getShortVersion() {
-        return shortVersion;
-    }
-
     public String getLongVersion() {
         return longVersion;
     }
