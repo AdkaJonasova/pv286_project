@@ -317,9 +317,9 @@ class PanbyteTest {
     //region File test
     @Test
     void testFromFileWithWindowsDelimiterToStdout() {
-        String path = getClass().getClassLoader().getResource("inputFileWithWindowsDelimiter.txt").toString();
+        URL url = getClass().getClassLoader().getResource("inputFileWithWindowsDelimiter.txt");
 
-        String[] args = {"-f", "hex", "-t", "bytes", "-i", path};
+        String[] args = {"-f", "hex", "-t", "bytes", "-i", url.getPath()};
         String expectedOutput = "test\r\nmacka\r\npes";
         String actualOutput = getOutputOfProgramCall(args);
         assertEquals(expectedOutput, actualOutput);
