@@ -321,7 +321,7 @@ class PanbyteTest {
             URL url = getClass().getClassLoader().getResource("inputFileWithWindowsDelimiter.txt");
             String path = url.getPath();
 
-            String[] args = {"-f", "hex", "-t", "byte", "-i", path};
+            String[] args = {"-f", "hex", "-t", "bytes", "-i", path};
             String expectedOutput = "test\r\nmacka\r\npes";
             String actualOutput = getOutputOfProgramCall(args);
             assertEquals(expectedOutput, actualOutput);
