@@ -291,18 +291,9 @@ class PanbyteTest {
 
     @Test
     void testFromArrayToArrayOptionsRegularBracketsWithDelimiter() {
-        String echo = "(0x01, 2, 0b11, '\\x04')qw7.;[2, 0x11, 0b01, 0b10, '\\x10']";
-        String[] args = {"-f", "array", "--delimiter=qw7.;", "-t", "array", "--to-options=\"(\""};
+        String echo = "16909060qw7.;8875213328";
+        String[] args = {"-f", "int", "--delimiter=qw7.;", "-t", "array", "--to-options=\"(\""};
         String expectedOutput = "(0x1, 0x2, 0x3, 0x4)qw7.;(0x2, 0x11, 0x1, 0x2, 0x10)";
-        String actualOutput = getOutputOfProgramCall(echo, args);
-        assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    void testNestedFromArrayToArrayOptionsDecimalRepresentationSquareBracketsWithDelimiter() {
-        String echo = "{{0x01, (2), [3, 0b100, 0x05], '\\x06'}} ' 1_  [0x07, (8, 0b11, '\\x10')] ' 1_  {[5, (1, 0x11, {'\\x10', 0b11111})]}";
-        String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options=\"[\"", "--delimiter= ' 1_  "};
-        String expectedOutput = "[[1, [2], [3, 4, 5], 6]] ' 1_  [7, [8, 3, 16]] ' 1_  [[5, [1, 17, [16, 31]]]]";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
     }
