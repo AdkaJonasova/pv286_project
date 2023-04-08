@@ -13,9 +13,11 @@ import static options.BitsOption.LEFT;
  * conversion functionality.
  */
 public abstract class Converter {
+
 	protected static final String STRING_WITH_ZERO = "0";
 	protected static final int BYTE_LENGTH = 8;
 	protected static final int HEXADECIMAL = 16;
+
 	/**
 	 * Converts a binary string to another string format using the specified options.
 	 *
