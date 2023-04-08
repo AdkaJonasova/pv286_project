@@ -92,6 +92,6 @@ public abstract class Converter {
 	 * @return the string without white spaces
 	 */
 	protected static String removeWhiteSpaces(String input){
-		return input.replaceAll("\s+","");
+		return input.replaceAll("\s+", "");
 	}
 }
