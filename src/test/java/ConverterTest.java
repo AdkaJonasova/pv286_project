@@ -311,7 +311,33 @@ class ConverterTest {
 
 			assertEquals(expectedResult, actualResult);
 		} catch (ConverterException e) {
-			e.printStackTrace();
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testArrayToBytes() {
+		try {
+			String bits = arrayConverter.convertFrom("{85, 75, 95}", null);
+			String actualResult = byteConverter.convertTo(bits, null);
+			String expectedResult = "UK_";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testBytesToArray() {
+		try {
+			String bits = byteConverter.convertFrom("UK_", null);
+			String actualResult = arrayConverter.convertTo(bits, null);
+			String expectedResult = "{0x55, 0x4b, 0x5f}";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
 		}
 	}
 
