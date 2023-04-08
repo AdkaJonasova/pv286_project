@@ -353,7 +353,11 @@ class PanbyteTest {
     }
 
     private String getOutputOfProgramCall(String[] args) {
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+        try (
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                PrintStream printStream = new PrintStream(byteArrayOutputStream, true, StandardCharsets.UTF_8)
+        ) {
+            System.setOut(printStream);
             Program.main(args);
             String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
             if (outputLines.length > 1) {

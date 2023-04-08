@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
 
+import static format.Format.ARRAY;
 import static format.Format.BYTES;
 import static options.ArrayOption.ZEROX_PREFIXED_HEX_NUMBER;
 import static options.ArrayOption.DECIMAL_NUMBER;
@@ -157,11 +158,15 @@ public class ArrayConverter extends Converter {
         if (format == null) {
             throw new ConverterException(String.format("Invalid value: %s", value));
         }
+        if (ARRAY.equals(format)){
+            return "";
+        }
+
         Pattern regex = Pattern.compile(format.getArrayRegex());
         Matcher matcher = regex.matcher(value);
 
         if (matcher.find()) {
-            String valueToConvert = matcher.group(1);
+            String valueToConvert = matcher.group(matcher.groupCount());
 
             if (BYTES.equals(format)) {
                 String hexValue = "\\u00" + valueToConvert;
