@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PanbyteTest {
 
+    //region Provided tests
     @Test
     void testFromHexToBytes() {
         String echo = "74657374";
@@ -252,6 +253,55 @@ class PanbyteTest {
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
     }
+
+    // endregion
+
+    //region Delimiter tests
+    @Test
+    void testFromBytesToHexWithDelimiter() {
+        String echo = "macka,lietadlo,ohnos,pes,krodil,semafor,ahah";
+        String[] args = {"-f", "bytes", "-t", "int", "-d", ","};
+        String expectedOutput = "469785340769,7811886579175418991,478493437811,7366003,118139239295340,32481142781669234,1634230632";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFromSpacedHexToBytesWithDelimiter() {
+        String echo = "74 65 73 74,.;'4f 4b,.;'5375506552";
+        String[] args = {"-f", "hex", "-d", ",.;'", "-t", "bytes"};
+        String expectedOutput = "test,.;'OK,.;'SuPeR";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFromArrayToArrayOptionsRegularBracketsWithDelimiter() {
+        String echo = "(0x01, 2, 0b11, '\\x04')qw7.;[2, 0x11, 0b01, 0b10, '\\x10']";
+        String[] args = {"-f", "array", "--delimiter=qw7.;", "-t", "array", "--to-options=\"(\""};
+        String expectedOutput = "(0x1, 0x2, 0x3, 0x4)qw7.;(0x2, 0x11, 0x1, 0x2, 0x10)";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testNestedFromArrayToArrayOptionsDecimalRepresentationSquareBracketsWithDelimiter() {
+        String echo = "{{0x01, (2), [3, 0b100, 0x05], '\\x06'}} ' 1_  [0x07, (8, 0b11, '\\x10')] ' 1_  {[5, (1, 0x11, {'\\x10', 0b11111})]}";
+        String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options=\"[\"", "--delimiter= ' 1_  "};
+        String expectedOutput = "[[1, [2], [3, 4, 5], 6]] ' 1_  [7, [8, 3, 16]] ' 1_  [[5, [1, 17, [16, 31]]]]";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFromBitsToBytesWithDefaultDelimiter() {
+        String echo = "100 1111 0100 1011\n1110000 01100101 01110011\n01101101011000010110110101100001\n0 1 1 0 1 1 0 1 01101111 01110010 011 00101";
+        String[] args = {"-f", "bits","-t", "bytes"};
+        String expectedOutput = "OK\npes\nmama\nmore";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+    //endregion
 
     private String getOutputOfProgramCall(String echo, String[] args) {
         try (

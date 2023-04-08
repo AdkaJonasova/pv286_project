@@ -440,4 +440,40 @@ class ConverterTest {
 			fail("Exception thrown: " + e.getMessage());
 		}
 	}
+
+	@Test
+	void testByteToVeryLongInt(){
+		try {
+			String bits = byteConverter.convertFrom("hahahahahahahahahhahahahahahahahahhahahahahahahahahhahaha" +
+					"hahahahahahhahahahahahahahahhahahahahahahahahhahahahahahahahahhahahahahahahahahhahaha", null);
+			String actualResult = intConverter.convertTo(bits, null);
+			String expectedResult = "38058746259573735706638784505536541680220395367276312960468310427870180575747260" +
+					"978749031380703736745090995454611661395016199587892556002253176894044034955562780052515218582446" +
+					"742442895272795493953889919883268519247689344580540826993570923722824991222759198641564507752729" +
+					"5534398547357009919981075021542512677674519077324171214437549040822369";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
+	void testVeryLongIntToByte(){
+		try {
+			String bits = intConverter.convertFrom("3805874625957373570663878450553654168022039536727631296046" +
+					"83104278701805757472609787490313807037367450909954546116613950161995878925560022531768940440349" +
+					"55562780052515218582446742442895272795493953889919883268519247689344580540826993570923722824991" +
+					"2227591986415645077527295534398547357009919981075021542512677674519077324171214437549040822369",
+					null);
+			String actualResult = byteConverter.convertTo(bits, null);
+			String expectedResult = "hahahahahahahahahhahahahahahahahahhahahahahahahahahhahahahahahahahahhahahahahah" +
+					"ahahahhahahahahahahahahhahahahahahahahahhahahahahahahahahhahaha";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
 }
