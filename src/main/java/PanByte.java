@@ -49,7 +49,8 @@ public class PanByte {
         }
     }
 
-    private static ArrayList<String> convertInputWithArgs(List<String> userInput, ParserResult userArgs) throws ConverterException {
+    private static ArrayList<String> convertInputWithArgs(List<String> userInput,
+                                                          ParserResult userArgs) throws ConverterException {
         var result = new ArrayList<String>();
         for (var val : userInput) {
             Format from = userArgs.getFrom();
