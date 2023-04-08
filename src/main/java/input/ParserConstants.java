@@ -1,7 +1,7 @@
 package input;
 
 /**
- * This class contains constants which are used during {@link InputParser#parse(String[])} method.
+ * This class contains constants which are used during {@link ArgumentParser#parse(String[])} method.
  */
 public final class ParserConstants {
 

@@ -5,7 +5,7 @@ import exceptions.InputParsingException;
 /**
  * This interface provides methods for parsing program arguments.
  */
-public interface IInputParser {
+public interface IArgumentParser {
 
     /**
      * Parses given list of flags and values.

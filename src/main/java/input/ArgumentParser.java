@@ -11,9 +11,9 @@ import utils.Flag;
 import java.util.Objects;
 
 /**
- * Provides basic implementation of {@link IInputParser} interface.
+ * Provides basic implementation of {@link IArgumentParser} interface.
  */
-public class InputParser implements IInputParser {
+public class ArgumentParser implements IArgumentParser {
 
     private Flag currentFlag;
 
@@ -28,12 +28,12 @@ public class InputParser implements IInputParser {
     private boolean shouldLookForFromOptions;
     private boolean shouldLookForToOptions;
 
-    public InputParser() {
+    public ArgumentParser() {
         setAttributesToDefault();
     }
 
     /**
-     * This method is the implementation of {@link IInputParser#parse(String[])} method.
+     * This method is the implementation of {@link IArgumentParser#parse(String[])} method.
      * In this implementation allowed flags in input are:
      * -f, --from, -t, --to, --from-option, --to-options, -i, --input, -o, --output, -d, --delimiter, -h, --help
      */

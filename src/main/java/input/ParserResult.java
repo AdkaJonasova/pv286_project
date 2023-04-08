@@ -6,7 +6,7 @@ import options.IOption;
 import java.util.Arrays;
 
 /**
- * This class provides storage for result from {@link InputParser#parse(String[])}} method.
+ * This class provides storage for result from {@link ArgumentParser#parse(String[])}} method.
  * It contains following fields:
  * <ul>
  *     <li>from - specifies from {@link Format}</li>
