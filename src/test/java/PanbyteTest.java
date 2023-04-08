@@ -1,3 +1,4 @@
+import com.code_intelligence.jazzer.junit.FuzzTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -18,6 +19,18 @@ class PanbyteTest {
         String expectedOutput = "test";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
+    }
+
+    @FuzzTest
+    void fuzzTestIntToHex(int input) {
+        if (input > 50) {
+            System.out.println(input);
+            String[] args2 = {"-f", "bytes", "-t", "int"};
+            String[] args1 = {"-f", "int", "-t", "bytes"};
+            String fromBytesToInt = getOutputOfProgramCall(String.valueOf(input), args1);
+            String inputResult = getOutputOfProgramCall(fromBytesToInt, args2);
+            assertEquals(String.valueOf(input), inputResult);
+        }
     }
 
     @Test
@@ -50,7 +63,7 @@ class PanbyteTest {
     @Test
     void testFromIntOptionsBigToHex() {
         String echo = "1234567890";
-        String[] args = {"-f", "int", "--from-options=big" ,"-t", "hex"};
+        String[] args = {"-f", "int", "--from-options=big", "-t", "hex"};
         String expectedOutput = "499602d2";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -59,7 +72,7 @@ class PanbyteTest {
     @Test
     void testFromIntOptionsLittleToHex() {
         String echo = "1234567890";
-        String[] args = {"-f", "int", "--from-options=little" ,"-t", "hex"};
+        String[] args = {"-f", "int", "--from-options=little", "-t", "hex"};
         String expectedOutput = "d2029649";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -68,7 +81,7 @@ class PanbyteTest {
     @Test
     void testFromHexToInt() {
         String echo = "499602d2";
-        String[] args = {"-f", "hex","-t", "int"};
+        String[] args = {"-f", "hex", "-t", "int"};
         String expectedOutput = "1234567890";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -77,7 +90,7 @@ class PanbyteTest {
     @Test
     void testFromHexToIntOptionsBig() {
         String echo = "499602d2";
-        String[] args = {"-f", "hex","-t", "int" ,"--to-options=big"};
+        String[] args = {"-f", "hex", "-t", "int", "--to-options=big"};
         String expectedOutput = "1234567890";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -86,7 +99,7 @@ class PanbyteTest {
     @Test
     void testFromHexToIntOptionsLittle() {
         String echo = "d2029649";
-        String[] args = {"-f", "hex","-t", "int" ,"--to-options=little"};
+        String[] args = {"-f", "hex", "-t", "int", "--to-options=little"};
         String expectedOutput = "1234567890";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -95,7 +108,7 @@ class PanbyteTest {
     @Test
     void testFromBitsToBytes() {
         String echo = "100 1111 0100 1011";
-        String[] args = {"-f", "bits","-t", "bytes"};
+        String[] args = {"-f", "bits", "-t", "bytes"};
         String expectedOutput = "OK";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -247,7 +260,7 @@ class PanbyteTest {
 
     @Test
     void testNestedFromArrayToArrayOptionsSquareBrackets() {
-        String echo =  "([],{})";
+        String echo = "([],{})";
         String[] args = {"-f", "array", "-t", "array", "--to-options=\"[\""};
         String expectedOutput = "[[], []]";
         String actualOutput = getOutputOfProgramCall(echo, args);
@@ -295,9 +308,15 @@ class PanbyteTest {
 
     @Test
     void testFromBitsToBytesWithDefaultDelimiter() {
-        String echo = "100 1111 0100 1011\n1110000 01100101 01110011\n01101101011000010110110101100001\n0 1 1 0 1 1 0 1 01101111 01110010 011 00101";
+        String echo = "100 1111 0100 1011" + System.lineSeparator() +
+                "1110000 01100101 01110011" + System.lineSeparator() +
+                "01101101011000010110110101100001" + System.lineSeparator() +
+                "0 1 1 0 1 1 0 1 01101111 01110010 011 00101";
         String[] args = {"-f", "bits","-t", "bytes"};
-        String expectedOutput = "OK\npes\nmama\nmore";
+        String expectedOutput = "OK" + System.lineSeparator() +
+                "pes" + System.lineSeparator() +
+                "mama" + System.lineSeparator() +
+                "more";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
     }
@@ -313,6 +332,9 @@ class PanbyteTest {
             System.setOut(printStream);
             Program.main(args);
             String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
+            if (outputLines.length > 1) {
+                return String.join(System.lineSeparator(), outputLines);
+            }
             return outputLines[outputLines.length - 1];
         } catch (IOException e) {
             throw new RuntimeException(e);
