@@ -65,7 +65,7 @@ public class BitsConverter extends Converter {
 		validateInput(input, "^[01 ]+$");
 		BitsOption padSide = getPadSideFromOptions(options);
 
-		String updatedInput = input.replace(" ", "");
+		String updatedInput = removeWhiteSpaces(input);
 		return addMissingZerosToBitString(updatedInput, padSide);
 	}
 

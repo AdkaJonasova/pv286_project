@@ -84,4 +84,14 @@ public abstract class Converter {
 			throw new ConverterException(String.format("Invalid input format: %s", input));
 		}
 	}
+
+	/**
+	 * Removes white spaces from input.
+	 *
+	 * @param input the input string to adjust
+	 * @return the string without white spaces
+	 */
+	protected static String removeWhiteSpaces(String input){
+		return input.replaceAll("\s+","");
+	}
 }

@@ -75,7 +75,7 @@ public class HexConverter extends Converter {
 	public String convertFrom(String input) throws ConverterException {
 		validateInput(input, "^([0-9a-fA-F]{2}\\s?)+$");
 
-		String updatedInput = input.replace(" ", "");
+		String updatedInput = removeWhiteSpaces(input);
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < updatedInput.length(); i++) {
 			String bitStr = Integer.toBinaryString(Character.digit(updatedInput.charAt(i), HEXADECIMAL));

@@ -114,7 +114,7 @@ public class ArrayConverter extends Converter {
     public String convertFrom(String input, IOption[] options) throws ConverterException {
         validateArrayInput(input);
         String result = input.substring(1, input.length() - 1);
-        result = result.replace(" ", "");
+        result = removeWhiteSpaces(result);
 
         return convertFromWithoutBrackets(result);
     }
@@ -130,7 +130,7 @@ public class ArrayConverter extends Converter {
      * @throws ConverterException if the input nested byte array string is invalid
      */
     public String convertFromArrayToArray(String input, IOption[] options) throws ConverterException {
-        String result = input.replaceAll("\\s+", "");
+        String result = removeWhiteSpaces(input);
         validateArrayToArrayInput(input);
 
         ArrayOption bracketOption = getBracketOption(options);
