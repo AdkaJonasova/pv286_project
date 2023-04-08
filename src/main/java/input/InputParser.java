@@ -53,6 +53,7 @@ public class InputParser implements IInputParser {
             throw new InputParsingException("Missing value for one of the switches.");
         }
 
+        assertNoDelimiterForArrays();
         var result = new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, inputFile,
                 outputFile, delimiter, shouldPrintHelp);
         setAttributesToDefault();
@@ -204,6 +205,12 @@ public class InputParser implements IInputParser {
     private void assertInputNonEmpty(String[] input) throws InputParsingException {
         if (input.length == 0) {
             throw new InputParsingException("Cannot run program without any arguments.");
+        }
+    }
+
+    private void assertNoDelimiterForArrays() throws InputParsingException {
+        if (fromRepresentation.equals(Format.ARRAY) && !delimiter.isEmpty()) {
+            throw new InputParsingException("Specifying delimiter when converting from array is not allowed");
         }
     }
 
