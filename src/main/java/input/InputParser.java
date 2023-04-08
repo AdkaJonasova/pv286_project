@@ -209,7 +209,7 @@ public class InputParser implements IInputParser {
     }
 
     private void assertNoDelimiterForArrays() throws InputParsingException {
-        if (fromRepresentation.equals(Format.ARRAY) && !delimiter.isEmpty()) {
+        if (!Objects.isNull(fromRepresentation) && fromRepresentation.equals(Format.ARRAY) && !delimiter.isEmpty()) {
             throw new InputParsingException("Specifying delimiter when converting from array is not allowed");
         }
     }
