@@ -130,13 +130,14 @@ public class ArrayConverter extends Converter {
      * @throws ConverterException if the input nested byte array string is invalid
      */
     public String convertFromArrayToArray(String input, IOption[] options) throws ConverterException {
+        String result = input.replaceAll("\\s+","");
         validateArrayToArrayInput(input);
 
         ArrayOption bracketOption = getBracketOption(options);
-        String result = input.replace(" ", "");
         String unitedClosureInput = uniteClosures(result, bracketOption);
-        return convertArrayToArray(unitedClosureInput, 0,
+        result = convertArrayToArray(unitedClosureInput, 0,
                 bracketOption.getOpen(), bracketOption.getClose(), options).value;
+        return result;
     }
 
     private static String convertFromWithoutBrackets(String input) throws ConverterException {
@@ -236,9 +237,6 @@ public class ArrayConverter extends Converter {
     }
 
     private void validateArrayToArrayInput(String input) throws ConverterException {
-        if (Objects.isNull(input) || input.length() < 2) {
-            throw new ConverterException(String.format("Invalid input: %s", input));
-        }
         List<String> openingBrackets = List.of(
                 CURLY_BRACKETS.getOpen(),
                 SQUARE_BRACKETS.getOpen(),
@@ -249,6 +247,10 @@ public class ArrayConverter extends Converter {
                 SQUARE_BRACKETS.getClose(),
                 REGULAR_BRACKETS.getClose()
         );
+
+        if (Objects.isNull(input) || input.length() < 2 || !openingBrackets.contains(String.valueOf(input.charAt(0)))) {
+            throw new ConverterException(String.format("Invalid input: %s", input));
+        }
 
         Deque<String> stack = new ArrayDeque<>();
         for (char c : input.toCharArray()) {

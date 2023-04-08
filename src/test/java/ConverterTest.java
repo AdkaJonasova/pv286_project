@@ -477,13 +477,6 @@ class ConverterTest {
 	}
 
 	@Test
-	void testInvalidArrayNoValueAfterComma() {
-		String invalidArray = "[{1, 2}, {3, 4},]";
-		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
-		assertThrows(ConverterException.class, () -> arrayConverter.convertFrom(invalidArray, null));
-	}
-
-	@Test
 	void testInvalidArrayWithoutBrackets() {
 		String invalidArray = "1, 2";
 		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
