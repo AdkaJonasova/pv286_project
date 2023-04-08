@@ -35,7 +35,7 @@ public class HexConverter extends Converter {
 	 */
 	@Override
 	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
-		validateInput(bitStr, "^[01 ]+$");
+		validateInput(bitStr, "^[01]+$");
 		HexOption version = getVersionFromOptions(options);
 
 		String updatedBitStr = addMissingZerosToBitString(bitStr);
@@ -73,9 +73,9 @@ public class HexConverter extends Converter {
 	 * @throws ConverterException if the input hex value string is invalid
 	 */
 	public String convertFrom(String input) throws ConverterException {
-		validateInput(input, "^([0-9a-fA-F]{2}\\s?)+$");
-
 		String updatedInput = removeWhiteSpaces(input);
+		validateInput(updatedInput, "^([0-9a-fA-F]{2})+$");
+
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < updatedInput.length(); i++) {
 			String bitStr = Integer.toBinaryString(Character.digit(updatedInput.charAt(i), HEXADECIMAL));

@@ -36,7 +36,7 @@ public class IntConverter extends Converter {
 	 */
 	@Override
 	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
-		validateInput(bitStr, "^[01 ]+$");
+		validateInput(bitStr, "^[01]+$");
 		IntOption endian = getEndianFromOptions(options);
 
 		String updatedBitStr = processBitString(bitStr, endian);

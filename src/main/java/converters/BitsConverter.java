@@ -36,7 +36,7 @@ public class BitsConverter extends Converter {
 	 */
 	@Override
 	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
-		validateInput(bitStr, "^[01 ]+$");
+		validateInput(bitStr, "^[01]+$");
 		BitsOption padSide = getPadSideFromOptions(options);
 
 		if (padSide.equals(SHORT)) {
@@ -62,10 +62,10 @@ public class BitsConverter extends Converter {
 	 */
 	@Override
 	public String convertFrom(String input, IOption[] options) throws ConverterException {
-		validateInput(input, "^[01 ]+$");
+		String updatedInput = removeWhiteSpaces(input);
+		validateInput(updatedInput, "^[01]+$");
 		BitsOption padSide = getPadSideFromOptions(options);
 
-		String updatedInput = removeWhiteSpaces(input);
 		return addMissingZerosToBitString(updatedInput, padSide);
 	}
 

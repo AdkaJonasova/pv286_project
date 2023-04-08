@@ -73,7 +73,7 @@ public class ArrayConverter extends Converter {
     }
 
     private String convertToWithoutBrackets(String bitStr, IOption[] options) throws ConverterException {
-        validateInput(bitStr, "^[01 ]+$");
+        validateInput(bitStr, "^[01]+$");
 
         ArrayOption representation = getRepresentationOption(options);
 
@@ -113,9 +113,9 @@ public class ArrayConverter extends Converter {
      */
     @Override
     public String convertFrom(String input, IOption[] options) throws ConverterException {
-        validateArrayInput(input);
-        String result = input.substring(1, input.length() - 1);
-        result = removeWhiteSpaces(result);
+        String result = removeWhiteSpaces(input);
+        validateArrayInput(result);
+        result = result.substring(1, result.length() - 1);
 
         return convertFromWithoutBrackets(result);
     }

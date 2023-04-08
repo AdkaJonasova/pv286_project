@@ -36,7 +36,7 @@ public class BytesConverter extends Converter {
 	 * @throws ConverterException if the input binary string is invalid
 	 */
 	public String convertTo(String bitStr) throws ConverterException {
-		validateInput(bitStr, "^[01 ]+$");
+		validateInput(bitStr, "^[01]+$");
 
 		String updatedBitStr = addMissingZerosToBitString(bitStr);
 
