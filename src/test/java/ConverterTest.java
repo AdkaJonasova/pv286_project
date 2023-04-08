@@ -290,6 +290,19 @@ class ConverterTest {
 	}
 
 	@Test
+	void testArrayToInt() {
+		try {
+			String bits = arrayConverter.convertFrom("(85, 75, 45 ,55)", null);
+			String actualResult = intConverter.convertTo(bits, null);
+			String expectedResult = "85754555";
+
+			assertEquals(expectedResult, actualResult);
+		} catch (ConverterException e) {
+			fail("Exception thrown: " + e.getMessage());
+		}
+	}
+
+	@Test
 	void testArrayToArray() {
 		try {
 			String actualResult = arrayConverter.convertFromArrayToArray("{0x01, 2, 0b11, '\\x04'}", null);
