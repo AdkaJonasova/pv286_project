@@ -130,7 +130,7 @@ public class ArrayConverter extends Converter {
      * @throws ConverterException if the input nested byte array string is invalid
      */
     public String convertFromArrayToArray(String input, IOption[] options) throws ConverterException {
-        String result = input.replaceAll("\\s+","");
+        String result = input.replaceAll("\\s+", "");
         validateArrayToArrayInput(input);
 
         ArrayOption bracketOption = getBracketOption(options);
