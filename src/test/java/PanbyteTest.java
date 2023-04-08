@@ -341,7 +341,7 @@ class PanbyteTest {
         ) {
             System.setIn(byteArrayInputStream);
             System.setOut(printStream);
-            Program.main(args);
+            PanByte.main(args);
             String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
             if (outputLines.length > 1) {
                 return String.join(System.lineSeparator(), outputLines);
@@ -358,7 +358,7 @@ class PanbyteTest {
                 PrintStream printStream = new PrintStream(byteArrayOutputStream, true, StandardCharsets.UTF_8)
         ) {
             System.setOut(printStream);
-            Program.main(args);
+            PanByte.main(args);
             String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
             if (outputLines.length > 1) {
                 return String.join(System.lineSeparator(), outputLines);
