@@ -476,4 +476,27 @@ class ConverterTest {
 		}
 	}
 
+	@Test
+	void testInvalidArrayClosingBracketMissing() {
+		String invalidArray = "[{1, 2}, {";
+		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
+	}
+
+	@Test
+	void testInvalidArrayOpeningBracketMissing() {
+		String invalidArray = "]{1, 2}]";
+		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
+	}
+
+	@Test
+	void testInvalidArrayBracketsMismatch() {
+		String invalidArray = "[{1, 2}, {3, 4}}";
+		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
+	}
+
+	@Test
+	void testInvalidArrayTrailingBracket() {
+		String invalidArray = "[{1, 2}, {3, 4}](";
+		assertThrows(ConverterException.class, () -> arrayConverter.convertFromArrayToArray(invalidArray, null));
+	}
 }
