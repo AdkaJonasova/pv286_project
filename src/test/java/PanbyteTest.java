@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -322,6 +323,25 @@ class PanbyteTest {
     }
     //endregion
 
+    //region File test
+    @Test
+    void testFromFileWithWindowsDelimiterToStdout() {
+        try {
+            URL url = getClass().getClassLoader().getResource("inputFileWithWindowsDelimiter.txt");
+            String path = url.getPath();
+
+            String[] args = {"-f", "hex", "-t", "byte", "-i", path};
+            String expectedOutput = "test\r\nmacka\r\npes";
+            String actualOutput = getOutputOfProgramCall(args);
+            assertEquals(expectedOutput, actualOutput);
+        } catch (NullPointerException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    //endregion
+
     private String getOutputOfProgramCall(String echo, String[] args) {
         try (
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(echo.getBytes(StandardCharsets.UTF_8));
@@ -340,4 +360,18 @@ class PanbyteTest {
             throw new RuntimeException(e);
         }
     }
+
+    private String getOutputOfProgramCall(String[] args) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            Program.main(args);
+            String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
+            if (outputLines.length > 1) {
+                return String.join(System.lineSeparator(), outputLines);
+            }
+            return outputLines[outputLines.length - 1];
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
