@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -340,7 +341,7 @@ class PanbyteTest {
     //region File test
     @Test
     void testFromFileWithWindowsDelimiterToStdout() {
-        URL url = getClass().getResource("inputFileWithWindowsDelimiter.txt");
+        URL url = getClass().getResource("input/inputFileWithWindowsDelimiter.txt");
 
         String[] args = {"-f", "hex", "-t", "bytes", "-i", url.getPath()};
         String expectedOutput = "test" + System.lineSeparator() + "macka" + System.lineSeparator() + "pes";
@@ -350,7 +351,7 @@ class PanbyteTest {
 
     @Test
     void testFromFileWithSingleCharToStdout() {
-        URL url = getClass().getResource("inputFileWithSingleCharDelimiter.txt");
+        URL url = getClass().getResource("input/inputFileWithSingleCharDelimiter.txt");
 
         String[] args = {"-i", url.getPath(), "-f", "bits", "--delimiter=q", "-t", "bytes" };
         String expectedOutput = "OKqPESqMACKAqoK";
@@ -360,13 +361,30 @@ class PanbyteTest {
 
     @Test
     void testFromFileWithMultipleCharsToStdout() {
-        URL url = getClass().getResource("inputFileWithMultipleCharsDelimiter.txt");
+        URL url = getClass().getResource("input/inputFileWithMultipleCharsDelimiter.txt");
 
         String[] args = {"-d", "I _ I", "-i", url.getPath(), "-f", "hex", "-t", "hex" };
         String expectedOutput = "74657374I _ I706573I _ I6d61636b61";
         String actualOutput = getOutputOfProgramCall(args);
         assertEquals(expectedOutput, actualOutput);
     }
+
+    @Test
+    void testFromStdoutToFileWithSingleChar() {
+        String echo = "OKqPESqMACKAqoK";
+
+        String outputFolderPath = getClass().getResource("output").getPath();
+        String fileName = "outputFileWithSingleCharDelimiter.txt";
+        String path = Paths.get(outputFolderPath, fileName).toString();
+
+        String[] args = {"-o", path, "-f", "bytes", "--delimiter=q", "-t", "bits" };
+
+        String expectedOutput = "100 1111 0100 1011q010100000100010101010011q010011 010100 00010 1000011 0 1  0 0 10 1101000001q  0  1101111 01001011";
+
+        String actualOutput = getOutputOfProgramCall(args);
+        //assertEquals(expectedOutput, actualOutput);
+    }
+
 
     //endregion
     private String getOutputOfProgramCall(String echo, String[] args) {
