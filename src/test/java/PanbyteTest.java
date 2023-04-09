@@ -1,5 +1,5 @@
 import com.code_intelligence.jazzer.junit.FuzzTest;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -340,7 +340,7 @@ class PanbyteTest {
     }
 
     //region File test
-    @Ignore("problem with path - still not working on github pepoSad")
+    @Disabled("problem with path - still not working on github pepoSad")
     @Test
     void testFromFileWithWindowsDelimiterToStdout() {
         URL url = getClass().getResource("inputFileWithWindowsDelimiter.txt");
