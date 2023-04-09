@@ -24,6 +24,7 @@ import static options.IntOption.LITTLE;
  * </ul>
  */
 public class IntConverter extends Converter {
+
 	private static final int TEN = 10;
 	/**
 	 * Converts a binary string to an unsigned integer value string.
@@ -55,6 +56,50 @@ public class IntConverter extends Converter {
 			powerOfTwo = multiplyStrings(powerOfTwo, "2");
 		}
 		return decimalNumber;
+	}
+
+	/**
+	 * Converts an unsigned integer value string to a binary string.
+	 *
+	 * @param input    the unsigned integer value string to convert
+	 * @param options  an array of {@link IntOption} options (first is taken,
+	 *                    if none is provided, {@link IntOption#BIG} is used)
+	 * @return the binary string
+	 * @throws ConverterException if the input unsigned integer value string is invalid
+	 */
+	@Override
+	public String convertFrom(String input, IOption[] options) throws ConverterException {
+		validateInput(input, "^\\d+$");
+		IntOption endian = getEndianFromOptions(options);
+
+		StringBuilder binary = new StringBuilder();
+		StringBuilder updatedInput = new StringBuilder(input);
+
+		while (updatedInput.length() > 0) {
+			StringBuilder semiResult = new StringBuilder();
+			boolean foundNoneZero = false;
+			int remainder = 0;
+
+			for (int i = 0; i < updatedInput.length(); i++) {
+				int digit = Character.getNumericValue(updatedInput.charAt(i));
+				int dividend = remainder * TEN + digit;
+				char charDigit = (char) ('0' + (dividend / 2));
+				remainder = dividend % 2;
+
+				if (!foundNoneZero && charDigit == '0'){
+					continue;
+				}
+				foundNoneZero = true;
+				semiResult.append(charDigit);
+			}
+			binary.append(remainder);
+			updatedInput = semiResult;
+		}
+
+		String bitStr = binary.reverse().toString();
+		bitStr = processBitString(bitStr, endian);
+
+		return bitStr;
 	}
 
 	private static String addStrings(String firstStrValue, String secondStrValue) {
@@ -101,50 +146,6 @@ public class IntConverter extends Converter {
 			sb.append(digit);
 		}
 		return sb.length() > 0 ? sb.toString() : STRING_WITH_ZERO;
-	}
-
-	/**
-	 * Converts an unsigned integer value string to a binary string.
-	 *
-	 * @param input    the unsigned integer value string to convert
-	 * @param options  an array of {@link IntOption} options (first is taken,
-	 *                    if none is provided, {@link IntOption#BIG} is used)
-	 * @return the binary string
-	 * @throws ConverterException if the input unsigned integer value string is invalid
-	 */
-	@Override
-	public String convertFrom(String input, IOption[] options) throws ConverterException {
-		validateInput(input, "^\\d+$");
-		IntOption endian = getEndianFromOptions(options);
-
-		StringBuilder binary = new StringBuilder();
-		StringBuilder updatedInput = new StringBuilder(input);
-
-		while (updatedInput.length() > 0) {
-			StringBuilder semiResult = new StringBuilder();
-			boolean foundNoneZero = false;
-			int remainder = 0;
-
-			for (int i = 0; i < updatedInput.length(); i++) {
-				int digit = Character.getNumericValue(updatedInput.charAt(i));
-				int dividend = remainder * TEN + digit;
-				char charDigit = (char) ('0' + (dividend / 2));
-				remainder = dividend % 2;
-
-				if (!foundNoneZero && charDigit == '0'){
-					continue;
-				}
-				foundNoneZero = true;
-				semiResult.append(charDigit);
-			}
-			binary.append(remainder);
-			updatedInput = semiResult;
-		}
-
-		String bitStr = binary.reverse().toString();
-		bitStr = processBitString(bitStr, endian);
-
-		return bitStr;
 	}
 
 	private String processBitString(String bitStr, IntOption endian) {

@@ -92,7 +92,6 @@ class ConverterTest {
 		}
 	}
 
-
 	@Test
 	void testIntToHex() {
 		try {

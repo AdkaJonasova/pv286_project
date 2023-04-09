@@ -137,6 +137,7 @@ public class ArgumentParser implements IArgumentParser {
                 throw new InputParsingException(String.format("Invalid option encountered: %s", argument));
             }
         }
+
         // look for to options
         if (argument.startsWith(Flag.TO_OPTIONS.getLongVersion())) {
             if (!shouldLookForToOptions) {
@@ -149,6 +150,7 @@ public class ArgumentParser implements IArgumentParser {
                 throw new InputParsingException(String.format("Invalid option encountered: %s", argument));
             }
         }
+
         return false;
     }
 
@@ -188,6 +190,7 @@ public class ArgumentParser implements IArgumentParser {
     }
 
     private boolean resolveToOptions(String option) {
+
         if (toRepresentation.equals(Format.INT)) {
             toOptions[0] = IntOption.fromString(option);
             return true;
@@ -199,6 +202,7 @@ public class ArgumentParser implements IArgumentParser {
                 return true;
             }
         }
+
         return false;
     }
 

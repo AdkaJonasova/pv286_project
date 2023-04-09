@@ -9,7 +9,6 @@ import java.util.Objects;
 import static options.BitsOption.LEFT;
 import static options.BitsOption.SHORT;
 
-
 /**
  * This class provides methods for converting between binary strings and binary strings.
  * It extends the abstract {@link Converter} class.
@@ -25,6 +24,7 @@ import static options.BitsOption.SHORT;
  * </ul>
  */
 public class BitsConverter extends Converter {
+
 	/**
 	 * Converts a binary string to a binary string.
 	 *

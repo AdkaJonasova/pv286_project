@@ -3,7 +3,6 @@ package converters;
 import exceptions.ConverterException;
 import options.IOption;
 
-
 /**
  * This class provides methods for converting between strings of bytes and binary strings.
  * It extends the abstract {@link Converter} class.

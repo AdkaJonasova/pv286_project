@@ -23,6 +23,7 @@ import static options.HexOption.SHORT;
  * </ul>
  */
 public class HexConverter extends Converter {
+
     private static final int NUM_OF_BITS_TO_ONE_HEX = 4;
 	/**
 	 * Converts a binary string to a hex value string.
@@ -33,6 +34,7 @@ public class HexConverter extends Converter {
 	 * @return the hex value string
 	 * @throws ConverterException if the input binary string is invalid
 	 */
+
 	@Override
 	public String convertTo(String bitStr, IOption[] options) throws ConverterException {
 		validateInput(bitStr, "^[01]+$");

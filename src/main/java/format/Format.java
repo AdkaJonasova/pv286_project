@@ -15,6 +15,7 @@ import java.util.Arrays;
  * descriptions for help and regex for resoling format based on input value
  */
 public enum Format {
+
 	INT("int", new IntConverter(), "int = Integer", "^(?:1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])$"),
 	HEX("hex", new HexConverter(), "hex = Hex-encoded string", "^0x([0-9a-fA-F]{2})$"),
 	BITS("bits", new BitsConverter(), "bits = 0,1-represented bits", "^0b([01]{1,8})$"),

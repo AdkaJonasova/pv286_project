@@ -5,6 +5,7 @@ package options;
  * It implements the {@link IOption} interface.
  */
 public enum ArrayOption implements IOption {
+
 	ZEROX_PREFIXED_HEX_NUMBER("0x", "0x – Represent bytes as a 0x-prefixed hex number (e.g., 0xff; default)."),
 	DECIMAL_NUMBER("0", "0 – Represent bytes as a decimal number (e.g., 255)."),
 	CHARACTERS("a", "a – Represent bytes as characters (e.g., 'a', '\\x00')"),

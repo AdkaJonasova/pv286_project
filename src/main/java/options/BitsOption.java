@@ -7,6 +7,7 @@ import java.util.Arrays;
  * It implements the {@link IOption} interface.
  */
 public enum BitsOption implements IOption {
+
 	LEFT("left", "left = If necessary, pad input with zero bits from left -> default", false),
 	RIGHT("right", "right = If necessary, pad input with zero bits from right", false),
 	SHORT("short", "Omitted 0 bits from the left", true);

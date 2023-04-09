@@ -24,7 +24,6 @@ import static options.ArrayOption.ZEROB_PREFIXED_BINARY_NUMBER;
 import static options.ArrayOption.CURLY_BRACKETS;
 import static options.ArrayOption.REGULAR_BRACKETS;
 
-
 /**
  * This class provides methods for converting between byte array strings and binary strings.
  * It extends the abstract {@link Converter} class.
@@ -44,6 +43,7 @@ import static options.ArrayOption.REGULAR_BRACKETS;
  * </ul>
  */
 public class ArrayConverter extends Converter {
+
     private static class Pair {
         int index;
         String value;
@@ -69,37 +69,6 @@ public class ArrayConverter extends Converter {
 
         ArrayOption bracket = getBracketOption(options);
         return bracket.getOpen() + result + bracket.getClose();
-    }
-
-    private String convertToWithoutBrackets(String bitStr, IOption[] options) throws ConverterException {
-        validateInput(bitStr, "^[01]+$");
-
-        ArrayOption representation = getRepresentationOption(options);
-
-        String input = addMissingZerosToBitString(bitStr);
-
-        int byteArrayLength = input.length() / BYTE_LENGTH;
-        String[] byteArray = new String[byteArrayLength];
-        for (int i = 0; i < byteArrayLength; i++) {
-            int startIndex = i * BYTE_LENGTH;
-            int endIndex = startIndex + BYTE_LENGTH;
-            String byteString = input.substring(startIndex, endIndex);
-
-            if (representation.equals(ZEROX_PREFIXED_HEX_NUMBER)) {
-                String byteValue = new HexConverter().convertTo(byteString, new IOption[]{HexOption.SHORT});
-                byteArray[i] = "0x" + byteValue;
-            } else if (representation.equals(DECIMAL_NUMBER)) {
-                String byteValue = new IntConverter().convertTo(byteString, null);
-                byteArray[i] = byteValue;
-            } else if (representation.equals(ZEROB_PREFIXED_BINARY_NUMBER)) {
-                String byteValue = new BitsConverter().convertTo(byteString, new IOption[]{BitsOption.SHORT});
-                byteArray[i] = "0b" + byteValue;
-            } else {
-                String byteValue = new HexConverter().convertTo(byteString, null);
-                byteArray[i] = "'\\x" + byteValue + "'";
-            }
-        }
-        return String.join(", ", byteArray);
     }
 
     /**
@@ -138,6 +107,37 @@ public class ArrayConverter extends Converter {
         result = convertArrayToArray(unitedClosureInput, 0,
                 bracketOption.getOpen(), bracketOption.getClose(), options).value;
         return result;
+    }
+
+    private String convertToWithoutBrackets(String bitStr, IOption[] options) throws ConverterException {
+        validateInput(bitStr, "^[01]+$");
+
+        ArrayOption representation = getRepresentationOption(options);
+
+        String input = addMissingZerosToBitString(bitStr);
+
+        int byteArrayLength = input.length() / BYTE_LENGTH;
+        String[] byteArray = new String[byteArrayLength];
+        for (int i = 0; i < byteArrayLength; i++) {
+            int startIndex = i * BYTE_LENGTH;
+            int endIndex = startIndex + BYTE_LENGTH;
+            String byteString = input.substring(startIndex, endIndex);
+
+            if (representation.equals(ZEROX_PREFIXED_HEX_NUMBER)) {
+                String byteValue = new HexConverter().convertTo(byteString, new IOption[]{HexOption.SHORT});
+                byteArray[i] = "0x" + byteValue;
+            } else if (representation.equals(DECIMAL_NUMBER)) {
+                String byteValue = new IntConverter().convertTo(byteString, null);
+                byteArray[i] = byteValue;
+            } else if (representation.equals(ZEROB_PREFIXED_BINARY_NUMBER)) {
+                String byteValue = new BitsConverter().convertTo(byteString, new IOption[]{BitsOption.SHORT});
+                byteArray[i] = "0b" + byteValue;
+            } else {
+                String byteValue = new HexConverter().convertTo(byteString, null);
+                byteArray[i] = "'\\x" + byteValue + "'";
+            }
+        }
+        return String.join(", ", byteArray);
     }
 
     private static String convertFromWithoutBrackets(String input) throws ConverterException {
@@ -319,5 +319,4 @@ public class ArrayConverter extends Converter {
         }
         return CURLY_BRACKETS;
     }
-
 }

@@ -45,19 +45,6 @@ public final class IOHelper {
         }
     }
 
-    private static List<String> readData(InputStream inputStream, String delimiter) {
-        var result = new ArrayList<String>();
-
-        Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
-        scanner.useDelimiter(resolveDelimiter(delimiter));
-        while (scanner.hasNext()) {
-            result.add(scanner.next().trim());
-        }
-
-        scanner.close();
-        return result;
-    }
-
     /**
      * Writes given text to standard output using given delimiter to divide values.
      *
@@ -94,6 +81,19 @@ public final class IOHelper {
         } catch (IOException e) {
             throw new IOException(String.format("Unable to write output into: %s", filePath));
         }
+    }
+
+    private static List<String> readData(InputStream inputStream, String delimiter) {
+        var result = new ArrayList<String>();
+
+        Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
+        scanner.useDelimiter(resolveDelimiter(delimiter));
+        while (scanner.hasNext()) {
+            result.add(scanner.next().trim());
+        }
+
+        scanner.close();
+        return result;
     }
 
     private static String resolveDelimiter(String delimiter) {
