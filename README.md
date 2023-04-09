@@ -1,11 +1,11 @@
-# Panbyte - PV286
+# Panbyte - PV286 #
 
-##Team members
+## Team members ##
 - Michal Badin (485517)
 - Dominik Dubovský (485020)
 - Andrea Jonásová (485243)
 
-## How to build and run our application
+## How to build and run our application ##
 - Make sure that you have set java application path in system environment variable named "Path"
 ```
 ./gradlew build jar
@@ -13,14 +13,14 @@ cd appBuilds (from pv_286_project)
 java -jar ./panbyte.jar
 ```
 
-##Analysis tools we used
+## Analysis tools we used ##
 1. __Code quality__: we created our own checkstyle.xml file
 2. __Static analysis__: SonarLint, SpotBugs plugins 
 3. __Dynamic analysis & testing__: we wrote tests for important components as well as overall functionality, 
 code coverage tool, debugging, free trial version of YourKit tool 
 4. __Fuzzing__: Jazzer
 
-##Overall functionality
+## Overall functionality ##
 Our application supports all arguments from assignment. We established several rules some of which are not specified in 
 the assignment:
  - ```--from-options=OPTIONS``` can be only directly after ```-f FROM``` or ```--from=FROM``` argument (same goes for 
@@ -30,7 +30,7 @@ the assignment:
  - Repetition of any other argument is considered as invalid argument.
  - If arguments contain ```-h``` or ```--help``` argument, no other arguments are allowed.
 
-###Limitations of our application
+### Limitations of our application ###
  - Since arrays can have quite complicated syntax and there are many special characters in them, 
 we decided to disable custom delimiters ```-d DELIMITER in program args```. For example if user chose ``` ( ``` as a 
 delimiter, after splitting input with this delimiter, structure of the array could have been ruined.
