@@ -208,7 +208,7 @@ class PanbyteTest {
     @Test
     void testFromArrayToArrayOptionsRegularBrackets() {
         String echo = "(0x01, 2, 0b11, '\\x04')";
-        String[] args = {"-f", "array", "-t", "array", "--to-options=\"(\""};
+        String[] args = {"-f", "array", "-t", "array", "--to-options=("};
         String expectedOutput = "(0x1, 0x2, 0x3, 0x4)";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -217,7 +217,7 @@ class PanbyteTest {
     @Test
     void testFromArrayToArrayOptionsDecRepSquareBracket() {
         String echo = "{0x01, 2, 0b11, '\\x04'}";
-        String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options=\"[\""};
+        String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options=["};
         String expectedOutput = "[1, 2, 3, 4]";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -244,7 +244,7 @@ class PanbyteTest {
     @Test
     void testNestedFromArrayToArrayOptionsDecimalRepresentationSquareBrackets() {
         String echo = "{{0x01, (2), [3, 0b100, 0x05], '\\x06'}}";
-        String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options=\"[\""};
+        String[] args = {"-f", "array", "-t", "array", "--to-options=0", "--to-options=["};
         String expectedOutput = "[[1, [2], [3, 4, 5], 6]]";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -262,7 +262,7 @@ class PanbyteTest {
     @Test
     void testNestedFromArrayToArrayOptionsSquareBrackets() {
         String echo = "([],{})";
-        String[] args = {"-f", "array", "-t", "array", "--to-options=\"[\""};
+        String[] args = {"-f", "array", "-t", "array", "--to-options=["};
         String expectedOutput = "[[], []]";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
@@ -292,7 +292,7 @@ class PanbyteTest {
     @Test
     void testFromArrayToArrayOptionsRegularBracketsWithDelimiter() {
         String echo = "16909060qw7.;8875213328";
-        String[] args = {"-f", "int", "--delimiter=qw7.;", "-t", "array", "--to-options=\"(\""};
+        String[] args = {"-f", "int", "--delimiter=qw7.;", "-t", "array", "--to-options=("};
         String expectedOutput = "(0x1, 0x2, 0x3, 0x4)qw7.;(0x2, 0x11, 0x1, 0x2, 0x10)";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);

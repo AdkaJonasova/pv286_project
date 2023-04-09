@@ -58,23 +58,13 @@ public enum ArrayOption implements IOption {
 	 */
 	public static ArrayOption fromString(String text) {
 		for (ArrayOption arrayOption : ArrayOption.values()) {
-			if (isFromFirstSet(arrayOption)) {
-				if (arrayOption.textV1.equalsIgnoreCase(text)) {
-					return arrayOption;
-				}
-			} else {
-				if (addQuotationMark(arrayOption.textV1).equalsIgnoreCase(text) ||
-						addQuotationMark(arrayOption.textV2).equalsIgnoreCase(text) ||
-						addQuotationMark(arrayOption.textV3).equalsIgnoreCase(text)){
-					return arrayOption;
-				}
+			if (arrayOption.textV1.equalsIgnoreCase(text) ||
+					arrayOption.textV2.equalsIgnoreCase(text) ||
+					arrayOption.textV3.equalsIgnoreCase(text)) {
+				return arrayOption;
 			}
 		}
 		return null;
-	}
-
-	private static String addQuotationMark(String text){
-		return String.format("\"%s\"", text);
 	}
 
 	/**

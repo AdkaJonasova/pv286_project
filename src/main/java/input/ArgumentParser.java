@@ -35,7 +35,7 @@ public class ArgumentParser implements IArgumentParser {
     /**
      * This method is the implementation of {@link IArgumentParser#parse(String[])} method.
      * In this implementation allowed flags in input are:
-     * -f, --from, -t, --to, --from-option, --to-options, -i, --input, -o, --output, -d, --delimiter, -h, --help
+     * -f, --from, -t, --to, --from-options, --to-options, -i, --input, -o, --output, -d, --delimiter, -h, --help
      */
     public ParserResult parse(String[] input) throws InputParsingException {
         assertInputNonEmpty(input);
