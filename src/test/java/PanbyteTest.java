@@ -1,16 +1,11 @@
 import com.code_intelligence.jazzer.junit.FuzzTest;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PanbyteTest {
 
@@ -371,18 +366,35 @@ class PanbyteTest {
 
     @Test
     void testFromStdoutToFileWithSingleChar() {
-        String echo = "OKqPESqMACKAqoK";
+        String echo = "74657374";
 
         String outputFolderPath = getClass().getResource("output").getPath();
         String fileName = "outputFileWithSingleCharDelimiter.txt";
-        String path = Paths.get(outputFolderPath, fileName).toString();
 
-        String[] args = {"-o", path, "-f", "bytes", "--delimiter=q", "-t", "bits" };
+        String[] args = {"-o", outputFolderPath + File.pathSeparator
+                + fileName, "-f", "hex", "-t", "bytes"};
+        String expectedOutput = "test";
 
-        String expectedOutput = "100 1111 0100 1011q010100000100010101010011q010011 010100 00010 1000011 0 1  0 0 10 1101000001q  0  1101111 01001011";
+        String actualOutput;
 
-        String actualOutput = getOutputOfProgramCall(args);
-        //assertEquals(expectedOutput, actualOutput);
+        try (ByteArrayInputStream byteArrayInputStream =
+                     new ByteArrayInputStream(echo.getBytes(StandardCharsets.UTF_8))) {
+            System.setIn(byteArrayInputStream);
+            PanByte.main(args);
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("File exception");
+        }
+
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(outputFolderPath + File.pathSeparator + fileName)
+        )) {
+            actualOutput = reader.readLine();
+            assertEquals(expectedOutput, actualOutput);
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("File exception");
+        }
     }
 
 
