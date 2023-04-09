@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 class ArgumentParserTest {
+
     //region Basic tests
     @Test
     void testArgsFromTo() {
@@ -107,7 +108,7 @@ class ArgumentParserTest {
     }
     // endregion
 
-    // region missing args and formats tests
+    // region Missing args and formats tests
     @Test
     void testEmptyArgs() {
         String[] input = {};
@@ -163,7 +164,7 @@ class ArgumentParserTest {
     }
     // endregion
 
-    //region invalid args and formats tests
+    //region Invalid args and formats tests
     @Test
     void testInvalidFromArgMissingDash() {
         String[] input = {"f", "hex", "-t", "hex"};
@@ -241,9 +242,15 @@ class ArgumentParserTest {
         String[] input = {"--fromhex", "--to=int"};
         assertThrows(InputParsingException.class, () -> new ArgumentParser().parse(input));
     }
+
+    @Test
+    void testThrowingExceptionWhenDelimiterWitFromArray() {
+        String[] input = {"-f", "array", "-t", "int", "-d", ":"};
+        assertThrows(InputParsingException.class, () -> new ArgumentParser().parse(input));
+    }
     //endregion
 
-    //region invalid args and formats positions tests
+    //region Invalid args and formats positions tests
     @Test
     void testInvalidPositionsArgsThenFormats() {
         String[] input = {"-f", "-t", "hex", "hex"};
@@ -263,7 +270,7 @@ class ArgumentParserTest {
     }
     //endregion o
 
-    //region invalid delimiter
+    //region Invalid delimiter tests
     @Test
     void testMissingToAndFromWithDelimiter() {
         String[] input = {"-d"};
@@ -289,7 +296,7 @@ class ArgumentParserTest {
     }
     //endregion
 
-    //region duplicate args and formats tests
+    //region Duplicate args and formats tests
     @Test
     void testDuplicateFromArg() {
         String[] input = {"-f", "hex", "-t", "hex", "-f", "hex"};
@@ -321,7 +328,7 @@ class ArgumentParserTest {
     }
     //endregion
 
-    //region swapped position from to args
+    //region Swapped position from to args tests
     @Test
     void testSwappedPositionToThenFromArg() {
         String[] input = {"-t", "hex", "-f", "bytes"};
@@ -329,7 +336,7 @@ class ArgumentParserTest {
     }
     //endregion
 
-    //region correct options
+    //region Correct options tests
     @Test
     void testCorrectFromToOptions() {
         String[] input = {"-f", "bits", "--from-options=right", "-t", "int", "--to-options=big"};
@@ -385,7 +392,7 @@ class ArgumentParserTest {
     }
     //endregion
 
-    //region help arg
+    //region Help arg tests
     @Test
     void testParserResultContainsHelpArgWhenHGiven() {
         String[] input = {"-h"};
@@ -423,7 +430,7 @@ class ArgumentParserTest {
     }
     //endregion
 
-    //region invalid options
+    //region Invalid options tests
     @Test
     void testThrowingExceptionWhenFromBitsOptionsIsBig() {
         String[] input = {"-f", "bits", "--from-options=big", "-t", "int", "--to-options=big"};
