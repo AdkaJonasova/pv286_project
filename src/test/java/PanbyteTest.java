@@ -235,7 +235,7 @@ class PanbyteTest {
     @Test
     void testNestedFromArrayToArrayOptionsCurlyBracketsDecimalRepresentation() {
         String echo = "[[1, 2], [3, 4], [5, 6]]";
-        String[] args = {"-f", "array", "-t", "array", "--to-options=\"{\"", "--to-options=0"};
+        String[] args = {"-f", "array", "-t", "array", "--to-options={", "--to-options=0"};
         String expectedOutput = "{{1, 2}, {3, 4}, {5, 6}}";
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
