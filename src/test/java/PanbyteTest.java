@@ -340,8 +340,8 @@ class PanbyteTest {
     }
 
     //region File test
-    @Test
     @Ignore("problem with path - still not working on github pepoSad")
+    @Test
     void testFromFileWithWindowsDelimiterToStdout() {
         URL url = getClass().getResource("inputFileWithWindowsDelimiter.txt");
 
