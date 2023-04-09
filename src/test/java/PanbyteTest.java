@@ -322,7 +322,7 @@ class PanbyteTest {
         String[] args = {"-f", "hex", "-t", "bytes", "-i", url.getPath()};
         String expectedOutput = "test\r\nmacka\r\npes";
         String actualOutput = getOutputOfProgramCall(args);
-        assertEquals(expectedOutput, actualOutput);
+        assertEquals(expectedOutput,  url.getPath());
     }
 
     //endregion
