@@ -51,7 +51,7 @@ public final class IOHelper {
         Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
         scanner.useDelimiter(resolveDelimiter(delimiter));
         while (scanner.hasNext()) {
-            result.add(scanner.next());
+            result.add(scanner.next().trim());
         }
 
         scanner.close();
