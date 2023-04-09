@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PanbyteTest {
 
@@ -170,6 +171,15 @@ class PanbyteTest {
     }
 
     @Test
+    void testArrayToArrayWithCharsDecimalRepresentation() {
+        String echo = "('a', 'b')";
+        String[] args = {"-f", "array", "-t", "array", "--to-options=0"};
+        String expectedOutput = "{97, 98}";
+        String actualOutput = getOutputOfProgramCall(echo, args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
     void testFromArrayToArrayOptionsHexRepresentation() {
         String echo = "[0x01, 2, 0b11, '\\x04']";
         String[] args = {"-f", "array", "-t", "array", "--to-options=0x"};
@@ -267,7 +277,6 @@ class PanbyteTest {
         String actualOutput = getOutputOfProgramCall(echo, args);
         assertEquals(expectedOutput, actualOutput);
     }
-
     // endregion
 
     //region Delimiter tests
@@ -313,6 +322,14 @@ class PanbyteTest {
         assertEquals(expectedOutput, actualOutput);
     }
     //endregion
+
+    @Test
+    void testHelpArg() {
+        String[] args = {"-h"};
+        String actualOutput = getOutputOfProgramCall(args);
+        String expectedOutputStart = "Help for Panbyte program";
+        assertTrue(actualOutput.startsWith(expectedOutputStart));
+    }
 
     //region File test
     @Test

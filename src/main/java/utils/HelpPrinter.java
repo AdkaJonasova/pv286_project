@@ -19,6 +19,7 @@ public final class HelpPrinter {
     public static void printHelp() {
         StringBuilder builder = new StringBuilder();
 
+        builder.append("Help for Panbyte program").append(System.lineSeparator());
         printAllowedFormats(builder);
         printAllowedOptions(builder);
         printAllowedFlags(builder);
