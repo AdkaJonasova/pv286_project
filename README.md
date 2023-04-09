@@ -40,7 +40,7 @@ character, but rather as a sequence of multiple UTF-8 characters.
  - When using default delimiter (new line), it is important that you use correct new line characters based on your 
 platform. This is especially important when using reading from standard input where you have to specify these characters 
 manually.
- - When converting to array with ```--to-options=a``` we convert values to representation starting with ```\x```.
+ - When converting from array we support for bytes both represetations ```'a'``` and ```'\x00'```, but to array with ```--to-options=a``` we convert values to representation starting with ```\x```.
 
 
 
