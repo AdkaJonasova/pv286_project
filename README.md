@@ -12,7 +12,9 @@
 cd appBuilds (from pv_286_project)
 java -jar ./panbyte.jar
 ```
-
+- In case you have a problem with the execution of the command ```./gradlew build jar```
+  - ```-bash: ./gradlew: Permission Denied``` run ```chmod +x gradlew```
+  - ```No such file or directory``` run ```gradle wrapper```
 ## Analysis tools we used ##
 1. __Code quality__: we created our own checkstyle.xml file
 2. __Static analysis__: SonarLint, SpotBugs plugins 
