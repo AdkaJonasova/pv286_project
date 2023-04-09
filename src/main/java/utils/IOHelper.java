@@ -71,6 +71,7 @@ public final class IOHelper {
                 System.out.print(resolveDelimiter(delimiter));
             }
         }
+        System.out.println();
     }
 
     /**
