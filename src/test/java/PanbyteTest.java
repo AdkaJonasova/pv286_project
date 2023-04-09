@@ -340,13 +340,13 @@ class PanbyteTest {
     }
 
     //region File test
-    @Disabled("problem with path - still not working on github pepoSad")
+    //@Disabled("problem with path - still not working on github pepoSad")
     @Test
     void testFromFileWithWindowsDelimiterToStdout() {
         URL url = getClass().getResource("inputFileWithWindowsDelimiter.txt");
 
         String[] args = {"-f", "hex", "-t", "bytes", "-i", url.getPath()};
-        String expectedOutput = "test\r\nmacka\r\npes";
+        String expectedOutput = "test" + System.lineSeparator() + "macka" + System.lineSeparator() + "pes";
         String actualOutput = getOutputOfProgramCall(args);
         assertEquals(expectedOutput, actualOutput);
     }
