@@ -9,7 +9,9 @@ import options.IntOption;
  * This utility class provides methods for printing of help information about program's functionality.
  */
 public final class HelpPrinter {
+
     private static final String OFFSET = "    - ";
+
     private HelpPrinter() {}
 
     /**
