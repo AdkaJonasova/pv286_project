@@ -315,15 +315,15 @@ class PanbyteTest {
     //endregion
 
     //region File test
-//    @Test
-//    void testFromFileWithWindowsDelimiterToStdout() {
-//        URL url = getClass().getClassLoader().getResource("inputFileWithWindowsDelimiter.txt");
-//
-//        String[] args = {"-f", "hex", "-t", "bytes", "-i", url.getPath()};
-//        String expectedOutput = "test\r\nmacka\r\npes";
-//        String actualOutput = getOutputOfProgramCall(args);
-//
-//    }
+    @Test
+    void testFromFileWithWindowsDelimiterToStdout() {
+        URL url = getClass().getResource("inputFileWithWindowsDelimiter.txt");
+
+        String[] args = {"-f", "hex", "-t", "bytes", "-i", url.getPath()};
+        String expectedOutput = "test\r\nmacka\r\npes";
+        String actualOutput = getOutputOfProgramCall(args);
+
+    }
 
     //endregion
     private String getOutputOfProgramCall(String echo, String[] args) {
@@ -344,20 +344,20 @@ class PanbyteTest {
             throw new RuntimeException(e);
         }
     }
-//    private String getOutputOfProgramCall(String[] args) {
-//        try (
-//                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//                PrintStream printStream = new PrintStream(byteArrayOutputStream, true, StandardCharsets.UTF_8)
-//        ) {
-//            System.setOut(printStream);
-//            PanByte.main(args);
-//            String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
-//            if (outputLines.length > 1) {
-//                return String.join(System.lineSeparator(), outputLines);
-//            }
-//            return outputLines[outputLines.length - 1];
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    private String getOutputOfProgramCall(String[] args) {
+        try (
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                PrintStream printStream = new PrintStream(byteArrayOutputStream, true, StandardCharsets.UTF_8)
+        ) {
+            System.setOut(printStream);
+            PanByte.main(args);
+            String[] outputLines = byteArrayOutputStream.toString(StandardCharsets.UTF_8).split(System.lineSeparator());
+            if (outputLines.length > 1) {
+                return String.join(System.lineSeparator(), outputLines);
+            }
+            return outputLines[outputLines.length - 1];
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
