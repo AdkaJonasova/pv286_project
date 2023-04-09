@@ -22,19 +22,19 @@ public class ParserResult {
 
     private final Format from;
     private final Format to;
-    private final IOption[] fromOption;
-    private final IOption[] toOption;
+    private final IOption[] fromOptions;
+    private final IOption[] toOptions;
     private final String inputFile;
     private final String outputFile;
     private final String delimiter;
     private final boolean shouldPrintHelp;
 
-    public ParserResult(Format from, Format to, IOption[] fromOption, IOption[] toOption, String inputFile, String outputFile,
+    public ParserResult(Format from, Format to, IOption[] fromOptions, IOption[] toOptions, String inputFile, String outputFile,
                         String delimiter, boolean shouldPrintHelp) {
         this.from = from;
         this.to = to;
-        this.fromOption = Arrays.copyOf(fromOption, fromOption.length);
-        this.toOption = Arrays.copyOf(toOption, toOption.length);
+        this.fromOptions = Arrays.copyOf(fromOptions, fromOptions.length);
+        this.toOptions = Arrays.copyOf(toOptions, toOptions.length);
         this.inputFile = inputFile;
         this.outputFile = outputFile;
         this.delimiter = delimiter;
@@ -51,11 +51,11 @@ public class ParserResult {
     }
 
     public IOption[] getFromOptions() {
-        return Arrays.copyOf(fromOption, fromOption.length);
+        return Arrays.copyOf(fromOptions, fromOptions.length);
     }
 
     public IOption[] getToOptions() {
-        return Arrays.copyOf(toOption, toOption.length);
+        return Arrays.copyOf(toOptions, toOptions.length);
     }
 
     public boolean getShouldPrintHelp() {

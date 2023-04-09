@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PanbyteTest {
@@ -328,7 +329,13 @@ class PanbyteTest {
         String[] args = {"-h"};
         String actualOutput = getOutputOfProgramCall(args);
         String expectedOutputStart = "Help for Panbyte program";
+        String expectedOutputText1 = "Allowed formats";
+        String expectedOutputText2 = "Allowed flags";
+        String expectedOutputText3 = "Allowed options";
         assertTrue(actualOutput.startsWith(expectedOutputStart));
+        assertTrue(actualOutput.contains(expectedOutputText1));
+        assertTrue(actualOutput.contains(expectedOutputText2));
+        assertTrue(actualOutput.contains(expectedOutputText3));
     }
 
     //region File test
