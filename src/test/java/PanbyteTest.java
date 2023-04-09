@@ -366,7 +366,6 @@ class PanbyteTest {
 
     @Test
     void testFromStdoutToFileWithSingleChar() {
-        String echo = "74657374";
 
         String outputFolderPath = getClass().getResource("output").getPath();
         String fileName = "outputFileWithSingleCharDelimiter.txt";
@@ -377,6 +376,7 @@ class PanbyteTest {
 
         String actualOutput;
 
+        String echo = "74657374";
         try (ByteArrayInputStream byteArrayInputStream =
                      new ByteArrayInputStream(echo.getBytes(StandardCharsets.UTF_8))) {
             System.setIn(byteArrayInputStream);
@@ -395,6 +395,8 @@ class PanbyteTest {
             e.printStackTrace();
             fail("File exception");
         }
+        File outputFile = new File(outputFolderPath + File.pathSeparator + fileName);
+        outputFile.delete();
     }
 
 
