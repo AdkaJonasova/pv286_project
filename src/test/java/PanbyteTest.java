@@ -322,7 +322,7 @@ class PanbyteTest {
         String[] args = {"-f", "hex", "-t", "bytes", "-i", url.getPath()};
         String expectedOutput = "test\r\nmacka\r\npes";
         String actualOutput = getOutputOfProgramCall(args);
-
+        assertEquals(expectedOutput, actualOutput);
     }
 
     //endregion
@@ -344,6 +344,7 @@ class PanbyteTest {
             throw new RuntimeException(e);
         }
     }
+
     private String getOutputOfProgramCall(String[] args) {
         try (
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
