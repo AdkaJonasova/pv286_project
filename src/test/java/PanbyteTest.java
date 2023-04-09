@@ -348,6 +348,26 @@ class PanbyteTest {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    @Test
+    void testFromFileWithSingleCharToStdout() {
+        URL url = getClass().getResource("inputFileWithSingleCharDelimiter.txt");
+
+        String[] args = {"-i", url.getPath(), "-f", "bits", "--delimiter=q", "-t", "bytes" };
+        String expectedOutput = "OKqPESqMACKAqoK";
+        String actualOutput = getOutputOfProgramCall(args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFromFileWithMultipleCharsToStdout() {
+        URL url = getClass().getResource("inputFileWithMultipleCharsDelimiter.txt");
+
+        String[] args = {"-d", "I _ I", "-i", url.getPath(), "-f", "hex", "-t", "hex" };
+        String expectedOutput = "74657374I _ I706573I _ I6d61636b61";
+        String actualOutput = getOutputOfProgramCall(args);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
     //endregion
     private String getOutputOfProgramCall(String echo, String[] args) {
         try (
