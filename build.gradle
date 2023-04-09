@@ -49,3 +49,5 @@ test {
     useJUnitPlatform()
     testClassesDirs = sourceSets.test.output.classesDirs
 }
+
+checkstyleTest.enabled = false
