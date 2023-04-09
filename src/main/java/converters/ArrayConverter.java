@@ -165,11 +165,18 @@ public class ArrayConverter extends Converter {
         Matcher matcher = regex.matcher(value);
 
         if (matcher.find()) {
-            String valueToConvert = matcher.group(matcher.groupCount());
+            String valueToConvert;
 
-            if (BYTES.equals(format)) {
-                String hexValue = "\\u00" + valueToConvert;
-                valueToConvert = String.format("%c", Integer.parseInt(hexValue.substring(2), HEXADECIMAL));
+            if (BYTES.equals(format)){
+                if (matcher.group(2) != null) {
+                    valueToConvert = matcher.group(2);
+                } else {
+                    valueToConvert = matcher.group(1);
+                    String hexValue = "\\u00" + valueToConvert;
+                    valueToConvert = String.format("%c", Integer.parseInt(hexValue.substring(2), HEXADECIMAL));
+                }
+            } else {
+                valueToConvert = matcher.group(matcher.groupCount());
             }
 
             return format.getConverter().convertFrom(valueToConvert, null);

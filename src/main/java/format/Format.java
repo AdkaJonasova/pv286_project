@@ -18,7 +18,7 @@ public enum Format {
 	INT("int", new IntConverter(), "int = Integer", "^(?:1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])$"),
 	HEX("hex", new HexConverter(), "hex = Hex-encoded string", "^0x([0-9a-fA-F]{2})$"),
 	BITS("bits", new BitsConverter(), "bits = 0,1-represented bits", "^0b([01]{1,8})$"),
-	BYTES("bytes", new BytesConverter(), "bytes = Raw bytes", "^'\\\\x([0-9a-fA-F]{2})'$"),
+	BYTES("bytes", new BytesConverter(), "bytes = Raw bytes", "^(?:'\\\\x([0-9a-fA-F]{2})'|'(.)')$"),
 	ARRAY("array", new ArrayConverter(), "array = Byte array", "");
 
 	private final String text;
