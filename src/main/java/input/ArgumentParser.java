@@ -8,6 +8,7 @@ import options.IOption;
 import options.IntOption;
 import utils.Flag;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -24,9 +25,6 @@ public class ArgumentParser implements IArgumentParser {
     private String inputFile;
     private String outputFile;
     private String delimiter;
-
-    private boolean shouldLookForFromOptions;
-    private boolean shouldLookForToOptions;
 
     public ArgumentParser() {
         setAttributesToDefault();
@@ -48,10 +46,10 @@ public class ArgumentParser implements IArgumentParser {
         }
 
         var shouldPrintHelp = Objects.nonNull(currentFlag) && currentFlag.equals(Flag.HELP);
-        if (!shouldPrintHelp &&
-           (Objects.nonNull(currentFlag) || Objects.isNull(fromRepresentation) || Objects.isNull(toRepresentation))) {
-            throw new InputParsingException("Missing value for one of the switches.");
+        if (!shouldPrintHelp){
+            validateResult();
         }
+
 
         assertNoDelimiterForArrays();
         var result = new ParserResult(fromRepresentation, toRepresentation, fromOptions, toOptions, inputFile,
@@ -62,11 +60,12 @@ public class ArgumentParser implements IArgumentParser {
 
     private void parseArgument(String argument) throws InputParsingException {
         var optionsFound = false;
-        if (shouldLookForFromOptions || shouldLookForToOptions) {
+
+        if (Objects.isNull(currentFlag)) {
             optionsFound = parseOptions(argument);
         }
+
         if (!optionsFound) {
-            resetLookForOptionsFlags();
             if (shouldLookForFlag(argument)) {
                 parseFlag(argument);
             } else if (Objects.nonNull(currentFlag)) {
@@ -91,7 +90,7 @@ public class ArgumentParser implements IArgumentParser {
         }
 
         // long versions of flags are in format: --flag=value
-        var splitArgument= argument.split(ParserConstants.LONG_ATTR_DELIMITER);
+        var splitArgument = argument.split(ParserConstants.LONG_ATTR_DELIMITER);
         if (splitArgument.length != 2) {
             throw new InputParsingException(String.format("Invalid argument encountered -> %s", argument));
         }
@@ -108,10 +107,8 @@ public class ArgumentParser implements IArgumentParser {
     private void parseValue(String argument) throws InputParsingException {
         if (currentFlag.equals(Flag.FROM) && Objects.isNull(fromRepresentation) && checkFormat(argument)) {
             fromRepresentation = Format.fromString(argument);
-            shouldLookForFromOptions = true;
         } else if (currentFlag.equals(Flag.TO) && Objects.isNull(toRepresentation) && checkFormat(argument)) {
             toRepresentation = Format.fromString(argument);
-            shouldLookForToOptions = true;
         } else if (currentFlag.equals(Flag.INPUT_FILE) && inputFile.isEmpty()) {
             inputFile = argument;
         } else if (currentFlag.equals(Flag.OUTPUT_FILE) && outputFile.isEmpty()) {
@@ -127,9 +124,6 @@ public class ArgumentParser implements IArgumentParser {
     private boolean parseOptions(String argument) throws InputParsingException {
         // look for from options
         if (argument.startsWith(Flag.FROM_OPTIONS.getLongVersion())) {
-            if (!shouldLookForFromOptions) {
-                throw new InputParsingException("From options not allowed here");
-            }
             var argumentParts = argument.split(ParserConstants.LONG_ATTR_DELIMITER);
             if (argumentParts.length == 2 && resolveFromOptions(argumentParts[1])) {
                 return true;
@@ -140,9 +134,6 @@ public class ArgumentParser implements IArgumentParser {
 
         // look for to options
         if (argument.startsWith(Flag.TO_OPTIONS.getLongVersion())) {
-            if (!shouldLookForToOptions) {
-                throw new InputParsingException("To options not allowed here");
-            }
             var argumentParts = argument.split(ParserConstants.LONG_ATTR_DELIMITER);
             if (argumentParts.length == 2 && resolveToOptions(argumentParts[1])) {
                 return true;
@@ -179,31 +170,34 @@ public class ArgumentParser implements IArgumentParser {
     }
 
     private boolean resolveFromOptions(String option) {
-        if (fromRepresentation.equals(Format.INT) && IntOption.contains(option)) {
-            fromOptions[0] = IntOption.fromString(option);
-            return true;
-        } else if (fromRepresentation.equals(Format.BITS) && BitsOption.contains(option)) {
-            fromOptions[0] = BitsOption.fromString(option);
+        IOption o = IntOption.fromString(option);
+        if (Objects.isNull(o)) {
+            o = BitsOption.fromString(option);
+        }
+
+        if (Objects.nonNull(o)) {
+            fromOptions[0] = o;
             return true;
         }
+
         return false;
     }
 
     private boolean resolveToOptions(String option) {
-
-        if (toRepresentation.equals(Format.INT)) {
-            toOptions[0] = IntOption.fromString(option);
-            return true;
-        } else if (toRepresentation.equals(Format.ARRAY)) {
-            var resolvedOption = ArrayOption.fromString(option);
-            if (Objects.nonNull(resolvedOption)) {
-                var optionIndex = ArrayOption.isFromFirstSet(resolvedOption) ? 0 : 1;
-                toOptions[optionIndex] = resolvedOption;
-                return true;
-            }
+        IOption o = IntOption.fromString(option);
+        if (Objects.isNull(o)) {
+            o = ArrayOption.fromString(option);
         }
-
+        if (o instanceof ArrayOption arrayOption) {
+            var optionIndex = ArrayOption.isFromFirstSet(arrayOption) ? 0 : 1;
+            toOptions[optionIndex] = o;
+            return true;
+        } else if (Objects.nonNull(o)) {
+            toOptions[0] = o;
+            return true;
+        }
         return false;
+
     }
 
     private void assertInputNonEmpty(String[] input) throws InputParsingException {
@@ -218,11 +212,6 @@ public class ArgumentParser implements IArgumentParser {
         }
     }
 
-    private void resetLookForOptionsFlags() {
-        shouldLookForFromOptions = false;
-        shouldLookForToOptions = false;
-    }
-
     private void setAttributesToDefault() {
         currentFlag = null;
         fromRepresentation = null;
@@ -232,6 +221,88 @@ public class ArgumentParser implements IArgumentParser {
         inputFile = "";
         outputFile = "";
         delimiter = "";
-        resetLookForOptionsFlags();
+    }
+
+    private void checkHasInputAndOutputFormat() throws InputParsingException {
+        if (Objects.isNull(fromRepresentation) || Objects.isNull(toRepresentation)) {
+            throw new InputParsingException("Missing value for one of the switches.");
+        }
+    }
+
+    private void checkHasToOptionAndIsRightFormat() throws InputParsingException {
+        if (toOptions.length < 2) {
+            throw new InputParsingException("To options length is invalid.");
+        }
+        IOption o = toOptions[0];
+        if (Objects.nonNull(o) && toRepresentation != Format.INT && toRepresentation != Format.ARRAY) {
+            throw new InputParsingException("Invalid format and options combination.");
+        }
+    }
+
+    private void checkHasFromOptionAndIsRightFormat() throws InputParsingException {
+        if (fromOptions.length < 1) {
+            throw new InputParsingException("Invalid to options length.");
+        }
+        IOption o = fromOptions[0];
+        if (Objects.nonNull(o) && fromRepresentation != Format.INT && fromRepresentation != Format.BITS) {
+            throw new InputParsingException("Invalid format and options combination.");
+        }
+    }
+
+    private void checkIntOptionIsBigOrLittle(Format representation, IOption[] options) throws InputParsingException {
+        if (representation != Format.INT) {
+            return;
+        }
+
+        if (options.length < 1) {
+            throw new InputParsingException("Invalid from options length.");
+        }
+
+        IOption o = options[0];
+        if (Objects.nonNull(o) && o != IntOption.BIG && o != IntOption.LITTLE) {
+            throw new InputParsingException("Invalid format and options combination.");
+        }
+    }
+
+    private void checkExistingBitsInputFromToOptionIsLeftOrRight() throws InputParsingException {
+        if (fromRepresentation != Format.BITS) {
+            return;
+        }
+
+        if (fromOptions.length < 1) {
+            throw new InputParsingException("Invalid from options length.");
+        }
+
+        IOption o = fromOptions[0];
+        if (Objects.nonNull(o) && o != BitsOption.LEFT && o != BitsOption.RIGHT) {
+            throw new InputParsingException("Invalid format and options combination.");
+        }
+    }
+
+    private void checkArrayOutputFormat() throws InputParsingException {
+        if (toRepresentation != Format.ARRAY) {
+            return;
+        }
+
+        if (toOptions.length < 2) {
+            throw new InputParsingException("Invalid to options length.");
+        }
+
+        IOption o = toOptions[1];
+
+        if (Objects.nonNull(o) && Arrays.stream(toOptions).noneMatch(option ->
+                Objects.isNull(option) || option.equals(ArrayOption.CHARACTERS) || option.equals(ArrayOption.ZEROX_PREFIXED_HEX_NUMBER) || option.equals(ArrayOption.DECIMAL_NUMBER) || option.equals(ArrayOption.ZEROB_PREFIXED_BINARY_NUMBER))) {
+            throw new InputParsingException("Invalid format and options combination.");
+        }
+    }
+
+    private void validateResult() throws InputParsingException {
+        checkHasInputAndOutputFormat();
+        checkHasToOptionAndIsRightFormat();
+        checkHasFromOptionAndIsRightFormat();
+        checkIntOptionIsBigOrLittle(fromRepresentation, fromOptions);
+        checkIntOptionIsBigOrLittle(toRepresentation, toOptions);
+        checkExistingBitsInputFromToOptionIsLeftOrRight();
+        checkArrayOutputFormat();
     }
 }
