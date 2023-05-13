@@ -11,6 +11,9 @@ import utils.Flag;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static input.ParserConstants.ERROR_INVALID_FLAG_COMBINATION;
+import static input.ParserConstants.ERROR_INVALID_TO_OPTIONS_LENGTH;
+
 /**
  * Provides basic implementation of {@link IArgumentParser} interface.
  */
@@ -231,21 +234,21 @@ public class ArgumentParser implements IArgumentParser {
 
     private void checkHasToOptionAndIsRightFormat() throws InputParsingException {
         if (toOptions.length < 2) {
-            throw new InputParsingException("To options length is invalid.");
+            throw new InputParsingException(ERROR_INVALID_TO_OPTIONS_LENGTH);
         }
         IOption o = toOptions[0];
         if (Objects.nonNull(o) && toRepresentation != Format.INT && toRepresentation != Format.ARRAY) {
-            throw new InputParsingException("Invalid format and options combination.");
+            throw new InputParsingException(ERROR_INVALID_FLAG_COMBINATION);
         }
     }
 
     private void checkHasFromOptionAndIsRightFormat() throws InputParsingException {
         if (fromOptions.length < 1) {
-            throw new InputParsingException("Invalid to options length.");
+            throw new InputParsingException(ERROR_INVALID_TO_OPTIONS_LENGTH);
         }
         IOption o = fromOptions[0];
         if (Objects.nonNull(o) && fromRepresentation != Format.INT && fromRepresentation != Format.BITS) {
-            throw new InputParsingException("Invalid format and options combination.");
+            throw new InputParsingException(ERROR_INVALID_FLAG_COMBINATION);
         }
     }
 
@@ -255,12 +258,12 @@ public class ArgumentParser implements IArgumentParser {
         }
 
         if (options.length < 1) {
-            throw new InputParsingException("Invalid from options length.");
+            throw new InputParsingException(ERROR_INVALID_TO_OPTIONS_LENGTH);
         }
 
         IOption o = options[0];
         if (Objects.nonNull(o) && o != IntOption.BIG && o != IntOption.LITTLE) {
-            throw new InputParsingException("Invalid format and options combination.");
+            throw new InputParsingException(ERROR_INVALID_FLAG_COMBINATION);
         }
     }
 
@@ -270,12 +273,12 @@ public class ArgumentParser implements IArgumentParser {
         }
 
         if (fromOptions.length < 1) {
-            throw new InputParsingException("Invalid from options length.");
+            throw new InputParsingException(ERROR_INVALID_TO_OPTIONS_LENGTH);
         }
 
         IOption o = fromOptions[0];
         if (Objects.nonNull(o) && o != BitsOption.LEFT && o != BitsOption.RIGHT) {
-            throw new InputParsingException("Invalid format and options combination.");
+            throw new InputParsingException(ERROR_INVALID_FLAG_COMBINATION);
         }
     }
 
@@ -285,14 +288,18 @@ public class ArgumentParser implements IArgumentParser {
         }
 
         if (toOptions.length < 2) {
-            throw new InputParsingException("Invalid to options length.");
+            throw new InputParsingException(ERROR_INVALID_TO_OPTIONS_LENGTH);
         }
 
         IOption o = toOptions[1];
 
         if (Objects.nonNull(o) && Arrays.stream(toOptions).noneMatch(option ->
-                Objects.isNull(option) || option.equals(ArrayOption.CHARACTERS) || option.equals(ArrayOption.ZEROX_PREFIXED_HEX_NUMBER) || option.equals(ArrayOption.DECIMAL_NUMBER) || option.equals(ArrayOption.ZEROB_PREFIXED_BINARY_NUMBER))) {
-            throw new InputParsingException("Invalid format and options combination.");
+                Objects.isNull(option) ||
+                        option.equals(ArrayOption.CHARACTERS) ||
+                        option.equals(ArrayOption.ZEROX_PREFIXED_HEX_NUMBER) ||
+                        option.equals(ArrayOption.DECIMAL_NUMBER) ||
+                        option.equals(ArrayOption.ZEROB_PREFIXED_BINARY_NUMBER))) {
+            throw new InputParsingException(ERROR_INVALID_FLAG_COMBINATION);
         }
     }
 
