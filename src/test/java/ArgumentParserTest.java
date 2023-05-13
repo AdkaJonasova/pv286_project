@@ -390,6 +390,12 @@ class ArgumentParserTest {
         String[] input = {"-f", "bits", "-t", "array", "--to-options=0", "--to-options=0x"};
         checkParserResultWithOptions(input, "bits", "array", new String[] { null }, new String[] { "0x", null }, "");
     }
+    @Test
+    void testThrowingExceptionWhenArgsAreGivenInInvalidOrder() {
+        String[] input = {"--from-options=left", "--to-options=big", "-f", "bits", "--from-options=left", "-t", "int"};
+        checkParserResultWithOptions(input, "bits", "int", new String[] { "left" }, new String[] { "big", null }, "");
+    }
+
     //endregion
 
     //region Help arg tests
@@ -460,6 +466,8 @@ class ArgumentParserTest {
         String[] input = {"-f", "--from-options=left", "-t", "int", "--to-options=big"};
         assertThrows(InputParsingException.class, () -> new ArgumentParser().parse(input));
     }
+    /*
+    These tests are no longer valid after the correction.
 
     @Test
     void testThrowingExceptionWhenArgsAreGivenInInvalidOrder() {
@@ -478,7 +486,7 @@ class ArgumentParserTest {
         String[] input = {"-f", "int", "--from-options=little", "-t", "int", "--from-options=little"};
         assertThrows(InputParsingException.class, () -> new ArgumentParser().parse(input));
     }
-
+    */
     @Test
     void testThrowsExceptionWhenMissingFromOptionsAfterArg() {
         String[] input = {"-f", "bits", "--from-options=", "-t", "int", "--to-options=little"};

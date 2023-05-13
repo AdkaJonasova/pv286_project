@@ -23,4 +23,7 @@ public final class ParserConstants {
      */
     public static final String SHORT_FLAG_START = "-";
 
+    public static final String ERROR_INVALID_FLAG_COMBINATION = "Invalid format and options combination.";
+
+    public static final String ERROR_INVALID_TO_OPTIONS_LENGTH = "Invalid to options length.";
 }
